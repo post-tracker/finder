@@ -12,6 +12,7 @@ module.exports = {
             'astralis fan',
             'baggage veteran',
             'banner competition #1 winner',
+            'banner competition #2 first place winner',
             'banner competition #2 second place winner',
             'banner competition #2 third place winner',
             'bloodhound',
