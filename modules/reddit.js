@@ -104,15 +104,17 @@ const filter = function filter ( users, game, developers ){
             return false;
         }
 
-        if ( !user[ flairs.type ] ) {
+        if( flairs ){
+            if ( !user[ flairs.type ] ) {
 
-            return false;
-        }
+                return false;
+            }
 
-        // Skip everything with a flair we've setup to skip
-        if ( flairs.list && flairs.list.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
+            // Skip everything with a flair we've setup to skip
+            if ( flairs.list && flairs.list.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
 
-            return false;
+                return false;
+            }
         }
 
         accountCache.push( user.username );
