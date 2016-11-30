@@ -33,6 +33,7 @@ module.exports = {
             'envyus fan',
             'epsilon esports fan',
             'esc gaming fan',
+            'extra life tournament finalist',
             'faze clan fan',
             'flipsid3 tactics fan',
             'flipside tactics fan',
@@ -147,6 +148,7 @@ module.exports = {
             'mutenew',
             'pulse',
             'pulsenew',
+            'recruit',
             'rook',
             'rooknew',
             'sledge',
@@ -171,6 +173,20 @@ module.exports = {
             'xbox',
             'origin',
             'psn'
+        ]
+    },
+    ark: {
+        type: 'author_flair_css_class',
+        list: [
+            'arkstone',
+            'dodo-blue',
+            'dodo-cyan',
+            'dodo-default',
+            'dodo-lime',
+            'dodo-red',
+            'dodo-yellow',
+            'mushroom',
+            'woodsign'
         ]
     }
 };
