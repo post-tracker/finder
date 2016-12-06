@@ -33,6 +33,7 @@ module.exports = {
             'envyus fan',
             'epsilon esports fan',
             'esc gaming fan',
+            'extra life tournament caster',
             'extra life tournament finalist',
             'faze clan fan',
             'flipsid3 tactics fan',
