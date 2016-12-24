@@ -20,7 +20,7 @@ module.exports = function loadPage ( pageUrl ) {
             let body = '';
 
             if( response.statusCode !== 200 ){
-                reject( `${ pageUrl } return status code ${ response.statusCode }` );
+                reject( new Error( `${ pageUrl } return status code ${ response.statusCode }` ) );
 
                 return false;
             }

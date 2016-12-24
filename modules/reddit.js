@@ -84,7 +84,7 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
                     } );
             } )
             .catch( ( error ) => {
-                console.log( error );
+                console.log( error.message );
             } );
     } );
 };
