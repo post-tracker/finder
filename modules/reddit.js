@@ -66,7 +66,7 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
                             }
                         } )
                         .catch( ( error ) => {
-                            console.log( error );
+                            console.log( error.message );
                         } );
 
                     xhrList.push( xhr );
@@ -80,7 +80,7 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
                         } );
                     } )
                     .catch( ( error ) => {
-                        console.log( error );
+                        console.log( error.message );
                     } );
             } )
             .catch( ( error ) => {
@@ -140,14 +140,14 @@ const getReddit = function getReddit( subreddit, pages ){
                                 loadResolve( allUsers );
                             } )
                             .catch( ( error ) => {
-                                console.log( error );
+                                console.log( error.message );
                             } );
                     } else {
                         loadResolve( allUsers );
                     }
                 } )
                 .catch( ( error ) => {
-                    console.log( error );
+                    console.log( error.message );
                 } );
         } );
     };
@@ -158,7 +158,7 @@ const getReddit = function getReddit( subreddit, pages ){
                 resolve( users );
             } )
             .catch( ( error ) => {
-                console.log( error );
+                console.log( error.message );
             } );
     } );
 };

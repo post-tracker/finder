@@ -40,7 +40,7 @@ const loadSteamPage = function loadSteamPage( id, page ) {
                         } );
                     } )
                     .catch( ( error ) => {
-                        console.log( error );
+                        console.log( error.message );
                     } );
 
                     xhrList.push( xhr );
@@ -51,11 +51,11 @@ const loadSteamPage = function loadSteamPage( id, page ) {
                         resolve( users );
                     } )
                     .catch( ( error ) => {
-                        console.log( error );
+                        console.log( error.message );
                     } );
             } )
             .catch( ( error ) => {
-                console.log( error );
+                console.log( error.message );
             } );
     } );
 };
@@ -79,7 +79,7 @@ const getSteam = function getSteam( id, pages ){
                 resolve( allUsers );
             } )
             .catch( ( error ) => {
-                console.log( error );
+                console.log( error.message );
             } );
     } );
 };
