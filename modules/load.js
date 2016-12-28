@@ -11,7 +11,7 @@ module.exports = function loadPage ( pageUrl ) {
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36',
             },
             hostname: parsedUrl.hostname,
-            path: parsedUrl.path,
+            path: encodeURI( parsedUrl.path ),
             port: parsedUrl.port || 443,
             protocol: parsedUrl.protocol,
         };
