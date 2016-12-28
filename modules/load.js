@@ -1,4 +1,4 @@
-const https = require( 'https' );
+const https = require( 'follow-redirects' ).https;
 const url = require( 'url' );
 
 const Promise = require( 'promise' );
