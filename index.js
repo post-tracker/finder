@@ -90,7 +90,7 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
             let redditDevelopers = getAccounts( developers, 'Reddit', game );
             let subreddit = gameData.config.Reddit.index || gameData.config.Reddit.matchOnly;
 
-            console.log( `Starting with page ${ gameData.config.Reddit.index }` );
+            console.log( `Starting with r/${ subreddit }` );
             reddit.get( subreddit, REDDIT_PAGES )
             .then( ( topUsers ) => {
                 reddit.get( `${ subreddit }/new`, REDDIT_PAGES )

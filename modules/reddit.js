@@ -44,7 +44,7 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
             url = `${ url }?count=${ POSTS_PER_PAGE * page }&after=${ after }`;
         }
 
-        console.log( `Getting reddit page ${ page + 1 } for ${ id }` );
+        console.log( `Getting reddit page ${ page + 1 } for r/${ id }` );
         loadPage( url )
             .then( ( topicBody ) => {
                 const posts = JSON.parse( topicBody );
