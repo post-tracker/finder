@@ -32,6 +32,12 @@ const getGameData = function getGameData ( game, onDone ) {
 
         response.setEncoding( 'utf8' );
 
+        if( response.statusCode === 404 ){
+            onDone( {} );
+
+            return false;
+        }
+
         response.on( 'data', ( chunk ) => {
             body = body + chunk;
         } );
