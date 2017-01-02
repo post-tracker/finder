@@ -173,7 +173,7 @@ module.exports = {
         list: [
             'xbox',
             'origin',
-            'psn'
+            'psn',
         ]
     },
     ark: {
@@ -187,7 +187,7 @@ module.exports = {
             'dodo-red',
             'dodo-yellow',
             'mushroom',
-            'woodsign'
+            'woodsign',
         ]
     }
 };
