@@ -86,13 +86,14 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
             }, gameIndex * 10000 );
         }
 
-        if ( gameData.config && gameData.config.Reddit && gameData.config.Reddit.index ) {
+        if ( gameData.config && gameData.config.Reddit && ( gameData.config.Reddit.index || gameData.config.Reddit.matchOnly ) ) {
             let redditDevelopers = getAccounts( developers, 'Reddit', game );
+            let subreddit = gameData.config.Reddit.index || gameData.config.Reddit.matchOnly;
 
             console.log( `Starting with page ${ gameData.config.Reddit.index }` );
-            reddit.get( gameData.config.Reddit.index, REDDIT_PAGES )
+            reddit.get( subreddit, REDDIT_PAGES )
             .then( ( topUsers ) => {
-                reddit.get( `${ gameData.config.Reddit.index }/new`, REDDIT_PAGES )
+                reddit.get( `${ subreddit }/new`, REDDIT_PAGES )
                 .then( ( newUsers ) => {
                     let users = reddit.filter( topUsers.concat( newUsers ), game, redditDevelopers );
 
