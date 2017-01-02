@@ -189,5 +189,21 @@ module.exports = {
             'mushroom',
             'woodsign',
         ]
-    }
+    },
+    elite: {
+        type: 'author_flair_css_class',
+        list: [
+            'bot img',
+            'cmdr img alliance',
+            'cmdr img cobra',
+            'cmdr img empire',
+            'cmdr img federation',
+            'cmdr img sidey',
+            'cmdr img skull',
+            'cmdr img viper',
+            'cmdr',
+            'img viper cmdr',
+            'star',
+        ]
+    },
 };
