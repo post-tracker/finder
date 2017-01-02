@@ -18,6 +18,7 @@ const GAME_LIST = [
     'csgo',
     'elite',
     'rainbow6',
+    'rimworld'
 ];
 
 const getGameData = function getGameData ( game, onDone ) {

@@ -190,6 +190,26 @@ module.exports = {
             'woodsign',
         ]
     },
+    rimworld: {
+        type: 'author_flair_css_class',
+        list: [
+            'fun',
+            'gold',
+            'granite',
+            'jade',
+            'limestone',
+            'marble',
+            'mod',
+            'plasteel',
+            'sandstone',
+            'mod2',
+            'silver',
+            'slate',
+            'steel',
+            'uranium',
+            'wood',
+        ]
+    },
     elite: {
         type: 'author_flair_css_class',
         list: [
