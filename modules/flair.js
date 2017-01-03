@@ -207,6 +207,7 @@ module.exports = {
             'slate',
             'steel',
             'uranium',
+            'war',
             'wood',
         ]
     },
@@ -223,6 +224,7 @@ module.exports = {
             'cmdr img viper',
             'cmdr',
             'img viper cmdr',
+            'mostlyharmless cmdr',
             'star',
         ]
     },
