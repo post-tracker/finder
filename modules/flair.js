@@ -68,6 +68,7 @@ module.exports = {
             'n!faculty fan',
             'natus vincere fan',
             'ninjas in pyjamas fan',
+            'north fan',
             'nuke vetera',
             'nuke veteran',
             'office veteran',
