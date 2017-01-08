@@ -224,6 +224,7 @@ module.exports = {
             'cmdr img skull',
             'cmdr img viper',
             'cmdr',
+            'harmless cmdr',
             'img viper cmdr',
             'mostlyharmless cmdr',
             'star',
