@@ -1,5 +1,3 @@
-const Promise = require( 'promise' );
-
 const loadPage = require( './load.js' );
 const flair = require( './flair.js' );
 

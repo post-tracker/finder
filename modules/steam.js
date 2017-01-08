@@ -1,5 +1,4 @@
 const cheerio = require( 'cheerio' );
-const Promise = require( 'promise' );
 
 const loadPage = require( './load.js' );
 

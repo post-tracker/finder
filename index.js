@@ -2,7 +2,6 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const https = require( 'https' );
 
-const Promise = require( 'promise' );
 
 const flairs = require( './modules/flair.js' );
 const loadPage = require( './modules/load.js' );

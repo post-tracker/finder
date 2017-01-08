@@ -1,8 +1,6 @@
 const https = require( 'follow-redirects' ).https;
 const url = require( 'url' );
 
-const Promise = require( 'promise' );
-
 module.exports = function loadPage ( pageUrl ) {
     return new Promise( ( resolve, reject ) => {
         let parsedUrl = url.parse( pageUrl );
