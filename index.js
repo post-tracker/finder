@@ -9,8 +9,8 @@ const loadPage = require( './modules/load.js' );
 const steam = require( './modules/steam.js' );
 const reddit = require( './modules/reddit.js' );
 
-const STEAM_PAGES = 10;
-const REDDIT_PAGES = 10;
+const STEAM_PAGES = 5;
+const REDDIT_PAGES = 5;
 
 const GAME_LIST = [
     'ark',
