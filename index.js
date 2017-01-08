@@ -2,6 +2,7 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const https = require( 'https' );
 
+const chalk = require( 'chalk' );
 
 const flairs = require( './modules/flair.js' );
 const loadPage = require( './modules/load.js' );
@@ -49,7 +50,7 @@ const getGameData = function getGameData ( game, onDone ) {
 
     request.on( 'error', ( requestError ) => {
         // eslint-disable-next-line no-console
-        console.log( `problem with request: ${ requestError.message }` );
+        console.log( chalk.red( `problem with request: ${ requestError.message }` ) );
     } );
 
     request.end();
@@ -80,10 +81,10 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
                 .then( ( users ) => {
                     let filteredUsers = steam.filter( users, game, steamDevelopers );
 
-                    console.log( `Found ${ filteredUsers.length } new developers on Steam for ${ game }` );
+                    console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Steam for ${ game }`) );
 
                     if( filteredUsers.length > 0 ) {
-                        console.log( JSON.stringify( filteredUsers, null, 4 ) );
+                        console.log( chalk.green( JSON.stringify( filteredUsers, null, 4 ) ) );
                     }
                 } )
                 .catch( ( error ) => {
@@ -103,10 +104,10 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
                 .then( ( newUsers ) => {
                     let users = reddit.filter( topUsers.concat( newUsers ), game, redditDevelopers );
 
-                    console.log( `Found ${ users.length } new developers on Reddit for ${ game }` );
+                    console.log( chalk.green( `Found ${ users.length } new developers on Reddit for ${ game }` ) );
 
                     if( users.length > 0 ) {
-                        console.log( JSON.stringify( users, null, 4 ) );
+                        console.log( chalk.green( JSON.stringify( users, null, 4 ) ) );
                     }
                 } )
                 .catch( ( error ) => {
