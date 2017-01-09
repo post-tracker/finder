@@ -1,23 +1,26 @@
-const https = require( 'follow-redirects' ).https;
+const { https } = require( 'follow-redirects' );
 const url = require( 'url' );
+
+const DEFAULT_SSL_PORT = 443;
+const ACCEPTABLE_RESPONSE_STATUSCODE = 200;
 
 module.exports = function loadPage ( pageUrl ) {
     return new Promise( ( resolve, reject ) => {
-        let parsedUrl = url.parse( pageUrl );
-        let options = {
+        const parsedUrl = url.parse( pageUrl );
+        const options = {
             headers: {
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36',
             },
             hostname: parsedUrl.hostname,
             path: encodeURI( parsedUrl.path ),
-            port: parsedUrl.port || 443,
+            port: parsedUrl.port || DEFAULT_SSL_PORT,
             protocol: parsedUrl.protocol,
         };
 
         const request = https.get( options, ( response ) => {
             let body = '';
 
-            if( response.statusCode !== 200 ){
+            if ( response.statusCode !== ACCEPTABLE_RESPONSE_STATUSCODE ) {
                 reject( new Error( `${ pageUrl } return status code ${ response.statusCode }` ) );
 
                 return false;
@@ -32,6 +35,8 @@ module.exports = function loadPage ( pageUrl ) {
             response.on( 'end', () => {
                 resolve( body );
             } );
+
+            return true;
         } );
 
         request.on( 'error', ( error ) => {

@@ -1,6 +1,27 @@
 module.exports = {
+    ark: {
+        list: [
+            'arkstone',
+            'dodo-blue',
+            'dodo-cyan',
+            'dodo-default',
+            'dodo-lime',
+            'dodo-red',
+            'dodo-yellow',
+            'mushroom',
+            'woodsign',
+        ],
+        type: 'author_flair_css_class',
+    },
+    battlefield1: {
+        list: [
+            'xbox',
+            'origin',
+            'psn',
+        ],
+        type: 'author_flair_css_class',
+    },
     csgo: {
-        type: 'author_flair_text',
         list: [
             '/r/globaloffensive janitor',
             '/r/globaloffensive moderator',
@@ -108,10 +129,28 @@ module.exports = {
             'virtus.pro fan',
             'vox eminor fan',
             'xapso fan',
-        ]
+        ],
+        type: 'author_flair_text',
+    },
+    elite: {
+        list: [
+            'bot img',
+            'cmdr img alliance',
+            'cmdr img cobra',
+            'cmdr img empire',
+            'cmdr img federation',
+            'cmdr img sidey',
+            'cmdr img skull',
+            'cmdr img viper',
+            'cmdr',
+            'harmless cmdr',
+            'img viper cmdr',
+            'mostlyharmless cmdr',
+            'star',
+        ],
+        type: 'author_flair_css_class',
     },
     rainbow6: {
-        type: 'author_flair_css_class',
         list: [
             'ash',
             'ashnew',
@@ -167,32 +206,10 @@ module.exports = {
             'twitchnew',
             'valkyrie',
             'valkyrienew',
-        ]
-    },
-    battlefield1: {
+        ],
         type: 'author_flair_css_class',
-        list: [
-            'xbox',
-            'origin',
-            'psn',
-        ]
-    },
-    ark: {
-        type: 'author_flair_css_class',
-        list: [
-            'arkstone',
-            'dodo-blue',
-            'dodo-cyan',
-            'dodo-default',
-            'dodo-lime',
-            'dodo-red',
-            'dodo-yellow',
-            'mushroom',
-            'woodsign',
-        ]
     },
     rimworld: {
-        type: 'author_flair_css_class',
         list: [
             'fun',
             'gold',
@@ -210,24 +227,7 @@ module.exports = {
             'uranium',
             'war',
             'wood',
-        ]
-    },
-    elite: {
+        ],
         type: 'author_flair_css_class',
-        list: [
-            'bot img',
-            'cmdr img alliance',
-            'cmdr img cobra',
-            'cmdr img empire',
-            'cmdr img federation',
-            'cmdr img sidey',
-            'cmdr img skull',
-            'cmdr img viper',
-            'cmdr',
-            'harmless cmdr',
-            'img viper cmdr',
-            'mostlyharmless cmdr',
-            'star',
-        ]
     },
 };

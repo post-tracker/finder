@@ -2,33 +2,43 @@ const cheerio = require( 'cheerio' );
 
 const loadPage = require( './load.js' );
 
-const loadSteamPage = function loadSteamPage( id, page ) {
-    return new Promise( ( resolve, reject ) => {
-        let url = `https://steamcommunity.com/app/${ id }/discussions/?fp=${ page }`;
-        let users = [];
+const loadSteamPage = function loadSteamPage ( id, page ) {
+    return new Promise( ( resolve ) => {
+        const url = `https://steamcommunity.com/app/${ id }/discussions/?fp=${ page }`;
+        const users = [];
 
         console.log( `Getting steam page ${ page + 1 } for ${ id }` );
         loadPage( url )
             .then( ( pageBody ) => {
                 const $ = cheerio.load( pageBody );
-                let xhrList = [];
+                const xhrList = [];
 
                 $( '.forum_topic' ).each( ( index, element ) => {
-                    let url = $( element ).find( '.forum_topic_overlay' ).attr( 'href' );
-                    let xhr = loadPage( url );
+                    const topicUrl = $( element )
+                        .find( '.forum_topic_overlay' )
+                        .attr( 'href' );
 
-                    xhr.then( ( topicBody ) => {
+                    const topicXhr = loadPage( topicUrl );
+
+                    topicXhr.then( ( topicBody ) => {
                         const $topic = cheerio.load( topicBody );
                         const $replies = $topic( '.commentthread_comment' );
 
                         $replies.each( ( replyIndex, replyElement ) => {
-                            let $reply = $topic( replyElement );
-                            let badge = $reply.find( '.commentthread_workshop_authorbadge' ).text().trim();
+                            const $reply = $topic( replyElement );
+                            const badge = $reply
+                                .find( '.commentthread_workshop_authorbadge' )
+                                .text()
+                                .trim();
 
-                            if( badge ){
-                                let $author = $reply.find( '.commentthread_author_link' );
-                                let user = {
-                                    account: $author.attr( 'href' ).trim().replace( 'https://steamcommunity.com/profiles/', '' ).replace( 'https://steamcommunity.com/id/', '' ),
+                            if ( badge ) {
+                                const $author = $reply.find( '.commentthread_author_link' );
+                                const user = {
+                                    account: $author
+                                        .attr( 'href' )
+                                        .trim()
+                                        .replace( 'https://steamcommunity.com/profiles/', '' )
+                                        .replace( 'https://steamcommunity.com/id/', '' ),
                                     accountLink: $author.attr( 'href' ).trim(),
                                     badge: badge,
                                     name: $author.text().trim(),
@@ -42,7 +52,7 @@ const loadSteamPage = function loadSteamPage( id, page ) {
                         console.log( error.message );
                     } );
 
-                    xhrList.push( xhr );
+                    xhrList.push( topicXhr );
                 } );
 
                 Promise.all( xhrList )
@@ -59,20 +69,20 @@ const loadSteamPage = function loadSteamPage( id, page ) {
     } );
 };
 
-const getSteam = function getSteam( id, pages ){
-    return new Promise( ( resolve, reject ) => {
-        let xhrList = [];
+const getSteam = function getSteam ( id, pages ) {
+    return new Promise( ( resolve ) => {
+        const xhrList = [];
 
-        for( let i = 0; i < pages; i = i + 1 ){
+        for ( let i = 0; i < pages; i = i + 1 ) {
             xhrList.push( loadSteamPage( id, i ) );
         }
 
         Promise.all( xhrList )
-            .then( ( data ) => {
+            .then( ( xhrData ) => {
                 let allUsers = [];
 
-                for( let i = 0; i < data.length; i = i + 1 ){
-                    allUsers = allUsers.concat( data[ i ] );
+                for ( let i = 0; i < xhrData.length; i = i + 1 ) {
+                    allUsers = allUsers.concat( xhrData[ i ] );
                 }
 
                 resolve( allUsers );
@@ -83,15 +93,15 @@ const getSteam = function getSteam( id, pages ){
     } );
 };
 
-const filter = function filter ( users, game, developers ){
-    let accountCache = [];
+const filter = function filter ( users, game, developers ) {
+    const accountCache = [];
 
     return users.filter( ( user ) => {
-        if( accountCache.indexOf( user.account ) > -1 ){
+        if ( accountCache.indexOf( user.account ) > -1 ) {
             return false;
         }
 
-        if( developers.indexOf( user.account ) > -1 ){
+        if ( developers.indexOf( user.account ) > -1 ) {
             return false;
         }
 

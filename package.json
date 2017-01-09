@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "pretest": "eslint **/*.js"
   },
   "author": "Kokarn",
   "license": "MIT",
@@ -13,5 +14,14 @@
     "chalk": "^1.1.3",
     "cheerio": "^0.22.0",
     "follow-redirects": "^1.2.1"
+  },
+  "engines": {
+    "node": "^6.9.4"
+  },
+  "eslintConfig": {
+    "extends": "kokarn/node"
+  },
+  "devDependencies": {
+    "eslint": "^3.13.0"
   }
 }

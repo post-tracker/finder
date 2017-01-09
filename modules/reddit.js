@@ -3,29 +3,32 @@ const flair = require( './flair.js' );
 
 const POSTS_PER_PAGE = 25;
 
-const getUsersInPost = function getUsersInPost( post ){
+const getUsersInPost = function getUsersInPost ( post ) {
     let users = [];
 
-    if( typeof post === 'string' || typeof post === 'undefined' ){
+    if ( typeof post === 'string' || typeof post === 'undefined' ) {
         return users;
     }
 
-    if( post.kind === 'more' ) {
-        for( let i = 0; i < post.data.count; i = i + 1 ){
+    if ( post.kind === 'more' ) {
+        for ( let i = 0; i < post.data.count; i = i + 1 ) {
             users = users.concat( getUsersInPost( post.data.children[ i ] ) );
         }
 
         return users;
     }
 
+    /* eslint-disable camelcase */
     users.push( {
-        author_flair_text: post.data.author_flair_text,
         author_flair_css_class: post.data.author_flair_css_class,
+        author_flair_text: post.data.author_flair_text,
         username: post.data.author,
     } );
 
-    if( post.data.replies && post.data.replies.kind && post.data.replies.kind === 'Listing' ){
-        for( let i = 0; i < post.data.replies.data.children.length; i = i + 1 ){
+    /* eslint-enable camelcase */
+
+    if ( post.data.replies && post.data.replies.kind && post.data.replies.kind === 'Listing' ) {
+        for ( let i = 0; i < post.data.replies.data.children.length; i = i + 1 ) {
             users = users.concat( getUsersInPost( post.data.replies.data.children[ i ] ) );
         }
     }
@@ -34,7 +37,7 @@ const getUsersInPost = function getUsersInPost( post ){
 };
 
 const loadRedditPage = function loadRedditPage ( id, after, page ) {
-    return new Promise( ( resolve, reject ) => {
+    return new Promise( ( resolve ) => {
         let url = `https://www.reddit.com/r/${ id }.json`;
         let users = [];
 
@@ -49,17 +52,25 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
                 const xhrList = [];
 
                 for ( let i = 0; i < posts.data.children.length; i = i + 1 ) {
+                    /* eslint-disable camelcase */
                     users.push( {
-                        author_flair_text: posts.data.children[ i ].data.author_flair_text,
                         author_flair_css_class: posts.data.author_flair_css_class,
+                        author_flair_text: posts.data.children[ i ].data.author_flair_text,
                         username: posts.data.children[ i ].data.author,
                     } );
 
-                    let xhr = loadPage( `https://www.reddit.com${ posts.data.children[ i ].data.permalink }.json` )
+                    /* eslint-enable camelcase */
+
+                    const xhr = loadPage( `https://www.reddit.com${ posts.data.children[ i ].data.permalink }.json` )
+                        // eslint-disable-next-line no-loop-func
                         .then( ( commentsBody ) => {
                             const replies = JSON.parse( commentsBody );
 
                             for ( const replyIndex in replies[ 1 ].data.children ) {
+                                if ( !Reflect.apply( {}.hasOwnProperty, replies[ 1 ].data.children, [ replyIndex ] ) ) {
+                                    continue;
+                                }
+
                                 users = users.concat( getUsersInPost( replies[ 1 ].data.children[ replyIndex ] ) );
                             }
                         } )
@@ -73,8 +84,8 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
                 Promise.all( xhrList )
                     .then( () => {
                         resolve( {
-                            users: users,
                             after: posts.data.after,
+                            users: users,
                         } );
                     } )
                     .catch( ( error ) => {
@@ -87,30 +98,26 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
     } );
 };
 
-const filter = function filter ( users, game, developers ){
-    let accountCache = [];
-    let flairs = flair[ game ];
+const filter = function filter ( users, game, developers ) {
+    const accountCache = [];
+    const { game: flairs } = flair;
 
     return users.filter( ( user ) => {
-        if( accountCache.indexOf( user.username ) > -1 ){
-
+        if ( accountCache.indexOf( user.username ) > -1 ) {
             return false;
         }
 
-        if( developers.indexOf( user.username ) > -1 ){
-
+        if ( developers.indexOf( user.username ) > -1 ) {
             return false;
         }
 
-        if( flairs ){
+        if ( flairs ) {
             if ( !user[ flairs.type ] ) {
-
                 return false;
             }
 
             // Skip everything with a flair we've setup to skip
             if ( flairs.list && flairs.list.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
-
                 return false;
             }
         }
@@ -121,21 +128,21 @@ const filter = function filter ( users, game, developers ){
     } );
 };
 
-const getReddit = function getReddit( subreddit, pages ){
+const getReddit = function getReddit ( subreddit, pages ) {
     let page = 0;
     let allUsers = [];
 
-    const getUsers = function getUsers ( subreddit, next, currentPage ){
-        return new Promise( ( loadResolve, loadReject ) => {
-            loadRedditPage( subreddit, next, currentPage )
+    const getUsers = function getUsers ( redditPage, next, currentPage ) {
+        return new Promise( ( loadResolve ) => {
+            loadRedditPage( redditPage, next, currentPage )
                 .then( ( response ) => {
                     page = page + 1;
                     allUsers = allUsers.concat( response.users );
 
-                    if ( page < pages ){
+                    if ( page < pages ) {
                         getUsers( subreddit, response.after, page )
-                            .then( ( allUsers ) => {
-                                loadResolve( allUsers );
+                            .then( ( newUsers ) => {
+                                loadResolve( newUsers );
                             } )
                             .catch( ( error ) => {
                                 console.log( error.message );
@@ -150,7 +157,7 @@ const getReddit = function getReddit( subreddit, pages ){
         } );
     };
 
-    return new Promise( ( resolve, reject ) => {
+    return new Promise( ( resolve ) => {
         getUsers( subreddit, false, 0 )
             .then( ( users  ) => {
                 resolve( users );
