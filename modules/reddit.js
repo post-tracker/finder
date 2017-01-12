@@ -100,7 +100,7 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
 
 const filter = function filter ( users, game, developers ) {
     const accountCache = [];
-    const { game: flairs } = flair;
+    const { [ game ]: flairs } = flair;
 
     return users.filter( ( user ) => {
         if ( accountCache.indexOf( user.username ) > -1 ) {
