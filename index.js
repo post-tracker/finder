@@ -11,8 +11,8 @@ const NOTIFYY_ERROR_CODE = 400;
 const STEAM_INDEX_DELAY = 10000;
 const JSON_INDENT = 4;
 
-const STEAM_PAGES = 5;
-const REDDIT_PAGES = 5;
+const STEAM_PAGES = 3;
+const REDDIT_PAGES = 3;
 
 const GAME_LIST = [
     'ark',
