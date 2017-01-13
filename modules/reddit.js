@@ -102,6 +102,10 @@ const filter = function filter ( users, game, developers ) {
     const accountCache = [];
     const { [ game ]: flairs } = flair;
 
+    flair.list = flair.list.map( ( value ) => {
+        return value.toLowerCase();
+    } );
+
     return users.filter( ( user ) => {
         if ( accountCache.indexOf( user.username ) > -1 ) {
             return false;
