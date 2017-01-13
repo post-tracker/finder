@@ -102,7 +102,7 @@ const filter = function filter ( users, game, developers ) {
     const accountCache = [];
     const { [ game ]: flairs } = flair;
 
-    flair.list = flair.list.map( ( value ) => {
+    flairs.list = flairs.list.map( ( value ) => {
         return value.toLowerCase();
     } );
 
