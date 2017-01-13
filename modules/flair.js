@@ -56,6 +56,7 @@ module.exports = {
             'esc gaming fan',
             'extra life tournament caster',
             'extra life tournament finalist',
+            'fan cloud9',
             'faze clan fan',
             'flipsid3 tactics fan',
             'flipside tactics fan',
