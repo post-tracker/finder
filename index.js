@@ -85,6 +85,7 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
 
                     if( filteredUsers.length > 0 ) {
                         console.log( chalk.green( JSON.stringify( filteredUsers, null, 4 ) ) );
+                        notifyUsers( game, 'steam', users[ i ] );
                     }
                 } )
                 .catch( ( error ) => {
@@ -108,6 +109,10 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
 
                     if( users.length > 0 ) {
                         console.log( chalk.green( JSON.stringify( users, null, 4 ) ) );
+
+                        for ( let i = 0; i < users.length; i = i + 1 ) {
+                            notifyUsers( game, 'reddit', users[ i ] );
+                        }
                     }
                 } )
                 .catch( ( error ) => {
@@ -119,6 +124,71 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
             } );
         }
     } );
+};
+
+const notifyUsers = function notifyUsers( game, service, foundUser ){
+    if ( !process.env.users ) {
+        return false;
+    }
+
+    const redditUserURL = 'https://www.reddit.com/user/{{identifier}}';
+    const steamNumericURL = 'http://steamcommunity.com/profiles/{{identifier}}/posthistory/';
+    const steamNameURL = 'http://steamcommunity.com/id/{{identifier}}/posthistory/';
+    const users = process.env.users.split( ' ' );
+    const options = {
+        hostname: 'notifyy-mcnotifyface.herokuapp.com',
+        method: 'GET',
+        path: `/out`,
+    };
+
+    let message = '';
+
+    options.path = `${ options.path }?title=${ encodeURIComponent( 'Found a new developer for ' + game + ', ' + foundUser.username ) }`;
+
+    for ( let i = 0; i < users.length; i = i + 1 ){
+        options.path = `${ options.path }&users=${ users[ i ] }`;
+    }
+
+    if ( service === 'reddit' ) {
+        options.path = `${ options.path }&url=${ encodeURIComponent( redditUserURL.replace( '{{identifier}}', foundUser.username ) ) }`;
+    } else if ( service === 'steam' ) {
+        if ( Number.isInteger( foundUser.username ) ) {
+            options.path = `${ options.path }&url=${ encodeURIComponent( steamNumericURL.replace( '{{identifier}}', foundUser.username ) ) }`;
+        } else {
+            options.path = `${ options.path }&url=${ encodeURIComponent( steamNameURL.replace( '{{identifier}}', foundUser.username ) ) }`;
+        }
+    }
+
+    for ( let property in foundUser ) {
+        message = `${ message }%0A${ encodeURIComponent( property.replace( /_/g, '\\_' ) ) }:%20${ encodeURIComponent( foundUser[ property ].replace( /_/g, '\\_' ) ) }`;
+    }
+
+    options.path = `${ options.path }&message=${ message }`;
+
+    const request = https.request( options, ( response ) => {
+        response.setEncoding( 'utf8' );
+
+        if ( response.statusCode === 400 ) {
+            console.error( 'Invalid user specified' );
+
+            return false;
+        }
+
+        if ( response.statusCode === 204 ) {
+            console.log( 'Message delivered!' );
+
+            return true;
+        }
+    } );
+
+    request.on( 'error', ( requestError ) => {
+        // eslint-disable-next-line no-console
+        console.log( chalk.red( `problem with request: ${ requestError.message }` ) );
+    } );
+
+    request.end();
+
+    return true;
 }
 
 for( let i = 0; i < GAME_LIST.length; i = i + 1 ) {
