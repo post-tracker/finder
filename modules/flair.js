@@ -147,6 +147,7 @@ module.exports = {
             'harmless cmdr',
             'img viper cmdr',
             'mostlyharmless cmdr',
+            'novice cmdr',
             'star',
         ],
         type: 'author_flair_css_class',
