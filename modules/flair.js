@@ -15,9 +15,10 @@ module.exports = {
     },
     battlefield1: {
         list: [
-            'xbox',
             'origin',
+            'pc',
             'psn',
+            'xbox',
         ],
         type: 'author_flair_css_class',
     },
