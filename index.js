@@ -9,6 +9,7 @@ const ERROR_REQUEST_CODE = 404;
 const NOTIFYY_SUCCESS_CODE = 204;
 const NOTIFYY_ERROR_CODE = 400;
 const STEAM_INDEX_DELAY = 10000;
+const NOTIFYY_DELAY = 1500;
 const JSON_INDENT = 4;
 
 const STEAM_PAGES = 3;
@@ -42,19 +43,20 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
 
     let message = '';
 
-    options.path = `${ options.path }?title=${ encodeURIComponent( 'Found a new developer for ' + game + ', ' + foundUser.username ) }`;
+    // eslint-disable-next-line no-useless-escape
+    options.path = `${ options.path }?title=${ encodeURIComponent( 'Found a new developer for ' + game + ', ' + foundUser.username.replace( /_/g, '\_' ) ) }`;
 
     for ( let i = 0; i < users.length; i = i + 1 ) {
         options.path = `${ options.path }&users=${ users[ i ] }`;
     }
 
     if ( service === 'reddit' ) {
-        options.path = `${ options.path }&url=${ encodeURIComponent( redditUserURL.replace( '{{identifier}}', foundUser.username ) ) }`;
+        options.path = `${ options.path }&url=${ encodeURIComponent( redditUserURL.replace( '{{identifier}}', foundUser.username.replace( /_/g, '\\_' ) ) ) }`;
     } else if ( service === 'steam' ) {
         if ( Number.isInteger( foundUser.username ) ) {
-            options.path = `${ options.path }&url=${ encodeURIComponent( steamNumericURL.replace( '{{identifier}}', foundUser.username ) ) }`;
+            options.path = `${ options.path }&url=${ encodeURIComponent( steamNumericURL.replace( '{{identifier}}', foundUser.username.replace( /_/g, '\\_' ) ) ) }`;
         } else {
-            options.path = `${ options.path }&url=${ encodeURIComponent( steamNameURL.replace( '{{identifier}}', foundUser.username ) ) }`;
+            options.path = `${ options.path }&url=${ encodeURIComponent( steamNameURL.replace( '{{identifier}}', foundUser.username.replace( /_/g, '\\_' ) ) ) }`;
         }
     }
 
@@ -159,7 +161,7 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
                             console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
                             for ( let i = 0; i < users.length; i = i + 1 ) {
-                                notifyUsers( game, 'steam', users[ i ] );
+                                setTimeout( notifyUsers.bind( this, game, 'steam', users[ i ] ), i * NOTIFYY_DELAY );
                             }
                         }
                     } )
@@ -186,7 +188,7 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
                                 console.log( chalk.green( JSON.stringify( users, null, JSON_INDENT ) ) );
 
                                 for ( let i = 0; i < users.length; i = i + 1 ) {
-                                    notifyUsers( game, 'reddit', users[ i ] );
+                                    setTimeout( notifyUsers.bind( this, game, 'reddit', users[ i ] ), i * NOTIFYY_DELAY );
                                 }
                             }
                         } )
