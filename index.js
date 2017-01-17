@@ -61,7 +61,7 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
     }
 
     for ( const property in foundUser ) {
-        message = `${ message }%0A${ encodeURIComponent( property.replace( /_/g, '\\_' ) ) }:%20${ encodeURIComponent( foundUser[ property ].replace( /_/g, '\\_' ) ) }`;
+        message = `${ message }%0A${ encodeURIComponent( property.replace( /_/g, '\\_' ) ) }:%20${ encodeURIComponent( String( foundUser[ property ] ).replace( /_/g, '\\_' ) ) }`;
     }
 
     options.path = `${ options.path }&message=${ message }`;
