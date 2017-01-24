@@ -18,14 +18,22 @@ const getUsersInPost = function getUsersInPost ( post ) {
         return users;
     }
 
-    /* eslint-disable camelcase */
-    users.push( {
-        author_flair_css_class: post.data.author_flair_css_class,
-        author_flair_text: post.data.author_flair_text,
+    const user = {
         username: post.data.author,
-    } );
+    };
+
+    /* eslint-disable camelcase */
+    if ( post.data.author_flair_css_class ) {
+        user.author_flair_css_class = String( post.data.author_flair_css_class ).trim();
+    }
+
+    if ( post.data.author_flair_text ) {
+        user.author_flair_text = String( post.data.author_flair_text ).trim();
+    }
 
     /* eslint-enable camelcase */
+
+    users.push( user );
 
     if ( post.data.replies && post.data.replies.kind && post.data.replies.kind === 'Listing' ) {
         for ( let i = 0; i < post.data.replies.data.children.length; i = i + 1 ) {
