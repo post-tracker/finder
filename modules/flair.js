@@ -180,6 +180,8 @@ module.exports = {
             'fuzenew',
             'glaz',
             'glaznew',
+            'hibana',
+            'hibananew',
             'iq',
             'iqnew',
             'jager',

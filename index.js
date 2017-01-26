@@ -20,7 +20,7 @@ const GAME_LIST = [
     'battlefield1',
     'csgo',
     'elite',
-    'rainbow6',
+    // 'rainbow6',
     'rimworld',
 ];
 
