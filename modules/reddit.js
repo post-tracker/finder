@@ -60,14 +60,22 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
                 const xhrList = [];
 
                 for ( let i = 0; i < posts.data.children.length; i = i + 1 ) {
-                    /* eslint-disable camelcase */
-                    users.push( {
-                        author_flair_css_class: posts.data.author_flair_css_class,
-                        author_flair_text: posts.data.children[ i ].data.author_flair_text,
+                    const user = {
                         username: posts.data.children[ i ].data.author,
-                    } );
+                    };
+
+                    /* eslint-disable camelcase */
+                    if ( posts.data.author_flair_css_class ) {
+                        user.author_flair_css_class = String( posts.data.author_flair_css_class ).trim();
+                    }
+
+                    if ( posts.data.children[ i ].data.author_flair_text ) {
+                        user.author_flair_text = String( posts.data.children[ i ].data.author_flair_text ).trim();
+                    }
 
                     /* eslint-enable camelcase */
+
+                    users.push( user );
 
                     const xhr = loadPage( `https://www.reddit.com${ posts.data.children[ i ].data.permalink }.json` )
                         // eslint-disable-next-line no-loop-func
