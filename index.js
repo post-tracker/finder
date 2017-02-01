@@ -19,6 +19,7 @@ const GAME_LIST = [
     'ark',
     'battlefield1',
     'csgo',
+    'conan',
     'elite',
     // 'rainbow6',
     'rimworld',

@@ -22,6 +22,10 @@ module.exports = {
         ],
         type: 'author_flair_css_class',
     },
+    conan: {
+        list: [],
+        type: 'author_flair_text'
+    },
     csgo: {
         list: [
             '/r/globaloffensive janitor',
