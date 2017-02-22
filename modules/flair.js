@@ -149,6 +149,7 @@ module.exports = {
             'cmdr img sidey',
             'cmdr img skull',
             'cmdr img viper',
+            'cmdr star',
             'cmdr',
             'dangerous cmdr',
             'harmless cmdr',
