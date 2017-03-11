@@ -23,8 +23,10 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     conan: {
-        list: [],
-        type: 'author_flair_text'
+        list: [
+            'mod',
+        ],
+        type: 'author_flair_text',
     },
     csgo: {
         list: [
@@ -151,6 +153,7 @@ module.exports = {
             'cmdr img viper',
             'cmdr star',
             'cmdr',
+            'competent cmdr',
             'dangerous cmdr',
             'harmless cmdr',
             'img viper cmdr',
@@ -234,6 +237,7 @@ module.exports = {
             'plasteel',
             'pmfaf',
             'sandstone',
+            'ship',
             'silver',
             'slate',
             'steel',
