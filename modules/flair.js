@@ -25,6 +25,7 @@ module.exports = {
     conan: {
         list: [
             'mod',
+            'volunteer mod',
         ],
         type: 'author_flair_text',
     },
