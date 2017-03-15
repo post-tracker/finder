@@ -156,6 +156,7 @@ module.exports = {
             'cmdr',
             'competent cmdr',
             'dangerous cmdr',
+            'empire cmdr img',
             'harmless cmdr',
             'img viper cmdr',
             'mostlyharmless cmdr',
