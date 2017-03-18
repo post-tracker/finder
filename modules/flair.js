@@ -165,6 +165,13 @@ module.exports = {
         ],
         type: 'author_flair_css_class',
     },
+    pubg: {
+        list: [
+            '&lt;3',
+            'br baus',
+        ],
+        type: 'author_flair_text',
+    },
     rainbow6: {
         list: [
             'ash',
