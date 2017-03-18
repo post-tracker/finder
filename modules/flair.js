@@ -192,6 +192,7 @@ module.exports = {
             'castlenew',
             'caveira',
             'caveiranew',
+            'continuum',
             'doc',
             'docnew',
             'echo',
