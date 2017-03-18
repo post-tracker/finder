@@ -23,7 +23,8 @@ const GAME_LIST = [
     'csgo',
     'conan',
     'elite',
-    // 'rainbow6',
+    'rainbow6',
+    // 'pubg',
     'rimworld',
 ];
 
