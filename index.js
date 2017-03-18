@@ -1,4 +1,6 @@
 const https = require( 'https' );
+const fs = require( 'fs' );
+const path = require( 'path' );
 
 const chalk = require( 'chalk' );
 
@@ -93,7 +95,7 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
     return true;
 };
 
-const getGameData = function getGameData ( game, onDone ) {
+const loadRemoteGameData = function loadRemoteGameData ( game, onDone ) {
     const options = {
         hostname: 'raw.githubusercontent.com',
         method: 'GET',
@@ -128,6 +130,21 @@ const getGameData = function getGameData ( game, onDone ) {
     } );
 
     request.end();
+};
+
+const getGameData = function getGameData ( game, onDone ) {
+    fs.readFile( path.join( __dirname, `../dev-tracker/games/${ game }/data.json` ), ( readError, fileData ) => {
+        if ( readError ) {
+            loadRemoteGameData( game, onDone );
+
+            return true;
+        }
+
+        console.log( chalk.yellow( `Using local file for ${ game }` ) );
+        onDone( JSON.parse( fileData ) );
+
+        return true;
+    } );
 };
 
 const getAccounts = function getAccounts ( developers, service, game ) {
