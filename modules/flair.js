@@ -201,6 +201,7 @@ module.exports = {
             'frostnew',
             'fuze',
             'fuzenew',
+            'gifu',
             'glaz',
             'glaznew',
             'hibana',
