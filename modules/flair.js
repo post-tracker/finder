@@ -193,6 +193,7 @@ module.exports = {
             'caveira',
             'caveiranew',
             'continuum',
+            'dexunited',
             'doc',
             'docnew',
             'echo',
