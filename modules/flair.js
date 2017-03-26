@@ -198,6 +198,7 @@ module.exports = {
             'docnew',
             'echo',
             'echonew',
+            'eraeternity',
             'euronicsgaming',
             'frost',
             'frostnew',
