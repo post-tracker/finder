@@ -169,10 +169,9 @@ module.exports = {
     },
     pubg: {
         list: [
-            '&lt;3',
-            'br baus',
+            'igncustom',
         ],
-        type: 'author_flair_text',
+        type: 'author_flair_css_class',
     },
     rainbow6: {
         list: [

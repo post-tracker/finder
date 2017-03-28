@@ -24,7 +24,7 @@ const GAME_LIST = [
     'conan',
     'elite',
     'rainbow6',
-    // 'pubg',
+    'pubg',
     'rimworld',
 ];
 
