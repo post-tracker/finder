@@ -34,6 +34,7 @@ module.exports = {
             '/r/globaloffensive janitor',
             '/r/globaloffensive moderator',
             '/r/globaloffensive monsorator',
+            '#r/globaloffensive admin',
             '3dmax fan',
             '400k hype',
             '5 year subreddit veteran',
