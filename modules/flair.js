@@ -200,6 +200,7 @@ module.exports = {
             'echonew',
             'eraeternity',
             'euronicsgaming',
+            'flair-for-bot',
             'frost',
             'frostnew',
             'fuze',
