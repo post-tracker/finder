@@ -228,6 +228,7 @@ module.exports = {
             'pulse',
             'pulsenew',
             'recruit',
+            'recruitnew',
             'rook',
             'rooknew',
             'sledge',
