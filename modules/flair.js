@@ -231,6 +231,7 @@ module.exports = {
             'recruitnew',
             'rook',
             'rooknew',
+            'santosdexterity',
             'sledge',
             'sledgenew',
             'smoke',
