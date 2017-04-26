@@ -60,6 +60,7 @@ module.exports = {
             'copenhagen wolves fan',
             'counter logic gaming fan',
             'dat team fan',
+            'don\'t make me moderate you',
             'dust 2 veteran',
             'envyus fan',
             'epsilon esports fan',
