@@ -130,6 +130,7 @@ module.exports = {
             'team solomid fan',
             'team wolf fan',
             'titan fan',
+            'top notch moderation or your money back',
             'train veteran',
             'trial moderator',
             'tsm kinguin fan',
