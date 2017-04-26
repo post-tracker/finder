@@ -15,10 +15,13 @@ module.exports = {
     },
     battlefield1: {
         list: [
+            'ctemod',
             'origin',
             'pc',
+            'ps4',
             'psn',
             'xbox',
+            'xboxone',
         ],
         type: 'author_flair_css_class',
     },
