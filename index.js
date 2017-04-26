@@ -192,32 +192,40 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
 
         if ( gameData.config && gameData.config.Reddit && ( gameData.config.Reddit.index || gameData.config.Reddit.matchOnly ) ) {
             const redditDevelopers = getAccounts( developers, 'Reddit', game );
-            const subreddit = gameData.config.Reddit.index || gameData.config.Reddit.matchOnly;
+            let subreddits = gameData.config.Reddit.index || gameData.config.Reddit.matchOnly;
 
-            console.log( `Starting with r/${ subreddit }` );
-            reddit.get( subreddit, REDDIT_PAGES )
-                .then( ( topUsers ) => {
-                    reddit.get( `${ subreddit }/new`, REDDIT_PAGES )
-                        .then( ( newUsers ) => {
-                            const users = reddit.filter( topUsers.concat( newUsers ), game, redditDevelopers );
+            if ( typeof subreddits === 'string' ) {
+                subreddits = [ subreddits ];
+            }
 
-                            console.log( chalk.green( `Found ${ users.length } new developers on Reddit for ${ game }` ) );
+            for ( let subredditIndex = 0; subredditIndex < subreddits.length; subredditIndex = subredditIndex + 1 ) {
+                const subreddit = subreddits[ subredditIndex ];
 
-                            if ( users.length > 0 ) {
-                                console.log( chalk.green( JSON.stringify( users, null, JSON_INDENT ) ) );
+                console.log( `Starting with r/${ subreddit }` );
+                reddit.get( subreddit, REDDIT_PAGES )
+                    .then( ( topUsers ) => {
+                        reddit.get( `${ subreddit }/new`, REDDIT_PAGES )
+                            .then( ( newUsers ) => {
+                                const users = reddit.filter( topUsers.concat( newUsers ), game, redditDevelopers );
 
-                                for ( let i = 0; i < users.length; i = i + 1 ) {
-                                    setTimeout( notifyUsers.bind( this, game, 'reddit', users[ i ] ), i * NOTIFYY_DELAY );
+                                console.log( chalk.green( `Found ${ users.length } new developers on Reddit for ${ game }` ) );
+
+                                if ( users.length > 0 ) {
+                                    console.log( chalk.green( JSON.stringify( users, null, JSON_INDENT ) ) );
+
+                                    for ( let i = 0; i < users.length; i = i + 1 ) {
+                                        setTimeout( notifyUsers.bind( this, game, 'reddit', users[ i ] ), i * NOTIFYY_DELAY );
+                                    }
                                 }
-                            }
-                        } )
-                        .catch( ( error ) => {
-                            console.log( error );
-                        } );
-                } )
-                .catch( ( error ) => {
-                    console.log( error );
-                } );
+                            } )
+                            .catch( ( error ) => {
+                                console.log( error );
+                            } );
+                    } )
+                    .catch( ( error ) => {
+                        console.log( error );
+                    } );
+            }
         }
     } );
 };
