@@ -199,6 +199,7 @@ module.exports = {
             'docnew',
             'echo',
             'echonew',
+            'elevate',
             'eraeternity',
             'euronicsgaming',
             'flair-for-bot',
