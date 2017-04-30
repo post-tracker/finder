@@ -176,6 +176,7 @@ module.exports = {
     pubg: {
         list: [
             'igncustom',
+            'trophy',
         ],
         type: 'author_flair_css_class',
     },
