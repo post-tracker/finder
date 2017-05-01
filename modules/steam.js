@@ -22,9 +22,12 @@ const loadSteamPage = function loadSteamPage ( id, page ) {
 
                     topicXhr.then( ( topicBody ) => {
                         const $topic = cheerio.load( topicBody );
+                        const $op = $topic( '.forum_op' );
                         const $replies = $topic( '.commentthread_comment' );
 
-                        $replies.each( ( replyIndex, replyElement ) => {
+                        const $posts = $op.add( $replies );
+
+                        $posts.each( ( replyIndex, replyElement ) => {
                             const $reply = $topic( replyElement );
                             const badge = $reply
                                 .find( '.commentthread_workshop_authorbadge' )
@@ -32,7 +35,12 @@ const loadSteamPage = function loadSteamPage ( id, page ) {
                                 .trim();
 
                             if ( badge ) {
-                                const $author = $reply.find( '.commentthread_author_link' );
+                                let $author = $reply.find( '.commentthread_author_link' );
+
+                                if ( $author.length <= 0 ) {
+                                    $author = $reply.find( '.forum_op_author' );
+                                }
+
                                 const user = {
                                     account: $author
                                         .attr( 'href' )
@@ -49,7 +57,7 @@ const loadSteamPage = function loadSteamPage ( id, page ) {
                         } );
                     } )
                     .catch( ( error ) => {
-                        console.log( error.message );
+                        console.log( error );
                     } );
 
                     xhrList.push( topicXhr );
