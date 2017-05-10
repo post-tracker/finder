@@ -83,6 +83,7 @@ module.exports = {
             'g2 esports fan',
             'gambit gaming fan',
             'gamers2 fan',
+            'genuine 500k party pin',
             'godsent fan',
             'guardian 2',
             'guardian elite',
