@@ -182,6 +182,7 @@ module.exports = {
     pubg: {
         list: [
             'igncustom',
+            'npan',
             'trophy',
         ],
         type: 'author_flair_css_class',
