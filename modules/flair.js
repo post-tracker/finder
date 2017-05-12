@@ -181,6 +181,7 @@ module.exports = {
     },
     pubg: {
         list: [
+            'gpan',
             'igncustom',
             'npan',
             'trophy',
