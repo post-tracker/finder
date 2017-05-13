@@ -181,6 +181,7 @@ module.exports = {
     },
     pubg: {
         list: [
+            'discordmod',
             'gpan',
             'igncustom',
             'npan',
