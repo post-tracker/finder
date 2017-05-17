@@ -122,6 +122,7 @@ module.exports = {
             'penta sports fan',
             'phoenix',
             'planetkey dynamics fan',
+            'possibly robot moderator',
             'r/GlobalOffensive Zookeeper',
             'reason gaming fan',
             'recursive fan',
