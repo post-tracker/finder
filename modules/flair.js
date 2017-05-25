@@ -508,6 +508,7 @@ module.exports = {
             'dangerous cmdr',
             'empire cmdr img',
             'harmless cmdr',
+            'img sidey cmdr',
             'img viper cmdr',
             'mostlyharmless cmdr',
             'novice cmdr',
