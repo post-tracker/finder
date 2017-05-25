@@ -26,6 +26,7 @@ const GAME_LIST = [
     'rainbow6',
     'pubg',
     'rimworld',
+    'destiny',
 ];
 
 const notifyUsers = function notifyUsers ( game, service, foundUser ) {
