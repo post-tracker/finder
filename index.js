@@ -15,7 +15,7 @@ const NOTIFYY_DELAY = 1500;
 const JSON_INDENT = 4;
 
 const STEAM_PAGES = 3;
-const REDDIT_PAGES = 3;
+const REDDIT_PAGES = 1;
 
 const GAME_LIST = [
     'ark',
