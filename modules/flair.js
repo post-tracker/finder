@@ -397,6 +397,7 @@ module.exports = {
             'runeofthemachine',
             'runeofthemachinealt',
             'runeoftheoracle',
+            'sardok',
             'sardon',
             'scarofradegast',
             'scholarsquest',
