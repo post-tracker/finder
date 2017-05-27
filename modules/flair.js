@@ -260,6 +260,7 @@ module.exports = {
             'cyclopsmindii',
             'daito',
             'dancingguardian',
+            'darkharvest',
             'dawnofdestiny',
             'deadorbit',
             'deadorbitv',
