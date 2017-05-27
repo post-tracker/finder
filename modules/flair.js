@@ -495,6 +495,7 @@ module.exports = {
             'vanguardhonor',
             'vanguardhonoralt',
             'vanguardinsignia',
+            'vanguardquartermaster',
             'veterancrest',
             'vexlogo',
             'vextemplar',
