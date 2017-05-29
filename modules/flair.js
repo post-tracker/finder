@@ -245,6 +245,7 @@ module.exports = {
             'cassoid',
             'cassoidalt',
             'cityforce',
+            'command',
             'commandii',
             'concordat',
             'crestofthegravesinger',
