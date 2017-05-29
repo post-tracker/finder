@@ -380,6 +380,7 @@ module.exports = {
             'mspaintoryx',
             'mspaintsekrion',
             'nadir',
+            'newmonarchy',
             'ninja',
             'norseflair',
             'noteofconquest',
