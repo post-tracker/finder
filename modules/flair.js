@@ -417,6 +417,7 @@ module.exports = {
             'scarofradegast',
             'scholarsquest',
             'sekrion',
+            'septiks',
             'sevenseraphs',
             'seventhcolumn7',
             'seventhcolumnred',
