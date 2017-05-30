@@ -358,6 +358,7 @@ module.exports = {
             'gorgon',
             'grimoirewriter',
             'gunslinger',
+            'gunsmith',
             'heartofthefoundation',
             'hexacon4',
             'hivelogo',
