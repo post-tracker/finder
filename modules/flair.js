@@ -393,6 +393,7 @@ module.exports = {
             'omenofthedeadii',
             'omenofthedecayer',
             'omenoftheexodus',
+            'omnigal',
             'omolon',
             'osiris',
             'pathfindersign',
