@@ -205,6 +205,7 @@ module.exports = {
             'blessingofthezealot',
             'blessingofworlds',
             'bombsquad',
+            'bombsquadii',
             'bombsquadalt',
             'bombsquadiialt',
             'bornoffire',
