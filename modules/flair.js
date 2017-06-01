@@ -634,6 +634,7 @@ module.exports = {
             'twitchnew',
             'valkyrie',
             'valkyrienew',
+            'vitality',
         ],
         type: 'author_flair_css_class',
     },
