@@ -1,0 +1,81 @@
+{
+    "ark": {
+        "Reddit": [
+            "playark"
+        ],
+        "Steam": [
+            "346110"
+        ]
+    },
+    "battlefield1": {
+        "Reddit": [
+            "battlefield_one",
+            "battlefield_live"
+        ]
+    },
+    "conan": {
+        "Reddit": [
+            "ConanExiles"
+        ],
+        "Steam": [
+            "440900"
+        ]
+    },
+    "csgo": {
+        "Reddit": [
+            "GlobalOffensive"
+        ]
+    },
+    "destiny": {
+        "Reddit": [
+            "DestinyTheGame"
+        ]
+    },
+    "elite": {
+        "MiggyRSS": {
+            "type": "single",
+            "endpoint": "http://www.miggy.org/games/elite-dangerous/devtracker/ed-dev-posts.rss"
+        },
+        "Reddit": [
+            "EliteDangerous"
+        ],
+        "Steam": [
+            "359320"
+        ]
+    },
+    "pubg": {
+        "PUBGForums": {
+            "class": "IPB",
+            "endpoint": "http://forums.playbattlegrounds.com"
+        },
+        "Reddit": [
+            "PUBATTLEGROUNDS"
+        ],
+        "Steam": [
+            "578080"
+        ]
+    },
+    "rainbow6": {
+        "Reddit": [
+            "Rainbow6"
+        ],
+        "Steam": [
+            "359550"
+        ],
+        "vBulletin": {
+            "url": "http://forums.ubi.com/forumdisplay.php/64-Rainbow-Six"
+        }
+    },
+    "rimworld": {
+        "LudeonForums": {
+            "class": "SMF",
+            "endpoint": "https://ludeon.com/forums/"
+        },
+        "Reddit": [
+            "RimWorld"
+        ],
+        "Steam": [
+            "294100"
+        ]
+    }
+}

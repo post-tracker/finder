@@ -6,28 +6,17 @@ const chalk = require( 'chalk' );
 
 const steam = require( './modules/steam.js' );
 const reddit = require( './modules/reddit.js' );
+const api = require( './modules/api.js' );
 
-const ERROR_REQUEST_CODE = 404;
+const games = require( './config/games.json' );
+
 const NOTIFYY_SUCCESS_CODE = 204;
 const NOTIFYY_ERROR_CODE = 400;
-const STEAM_INDEX_DELAY = 10000;
 const NOTIFYY_DELAY = 1500;
 const JSON_INDENT = 4;
 
-const STEAM_PAGES = 3;
+const STEAM_PAGES = 1;
 const REDDIT_PAGES = 1;
-
-const GAME_LIST = [
-    'ark',
-    'battlefield1',
-    'csgo',
-    'conan',
-    'elite',
-    'rainbow6',
-    'pubg',
-    'rimworld',
-    'destiny',
-];
 
 const notifyUsers = function notifyUsers ( game, service, foundUser ) {
     // eslint-disable-next-line no-process-env
@@ -106,125 +95,64 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
     return true;
 };
 
-const loadRemoteGameData = function loadRemoteGameData ( game, onDone ) {
-    const options = {
-        hostname: 'raw.githubusercontent.com',
-        method: 'GET',
-        path: `/kokarn/dev-tracker/master/games/${ game }/data.json`,
-    };
-
-    const request = https.request( options, ( response ) => {
-        let body = '';
-
-        response.setEncoding( 'utf8' );
-
-        if ( response.statusCode === ERROR_REQUEST_CODE ) {
-            onDone( {} );
-
-            return false;
-        }
-
-        response.on( 'data', ( chunk ) => {
-            body = body + chunk;
-        } );
-
-        response.on( 'end', () => {
-            onDone( JSON.parse( body ) );
-        } );
-
-        return true;
-    } );
-
-    request.on( 'error', ( requestError ) => {
-        // eslint-disable-next-line no-console
-        console.log( chalk.red( `problem with request: ${ requestError.message }` ) );
-    } );
-
-    request.end();
+const getAccounts = function getAccounts ( game, onDone ) {
+    api.load( `/${ game.identifier }/accounts`, onDone );
 };
 
-const getGameData = function getGameData ( game, onDone ) {
-    fs.readFile( path.join( __dirname, `../dev-tracker/games/${ game }/data.json` ), ( readError, fileData ) => {
-        if ( readError ) {
-            loadRemoteGameData( game, onDone );
+const findDevelopers = function findDevelopers ( game ) {
+    getAccounts( game, ( accounts ) => {
+        const accountList = {};
 
-            return true;
-        }
-
-        console.log( chalk.yellow( `Using local file for ${ game }` ) );
-        onDone( JSON.parse( fileData ) );
-
-        return true;
-    } );
-};
-
-const getAccounts = function getAccounts ( developers, service, game ) {
-    const activeAccounts = [];
-
-    for ( let i = 0; i < developers.length; i = i + 1 ) {
-        if ( developers[ i ].accounts[ service ] ) {
-            activeAccounts.push( developers[ i ].accounts[ service ] );
-        }
-    }
-
-    console.log( `Loaded ${ activeAccounts.length } developers for ${ game } on ${ service }` );
-
-    return activeAccounts;
-};
-
-const findDevelopers = function findDevelopers ( game, gameIndex ) {
-    getGameData( game, ( gameData ) => {
-        const developers = gameData.developers;
-
-        if ( gameData.config && gameData.config.Steam && gameData.config.Steam.matchOnly ) {
-            setTimeout( () => {
-                const steamDevelopers = getAccounts( developers, 'Steam', game );
-
-                steam.get( gameData.config.Steam.matchOnly, STEAM_PAGES )
-                    .then( ( users ) => {
-                        const filteredUsers = steam.filter( users, game, steamDevelopers );
-
-                        console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Steam for ${ game }` ) );
-
-                        if ( filteredUsers.length > 0 ) {
-                            console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
-
-                            for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                                setTimeout( notifyUsers.bind( this, game, 'steam', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
-                            }
-                        }
-                    } )
-                    .catch( ( error ) => {
-                        console.log( error );
-                    } );
-            }, gameIndex * STEAM_INDEX_DELAY );
-        }
-
-        if ( gameData.config && gameData.config.Reddit && ( gameData.config.Reddit.index || gameData.config.Reddit.matchOnly ) ) {
-            const redditDevelopers = getAccounts( developers, 'Reddit', game );
-            let subreddits = gameData.config.Reddit.index || gameData.config.Reddit.matchOnly;
-
-            if ( typeof subreddits === 'string' ) {
-                subreddits = [ subreddits ];
+        for ( let i = 0; i < accounts.length; i = i + 1 ) {
+            if ( typeof accountList[ accounts[ i ].service ] === 'undefined' ) {
+                accountList[ accounts[ i ].service ] = [];
             }
 
-            for ( let subredditIndex = 0; subredditIndex < subreddits.length; subredditIndex = subredditIndex + 1 ) {
-                const subreddit = subreddits[ subredditIndex ];
+            accountList[ accounts[ i ].service ].push( accounts[ i ].identifier );
+        }
+
+        if ( game.Steam ) {
+            steam.get( game.Steam[ 0 ], STEAM_PAGES )
+                .then( ( users ) => {
+                    const filteredUsers = steam.filter( users, accountList.Steam );
+
+                    console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Steam for ${ game.identifier }` ) );
+
+                    if ( filteredUsers.length > 0 ) {
+                        console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
+
+                        for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
+                            setTimeout( notifyUsers.bind( this, game.identifier, 'steam', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                        }
+                    }
+                } )
+                .catch( ( error ) => {
+                    console.log( error );
+                } );
+        }
+
+        if ( game.Reddit ) {
+            if ( typeof game.Reddit === 'string' ) {
+                game.Reddit = [ game.Reddit ];
+            }
+
+            for ( let subredditIndex = 0; subredditIndex < game.Reddit.length; subredditIndex = subredditIndex + 1 ) {
+                const subreddit = game.Reddit[ subredditIndex ];
 
                 console.log( `Starting with r/${ subreddit }` );
                 reddit.get( subreddit, REDDIT_PAGES )
                     .then( ( topUsers ) => {
                         reddit.get( `${ subreddit }/new`, REDDIT_PAGES )
                             .then( ( newUsers ) => {
-                                const filteredUsers = reddit.filter( topUsers.concat( newUsers ), game, redditDevelopers );
+                                const filteredUsers = reddit.filter( topUsers.concat( newUsers ), game.identifier, accountList.Reddit );
 
-                                console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Reddit for ${ game }` ) );
+                                console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Reddit for ${ game.identifier }` ) );
 
                                 if ( filteredUsers.length > 0 ) {
                                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
                                     for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                                        setTimeout( notifyUsers.bind( this, game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                                        setTimeout( notifyUsers.bind( this, game.identifier, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
                                     }
                                 }
                             } )
@@ -240,6 +168,14 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
     } );
 };
 
-for ( let i = 0; i < GAME_LIST.length; i = i + 1 ) {
-    findDevelopers( GAME_LIST[ i ], i );
-}
+Object.keys( games ).forEach( ( game ) => {
+    findDevelopers(
+        Object.assign(
+            {},
+            games[ game ],
+            {
+                identifier: game,
+            }
+        )
+    );
+} );

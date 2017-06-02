@@ -2,6 +2,8 @@ const cheerio = require( 'cheerio' );
 
 const loadPage = require( './load.js' );
 
+const PAGE_LOAD_DELAY = 10000;
+
 const loadSteamPage = function loadSteamPage ( id, page ) {
     return new Promise( ( resolve ) => {
         const url = `https://steamcommunity.com/app/${ id }/discussions/?fp=${ page }`;
@@ -79,37 +81,39 @@ const loadSteamPage = function loadSteamPage ( id, page ) {
 
 const getSteam = function getSteam ( id, pages ) {
     return new Promise( ( resolve ) => {
-        const xhrList = [];
+        let allUsers = [];
+        let resolvedCount = 0;
 
         for ( let i = 0; i < pages; i = i + 1 ) {
-            xhrList.push( loadSteamPage( id, i ) );
+            // eslint-disable-next-line no-loop-func
+            setTimeout( () => {
+                loadSteamPage( id, i )
+                    .then( ( users ) => {
+                        allUsers = allUsers.concat( users );
+
+                        resolvedCount = resolvedCount + 1;
+
+                        if ( resolvedCount === pages ) {
+                            resolve( allUsers );
+                        }
+                    } )
+                    .catch( ( error ) => {
+                        throw error;
+                    } );
+            }, i * PAGE_LOAD_DELAY );
         }
-
-        Promise.all( xhrList )
-            .then( ( xhrData ) => {
-                let allUsers = [];
-
-                for ( let i = 0; i < xhrData.length; i = i + 1 ) {
-                    allUsers = allUsers.concat( xhrData[ i ] );
-                }
-
-                resolve( allUsers );
-            } )
-            .catch( ( error ) => {
-                console.log( error.message );
-            } );
     } );
 };
 
-const filter = function filter ( users, game, developers ) {
+const filter = function filter ( newUsers, currentAccounts ) {
     const accountCache = [];
 
-    return users.filter( ( user ) => {
+    return newUsers.filter( ( user ) => {
         if ( accountCache.indexOf( user.account ) > -1 ) {
             return false;
         }
 
-        if ( developers.indexOf( user.account ) > -1 ) {
+        if ( currentAccounts.indexOf( user.account ) > -1 ) {
             return false;
         }
 
