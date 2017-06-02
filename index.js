@@ -36,8 +36,25 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
     }
 
     const redditUserURL = 'https://www.reddit.com/user/{{identifier}}';
-    const steamNumericURL = 'http://steamcommunity.com/profiles/{{identifier}}/posthistory/';
-    const steamNameURL = 'http://steamcommunity.com/id/{{identifier}}/posthistory/';
+    let normalisedUser;
+
+    switch ( service ) {
+        case 'reddit':
+            normalisedUser = {
+                identifier: foundUser.username,
+                name: foundUser.username,
+                url: redditUserURL.replace( '{{identifier}}', foundUser.username.replace( /_/g, '\\_' ) ),
+            };
+            break;
+        case 'steam':
+            normalisedUser = {
+                identifier: foundUser.account,
+                name: foundUser.name,
+                url: foundUser.accountLink,
+            };
+            break;
+    }
+
     // eslint-disable-next-line no-process-env
     const users = process.env.users.split( ' ' );
     const options = {
@@ -49,21 +66,13 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
     let message = '';
 
     // eslint-disable-next-line no-useless-escape
-    options.path = `${ options.path }?title=${ encodeURIComponent( 'Found a new developer for ' + game + ', ' + foundUser.username.replace( /_/g, '\_' ) ) }`;
+    options.path = `${ options.path }?title=${ encodeURIComponent( 'Found a new developer for ' + game + ', ' + normalisedUser.name.replace( /_/g, '\_' ) ) }`;
 
     for ( let i = 0; i < users.length; i = i + 1 ) {
         options.path = `${ options.path }&users=${ users[ i ] }`;
     }
 
-    if ( service === 'reddit' ) {
-        options.path = `${ options.path }&url=${ encodeURIComponent( redditUserURL.replace( '{{identifier}}', foundUser.username.replace( /_/g, '\\_' ) ) ) }`;
-    } else if ( service === 'steam' ) {
-        if ( Number.isInteger( foundUser.username ) ) {
-            options.path = `${ options.path }&url=${ encodeURIComponent( steamNumericURL.replace( '{{identifier}}', foundUser.username.replace( /_/g, '\\_' ) ) ) }`;
-        } else {
-            options.path = `${ options.path }&url=${ encodeURIComponent( steamNameURL.replace( '{{identifier}}', foundUser.username.replace( /_/g, '\\_' ) ) ) }`;
-        }
-    }
+    options.path = `${ options.path }&url=${ encodeURIComponent( normalisedUser.url ) }`;
 
     for ( const property in foundUser ) {
         message = `${ message }%0A${ encodeURIComponent( property.replace( /_/g, '\\_' ) ) }:%20${ encodeURIComponent( String( foundUser[ property ] ).replace( /_/g, '\\_' ) ) }`;
