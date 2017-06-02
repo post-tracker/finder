@@ -189,8 +189,8 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
                         if ( filteredUsers.length > 0 ) {
                             console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
-                            for ( let i = 0; i < users.length; i = i + 1 ) {
-                                setTimeout( notifyUsers.bind( this, game, 'steam', users[ i ] ), i * NOTIFYY_DELAY );
+                            for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
+                                setTimeout( notifyUsers.bind( this, game, 'steam', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
                             }
                         }
                     } )
@@ -216,15 +216,15 @@ const findDevelopers = function findDevelopers ( game, gameIndex ) {
                     .then( ( topUsers ) => {
                         reddit.get( `${ subreddit }/new`, REDDIT_PAGES )
                             .then( ( newUsers ) => {
-                                const users = reddit.filter( topUsers.concat( newUsers ), game, redditDevelopers );
+                                const filteredUsers = reddit.filter( topUsers.concat( newUsers ), game, redditDevelopers );
 
-                                console.log( chalk.green( `Found ${ users.length } new developers on Reddit for ${ game }` ) );
+                                console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Reddit for ${ game }` ) );
 
-                                if ( users.length > 0 ) {
-                                    console.log( chalk.green( JSON.stringify( users, null, JSON_INDENT ) ) );
+                                if ( filteredUsers.length > 0 ) {
+                                    console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
-                                    for ( let i = 0; i < users.length; i = i + 1 ) {
-                                        setTimeout( notifyUsers.bind( this, game, 'reddit', users[ i ] ), i * NOTIFYY_DELAY );
+                                    for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
+                                        setTimeout( notifyUsers.bind( this, game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
                                     }
                                 }
                             } )
