@@ -335,6 +335,7 @@ module.exports = {
             'eplanc',
             'erd',
             'eris',
+            'erismorn',
             'es99',
             'esga',
             'esr',
