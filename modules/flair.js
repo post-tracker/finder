@@ -474,6 +474,7 @@ module.exports = {
             'starwolf',
             'stormcaller',
             'story',
+            'strike',
             'striker',
             'sunbreaker',
             'sunofosiris',
