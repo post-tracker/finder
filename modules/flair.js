@@ -352,6 +352,7 @@ module.exports = {
             'eyeofosiris',
             'fallenlogo',
             'fieldoflight',
+            'firenfeathers',
             'flamesofforgottentruth',
             'forsaken',
             'foundersseal',
