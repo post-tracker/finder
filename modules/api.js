@@ -1,4 +1,4 @@
-const http = require( 'http' );
+const https = require( 'https' );
 
 const API_HOST = 'api.kokarn.com';
 const API_PORT = 80;
@@ -23,7 +23,7 @@ const loadPath = function loadPath ( requestPath, onDone ) {
         port: API_PORT,
     };
 
-    const request = http.request( options, ( response ) => {
+    const request = https.request( options, ( response ) => {
         let body = '';
 
         response.setEncoding( 'utf8' );
