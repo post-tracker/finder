@@ -559,6 +559,9 @@ module.exports = {
         list: [
             'discordmod',
             'gpan',
+            'hbrc-b',
+            'hbrc-g',
+            'hbrc-s',
             'igncustom',
             'lpup',
             'npan',
