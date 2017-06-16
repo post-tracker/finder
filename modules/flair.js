@@ -412,6 +412,7 @@ module.exports = {
             'psionflayers',
             'queen',
             'queensbro',
+            'queensemissary',
             'queensguardcrest',
             'regal',
             'resurrectionist',
