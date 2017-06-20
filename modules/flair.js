@@ -474,6 +474,7 @@ module.exports = {
             'spacesquirrel',
             'specialorders',
             'spookypumpkin',
+            'sq',
             'starantigen',
             'starofmoderation',
             'starwolf',
