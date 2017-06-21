@@ -310,6 +310,7 @@ module.exports = {
             'dragoon',
             'draksis',
             'e347',
+            'eaglematt',
             'earthborn',
             'ebj',
             'echoofshatteredsuns',
