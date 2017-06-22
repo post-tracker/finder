@@ -513,6 +513,7 @@ module.exports = {
             'titanlogo',
             'titanvanguard',
             'transcendence',
+            'undyingmind',
             'unionoflight',
             'urzok',
             'userresearch',
@@ -562,9 +563,11 @@ module.exports = {
     },
     pubg: {
         list: [
+            'ahnf-l',
             'ahnf-n',
             'discordmod',
             'gpan',
+            'gtd-l',
             'hbrc-b',
             'hbrc-g',
             'hbrc-s',
