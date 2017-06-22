@@ -562,6 +562,7 @@ module.exports = {
     },
     pubg: {
         list: [
+            'ahnf-n',
             'discordmod',
             'gpan',
             'hbrc-b',
