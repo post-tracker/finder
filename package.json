@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pretest": "eslint **/*.js"
+    "pretest": "eslint **/*.js",
+    "start": "echo \"No start script, run node index.js manually\""
   },
   "author": "Kokarn",
   "license": "MIT",
