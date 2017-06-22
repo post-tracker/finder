@@ -568,6 +568,7 @@ module.exports = {
             'discordmod',
             'gpan',
             'gtd-l',
+            'gtd-n',
             'hbrc-b',
             'hbrc-g',
             'hbrc-s',
