@@ -103,12 +103,12 @@ const findDevelopers = function findDevelopers ( game ) {
     getAccounts( game, ( accounts ) => {
         const accountList = {};
 
-        for ( let i = 0; i < accounts.length; i = i + 1 ) {
-            if ( typeof accountList[ accounts[ i ].service ] === 'undefined' ) {
-                accountList[ accounts[ i ].service ] = [];
+        for ( let i = 0; i < accounts.data.length; i = i + 1 ) {
+            if ( typeof accountList[ accounts.data[ i ].service ] === 'undefined' ) {
+                accountList[ accounts.data[ i ].service ] = [];
             }
 
-            accountList[ accounts[ i ].service ].push( accounts[ i ].identifier );
+            accountList[ accounts.data[ i ].service ].push( accounts.data[ i ].identifier );
         }
 
         if ( game.Steam ) {
