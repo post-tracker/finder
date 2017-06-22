@@ -107,13 +107,14 @@ const getSteam = function getSteam ( id, pages ) {
 
 const filter = function filter ( newUsers, currentAccounts ) {
     const accountCache = [];
+    const currentDevelopers = currentAccounts || [];
 
     return newUsers.filter( ( user ) => {
         if ( accountCache.indexOf( user.account ) > -1 ) {
             return false;
         }
 
-        if ( currentAccounts.indexOf( user.account ) > -1 ) {
+        if ( currentDevelopers.indexOf( user.account ) > -1 ) {
             return false;
         }
 

@@ -117,6 +117,7 @@ const loadRedditPage = function loadRedditPage ( id, after, page ) {
 const filter = function filter ( users, game, developers ) {
     const accountCache = [];
     const { [ game ]: flairs } = flair;
+    const currentDevelopers = developers || [];
 
     flairs.list = flairs.list.map( ( value ) => {
         return value.toLowerCase();
@@ -127,7 +128,7 @@ const filter = function filter ( users, game, developers ) {
             return false;
         }
 
-        if ( developers.indexOf( user.username ) > -1 ) {
+        if ( currentDevelopers.indexOf( user.username ) > -1 ) {
             return false;
         }
 
