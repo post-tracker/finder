@@ -577,6 +577,7 @@ module.exports = {
             'npan',
             'npup',
             'trophy',
+            'woof',
         ],
         type: 'author_flair_css_class',
     },
