@@ -166,6 +166,7 @@ module.exports = {
             '8bitwarlock',
             'abaeterno',
             'abraxas',
+            'abraxasii',
             'agentofthenine',
             'aksor',
             'alchemistcast',
