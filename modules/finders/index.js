@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 
 module.exports = {
-    Reddit: require( './reddit.js' ),
-    Steam: require( './steam.js' ),
     MiggyRSS: require( './MiggyRSS.js' ),
+    Reddit: require( './Reddit.js' ),
+    Steam: require( './Steam.js' ),
 };
