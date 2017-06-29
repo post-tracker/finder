@@ -32,10 +32,9 @@
         ]
     },
     "elite": {
-        "MiggyRSS": {
-            "type": "single",
-            "endpoint": "http://www.miggy.org/games/elite-dangerous/devtracker/ed-dev-posts.rss"
-        },
+        "MiggyRSS": [
+            "https://www.miggy.org/games/elite-dangerous/devtracker/ed-dev-posts.rss"
+        ],
         "Reddit": [
             "EliteDangerous"
         ],
