@@ -33,7 +33,6 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
             normalisedUser = {
                 identifier: foundUser,
                 name: foundUser,
-                url: foundUser,
             };
             break;
     }
@@ -55,10 +54,14 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
         options.path = `${ options.path }&users=${ users[ i ] }`;
     }
 
-    options.path = `${ options.path }&url=${ encodeURIComponent( normalisedUser.url ) }`;
+    if ( normalisedUser.url ) {
+        options.path = `${ options.path }&url=${ encodeURIComponent( normalisedUser.url ) }`;
+    }
 
-    for ( const property in foundUser ) {
-        message = `${ message }%0A${ encodeURIComponent( property.replace( /_/g, '\\_' ) ) }:%20${ encodeURIComponent( String( foundUser[ property ] ).replace( /_/g, '\\_' ) ) }`;
+    if ( typeof foundUser === 'object' ) {
+        for ( const property in foundUser ) {
+            message = `${ message }%0A${ encodeURIComponent( property.replace( /_/g, '\\_' ) ) }:%20${ encodeURIComponent( String( foundUser[ property ] ).replace( /_/g, '\\_' ) ) }`;
+        }
     }
 
     options.path = `${ options.path }&message=${ message }`;
