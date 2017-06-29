@@ -29,6 +29,13 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
                 url: foundUser.accountLink,
             };
             break;
+        default:
+            normalisedUser = {
+                identifier: foundUser,
+                name: foundUser,
+                url: foundUser,
+            };
+            break;
     }
 
     // eslint-disable-next-line no-process-env
