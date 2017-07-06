@@ -643,6 +643,7 @@ module.exports = {
             'pl-bittersweet',
             'pl-continuum',
             'pl-elevate',
+            'pl-ence',
             'pl-ferocity',
             'pl-flipside',
             'pl-gbots',
