@@ -640,6 +640,7 @@ module.exports = {
             'montagnenew',
             'mute',
             'mutenew',
+            'pl-bittersweet',
             'pl-continuum',
             'pl-elevate',
             'pl-ferocity',
