@@ -413,6 +413,7 @@ module.exports = {
             'omolon',
             'osiris',
             'pathfindersign',
+            'phogoth',
             'postmaster',
             'princesigil',
             'psionflayers',
