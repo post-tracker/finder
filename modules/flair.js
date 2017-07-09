@@ -558,6 +558,7 @@ module.exports = {
             'competent cmdr',
             'dangerous cmdr',
             'empire cmdr img',
+            'empire',
             'harmless cmdr',
             'img sidey cmdr',
             'img viper cmdr',
@@ -569,6 +570,8 @@ module.exports = {
     },
     pubg: {
         list: [
+            'aaa-l',
+            'aaa-n',
             'ahnf-l',
             'ahnf-n',
             'discordmod',
