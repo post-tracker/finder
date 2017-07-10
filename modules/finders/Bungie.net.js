@@ -108,6 +108,7 @@ class BungieNet {
 
     loadEndpoint () {
         return new Promise( ( resolve, reject ) => {
+            console.log( `Loading ${ this.sections[ 0 ] }` );
             loadPage( this.sections[ 0 ] )
                 .then( ( pageBody ) => {
                     const $ = cheerio.load( pageBody );
