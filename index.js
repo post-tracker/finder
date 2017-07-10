@@ -1,7 +1,3 @@
-const https = require( 'https' );
-
-const chalk = require( 'chalk' );
-
 const finders = require( './modules/finders/' );
 const api = require( './modules/api.js' );
 
