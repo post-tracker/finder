@@ -29,6 +29,13 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
                 url: foundUser.accountLink,
             };
             break;
+        case 'Bungie.net':
+            normalisedUser = {
+                identifier: foundUser.membershipId,
+                name: foundUser.displayName,
+                url: `https://www.bungie.net/en/Profile/254/${ foundUser.membershipId }`,
+            };
+            break;
         default:
             normalisedUser = {
                 identifier: foundUser,
