@@ -574,6 +574,7 @@ module.exports = {
             'aaa-n',
             'ahnf-l',
             'ahnf-n',
+            'bm-n',
             'discordmod',
             'gal-l',
             'gal-n',
