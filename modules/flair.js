@@ -540,6 +540,7 @@ module.exports = {
             'wolfsgrin',
             'woodhouse',
             'worlddomination',
+            'zydron',
         ],
         type: 'author_flair_css_class',
     },
