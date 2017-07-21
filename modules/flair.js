@@ -591,6 +591,8 @@ module.exports = {
             'lpup',
             'npan',
             'npup',
+            't20-l',
+            't20-n',
             'trophy',
             'woof',
         ],
