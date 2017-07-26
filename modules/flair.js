@@ -94,6 +94,7 @@ module.exports = {
             'hellraisers fan',
             'https://youtu.be/hX21XHcdlM4?t=15s',
             'ibuypower fan',
+            'ibp fan',
             'immortals fan',
             'inferno veteran',
             'italy veteran',
