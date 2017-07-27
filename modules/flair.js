@@ -584,6 +584,8 @@ module.exports = {
             'bm-l',
             'bm-n',
             'discordmod',
+            'est-l',
+            'est-n',
             'gal-l',
             'gal-n',
             'gpan',
