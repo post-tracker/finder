@@ -264,6 +264,8 @@ module.exports = {
             'crotasend',
             'crotaseye',
             'crotashand',
+            'crotasheart',
+            'crotasmight',
             'crownofthenewmonarchy',
             'crownofthesovereign',
             'crucible',
@@ -579,6 +581,8 @@ module.exports = {
     },
     pubg: {
         list: [
+            'a42-l',
+            'a42-n',
             'aaa-l',
             'aaa-n',
             'ahnf-l',
@@ -667,6 +671,7 @@ module.exports = {
             'pl-excellence',
             'pl-ferocity',
             'pl-flipside',
+            'pl-fontt',
             'pl-gbots',
             'pl-gifu',
             'pl-infamy',
