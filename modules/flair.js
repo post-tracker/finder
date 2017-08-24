@@ -680,6 +680,7 @@ module.exports = {
             'pl-omen',
             'pl-penta',
             'pl-playingducks',
+            'pl-rogue',
             'pl-supremacy',
             'pl-unknights',
             'pl-vertical',
