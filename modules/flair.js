@@ -1,6 +1,6 @@
 module.exports = {
     ark: {
-        getFlairs: function() {
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
@@ -17,7 +17,7 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     battlefield1: {
-        getFlairs: function(){
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
@@ -32,7 +32,7 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     conan: {
-        getFlairs: function(){
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
@@ -42,7 +42,7 @@ module.exports = {
         type: 'author_flair_text',
     },
     csgo: {
-        getFlairs: function(){
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
@@ -178,18 +178,18 @@ module.exports = {
         type: 'author_flair_text',
     },
     destiny: {
-        getFlairs: function(){
-            let flairList = [];
             const sIndexLimit = 4;
+        getFlairs: function getFlairs () {
+            const flairList = [];
             const primaryLimit = 7;
             const secodaryLimit = 4;
 
             for ( let flairIndex = 0; flairIndex < this.list.length; flairIndex = flairIndex + 1 ) {
                 flairList.push( this.list[ flairIndex ] );
 
-                for( let sIndex = 0; sIndex <= sIndexLimit; sIndex = sIndex + 1 ) {
-                    for( let primaryIndex = 0; primaryIndex <= primaryLimit; primaryIndex = primaryIndex + 1 ) {
-                        for( let secondaryIndex = 0; secondaryIndex <= secodaryLimit; secondaryIndex = secondaryIndex + 1 ) {
+                for ( let sIndex = 0; sIndex <= sIndexLimit; sIndex = sIndex + 1 ) {
+                    for ( let primaryIndex = 0; primaryIndex <= primaryLimit; primaryIndex = primaryIndex + 1 ) {
+                        for ( let secondaryIndex = 0; secondaryIndex <= secodaryLimit; secondaryIndex = secondaryIndex + 1 ) {
                             flairList.push( `SS${ sIndex } ${ primaryIndex }-${ secondaryIndex } ${ this.list[ flairIndex ] }` );
                         }
                     }
@@ -588,7 +588,7 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     elite: {
-        getFlairs: function(){
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
@@ -616,7 +616,7 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     pubg: {
-        getFlairs: function(){
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
@@ -653,7 +653,7 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     rainbow6: {
-        getFlairs: function(){
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
@@ -755,7 +755,7 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     rimworld: {
-        getFlairs: function(){
+        getFlairs: function getFlairs () {
             return this.list;
         },
         list: [
