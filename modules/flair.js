@@ -1,5 +1,8 @@
 module.exports = {
     ark: {
+        getFlairs: function() {
+            return this.list;
+        },
         list: [
             'arkstone',
             'dodo-blue',
@@ -14,6 +17,9 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     battlefield1: {
+        getFlairs: function(){
+            return this.list;
+        },
         list: [
             'ctemod',
             'origin',
@@ -26,6 +32,9 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     conan: {
+        getFlairs: function(){
+            return this.list;
+        },
         list: [
             'mod',
             'volunteer mod',
@@ -33,6 +42,9 @@ module.exports = {
         type: 'author_flair_text',
     },
     csgo: {
+        getFlairs: function(){
+            return this.list;
+        },
         list: [
             '/r/globaloffensive janitor',
             '/r/globaloffensive moderator',
@@ -166,6 +178,26 @@ module.exports = {
         type: 'author_flair_text',
     },
     destiny: {
+        getFlairs: function(){
+            let flairList = [];
+            const sIndexLimit = 4;
+            const primaryLimit = 7;
+            const secodaryLimit = 4;
+
+            for ( let flairIndex = 0; flairIndex < this.list.length; flairIndex = flairIndex + 1 ) {
+                flairList.push( this.list[ flairIndex ] );
+
+                for( let sIndex = 0; sIndex <= sIndexLimit; sIndex = sIndex + 1 ) {
+                    for( let primaryIndex = 0; primaryIndex <= primaryLimit; primaryIndex = primaryIndex + 1 ) {
+                        for( let secondaryIndex = 0; secondaryIndex <= secodaryLimit; secondaryIndex = secondaryIndex + 1 ) {
+                            flairList.push( `SS${ sIndex } ${ primaryIndex }-${ secondaryIndex } ${ this.list[ flairIndex ] }` );
+                        }
+                    }
+                }
+            }
+
+            return flairList;
+        },
         list: [
             '77adinfinitum',
             '8bithunter',
@@ -556,6 +588,9 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     elite: {
+        getFlairs: function(){
+            return this.list;
+        },
         list: [
             'bot img',
             'cmdr img alliance',
@@ -581,6 +616,9 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     pubg: {
+        getFlairs: function(){
+            return this.list;
+        },
         list: [
             'a42-l',
             'a42-n',
@@ -615,6 +653,9 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     rainbow6: {
+        getFlairs: function(){
+            return this.list;
+        },
         list: [
             'ash',
             'ashnew',
@@ -714,6 +755,9 @@ module.exports = {
         type: 'author_flair_css_class',
     },
     rimworld: {
+        getFlairs: function(){
+            return this.list;
+        },
         list: [
             'fun',
             'gold',

@@ -129,11 +129,9 @@ class Reddit {
 
     filter ( users ) {
         const accountCache = [];
-        const {
-            [ this.game ]: flairs,
-        } = flair;
+        let flairs = flair[ this.game ].getFlairs();
 
-        flairs.list = flairs.list.map( ( value ) => {
+        flairs = flairs.map( ( value ) => {
             return value.toLowerCase();
         } );
 
@@ -152,7 +150,7 @@ class Reddit {
                 }
 
                 // Skip everything with a flair we've setup to skip
-                if ( flairs.list && flairs.list.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
+                if ( flairs && flairs.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
                     return false;
                 }
             }
