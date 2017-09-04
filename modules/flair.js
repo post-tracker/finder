@@ -178,9 +178,9 @@ module.exports = {
         type: 'author_flair_text',
     },
     destiny: {
-            const sIndexLimit = 4;
         getFlairs: function getFlairs () {
             const flairList = [];
+            const sIndexLimit = 6;
             const primaryLimit = 7;
             const secodaryLimit = 4;
 
