@@ -1,9 +1,9 @@
 module.exports = {
     getFlairs: function getFlairs () {
         const flairList = [];
-        const sIndexLimit = 6;
+        const sIndexLimit = 7;
         const primaryLimit = 7;
-        const secodaryLimit = 4;
+        const secodaryLimit = 7;
 
         for ( let flairIndex = 0; flairIndex < this.list.length; flairIndex = flairIndex + 1 ) {
             flairList.push( this.list[ flairIndex ] );
@@ -114,6 +114,7 @@ module.exports = {
         'concordat',
         'crestofthegravesinger',
         'crota',
+        'crotacheese',
         'crotasend',
         'crotaseye',
         'crotashand',
@@ -294,6 +295,7 @@ module.exports = {
         'runeofthemachine',
         'runeofthemachinealt',
         'runeoftheoracle',
+        'salt',
         'sardok',
         'sardon',
         'scarofradegast',
@@ -338,6 +340,7 @@ module.exports = {
         'skynet',
         'sleeper',
         'smikis',
+        'snoo1',
         'soffish',
         'solar',
         'solprogeny',
