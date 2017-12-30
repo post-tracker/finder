@@ -12,46 +12,48 @@ if ( !API_TOKEN ) {
     throw new Error( 'Unable to load API token' );
 }
 
-const loadPath = function loadPath ( requestPath, onDone ) {
-    const options = {
-        headers: {
-            Authorization: `Bearer ${ API_TOKEN }`,
-        },
-        hostname: API_HOST,
-        method: 'GET',
-        path: requestPath,
-        port: API_PORT,
-    };
+const loadPath = function loadPath ( requestPath ) {
+    return new Promise( ( resolve, reject ) => {
+        const options = {
+            headers: {
+                Authorization: `Bearer ${ API_TOKEN }`,
+            },
+            hostname: API_HOST,
+            method: 'GET',
+            path: requestPath,
+            port: API_PORT,
+        };
 
-    const request = https.request( options, ( response ) => {
-        let body = '';
+        const request = https.request( options, ( response ) => {
+            let body = '';
 
-        response.setEncoding( 'utf8' );
+            response.setEncoding( 'utf8' );
 
-        if ( response.statusCode !== SUCESS_STATUS_CODE ) {
-            console.log( `${ API_HOST }${ requestPath } returned ${ response.statusCode }` );
-            onDone( {} );
+            if ( response.statusCode !== SUCESS_STATUS_CODE ) {
+                console.log( `${ API_HOST }${ requestPath } returned ${ response.statusCode }` );
+                resolve( false );
 
-            return false;
-        }
+                return false;
+            }
 
-        response.on( 'data', ( chunk ) => {
-            body = body + chunk;
+            response.on( 'data', ( chunk ) => {
+                body = body + chunk;
+            } );
+
+            response.on( 'end', () => {
+                resolve( JSON.parse( body ).data );
+            } );
+
+            return true;
         } );
 
-        response.on( 'end', () => {
-            onDone( JSON.parse( body ) );
+        request.on( 'error', ( requestError ) => {
+            // eslint-disable-next-line no-console
+            reject( new Error( `Problem with request: ${ requestError.message }` ) );
         } );
 
-        return true;
+        request.end();
     } );
-
-    request.on( 'error', ( requestError ) => {
-        // eslint-disable-next-line no-console
-        console.log( `Problem with request: ${ requestError.message }` );
-    } );
-
-    request.end();
 };
 
 module.exports = {

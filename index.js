@@ -1,36 +1,64 @@
 const finders = require( './modules/finders/' );
 const api = require( './modules/api.js' );
 
-const games = require( './config/games.json' );
-
-const getAccounts = function getAccounts ( game, onDone ) {
-    api.load( `/${ game }/accounts`, onDone );
+const getAccounts = function getAccounts ( game ) {
+    return api.load( `/${ game }/accounts` );
 };
 
-const findDevelopers = function findDevelopers ( services, gameIdentifier ) {
-    getAccounts( gameIdentifier, ( accounts ) => {
-        const accountList = {};
+const getGames = function getGames () {
+    return api.load( '/games' );
+};
 
-        for ( let i = 0; i < accounts.data.length; i = i + 1 ) {
-            if ( typeof accountList[ accounts.data[ i ].service ] === 'undefined' ) {
-                accountList[ accounts.data[ i ].service ] = [];
+const findDevelopers = function findDevelopers ( gameData ) {
+    const services = {};
+
+    if ( !gameData.config ) {
+        return false;
+    }
+
+    if ( !gameData.config.sources ) {
+        return false;
+    }
+
+    for ( const service in gameData.config.sources ) {
+        if ( gameData.config.sources[ service ].allowedSections ) {
+            services[ service ] = gameData.config.sources[ service ].allowedSections;
+        }
+    }
+
+    getAccounts( gameData.identifier )
+        .then( ( accounts ) => {
+            const accountList = {};
+
+            for ( let i = 0; i < accounts.length; i = i + 1 ) {
+                if ( typeof accountList[ accounts[ i ].service ] === 'undefined' ) {
+                    accountList[ accounts[ i ].service ] = [];
+                }
+
+                accountList[ accounts[ i ].service ].push( accounts[ i ].identifier );
             }
 
-            accountList[ accounts.data[ i ].service ].push( accounts.data[ i ].identifier );
-        }
+            for ( const service in services ) {
+                if ( !finders[ service ] ) {
+                    continue;
+                }
 
-        for ( const service in services ) {
-            if ( !finders[ service ] ) {
-                continue;
+                const indexer = new finders[ service ]( gameData.identifier, services[ service ], accountList[ service ] );
+
+                indexer.run();
             }
+        } )
+        .catch( ( getErrors ) => {
+            console.error( getErrors );
+        } );
+};
 
-            const indexer = new finders[ service ]( gameIdentifier, services[ service ], accountList[ service ] );
-
-            indexer.run();
-        }
+getGames()
+    .then( ( games ) => {
+        games.forEach( ( game ) => {
+            findDevelopers( game );
+        } );
+    } )
+    .catch( ( getError ) => {
+        console.error( getError );
     } );
-};
-
-Object.keys( games ).forEach( ( game ) => {
-    findDevelopers( games[ game ], game );
-} );

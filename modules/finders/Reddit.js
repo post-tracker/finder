@@ -1,7 +1,7 @@
 const chalk = require( 'chalk' );
 
 const loadPage = require( '../load.js' );
-const flair = require( '../flair.js' );
+const flair = require( '../flair/' );
 const notifyy = require( '../notifyy.js' );
 
 const POSTS_PER_PAGE = 25;
@@ -127,11 +127,10 @@ class Reddit {
         } );
     }
 
-    filter ( users ) {
+    filter ( users, flairs ) {
         const accountCache = [];
-        let flairs = flair[ this.game ].getFlairs();
 
-        flairs = flairs.map( ( value ) => {
+        const normalisedFlairs = flairs.map( ( value ) => {
             return value.toLowerCase();
         } );
 
@@ -144,13 +143,13 @@ class Reddit {
                 return false;
             }
 
-            if ( flairs ) {
+            if ( normalisedFlairs ) {
                 if ( !user[ flairs.type ] ) {
                     return false;
                 }
 
                 // Skip everything with a flair we've setup to skip
-                if ( flairs && flairs.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
+                if ( normalisedFlairs && normalisedFlairs.indexOf( user[ normalisedFlairs.type ].toLowerCase() ) > -1 ) {
                     return false;
                 }
             }
@@ -207,12 +206,18 @@ class Reddit {
         for ( let subredditIndex = 0; subredditIndex < this.sections.length; subredditIndex = subredditIndex + 1 ) {
             const subreddit = this.sections[ subredditIndex ];
 
+            if ( !flair[ subreddit ] ) {
+                console.log( `Found no flairs for ${ subreddit }, won't check it for new devs` );
+
+                continue;
+            }
+
             console.log( `Starting with r/${ subreddit }` );
             this.get( subreddit, REDDIT_PAGES )
                 .then( ( topUsers ) => {
                     this.get( `${ subreddit }/new`, REDDIT_PAGES )
                         .then( ( newUsers ) => {
-                            const filteredUsers = this.filter( topUsers.concat( newUsers ) );
+                            const filteredUsers = this.filter( topUsers.concat( newUsers ), flair[ subreddit ].getFlairs() );
 
                             console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Reddit for ${ this.game }` ) );
 
