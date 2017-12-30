@@ -78,8 +78,8 @@ class Reddit {
                         };
 
                         /* eslint-disable camelcase */
-                        if ( posts.data.author_flair_css_class ) {
-                            user.author_flair_css_class = String( posts.data.author_flair_css_class ).trim();
+                        if ( posts.data.children[ i ].data.author_flair_css_class ) {
+                            user.author_flair_css_class = String( posts.data.children[ i ].data.author_flair_css_class ).trim();
                         }
 
                         if ( posts.data.children[ i ].data.author_flair_text ) {
@@ -129,8 +129,9 @@ class Reddit {
 
     filter ( users, flairs ) {
         const accountCache = [];
+        let flairList = flairs.getFlairs();
 
-        const normalisedFlairs = flairs.map( ( value ) => {
+        flairList = flairList.map( ( value ) => {
             return value.toLowerCase();
         } );
 
@@ -143,15 +144,13 @@ class Reddit {
                 return false;
             }
 
-            if ( normalisedFlairs ) {
-                if ( !user[ flairs.type ] ) {
-                    return false;
-                }
+            if ( !user[ flairs.type ] ) {
+                return false;
+            }
 
-                // Skip everything with a flair we've setup to skip
-                if ( normalisedFlairs && normalisedFlairs.indexOf( user[ normalisedFlairs.type ].toLowerCase() ) > -1 ) {
-                    return false;
-                }
+            // Skip everything with a flair we've setup to skip
+            if ( flairList.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
+                return false;
             }
 
             accountCache.push( user.username );
@@ -217,9 +216,9 @@ class Reddit {
                 .then( ( topUsers ) => {
                     this.get( `${ subreddit }/new`, REDDIT_PAGES )
                         .then( ( newUsers ) => {
-                            const filteredUsers = this.filter( topUsers.concat( newUsers ), flair[ subreddit ].getFlairs() );
+                            const filteredUsers = this.filter( topUsers.concat( newUsers ), flair[ subreddit ] );
 
-                            console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Reddit for ${ this.game }` ) );
+                            console.log( chalk.green( `Found ${ filteredUsers.length } new developers on ${ subreddit } for ${ this.game }` ) );
 
                             if ( filteredUsers.length > 0 ) {
                                 console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
