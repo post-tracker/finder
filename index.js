@@ -26,7 +26,7 @@ const findDevelopers = function findDevelopers ( gameData ) {
         }
     }
 
-    getAccounts( gameData.identifier )
+    return getAccounts( gameData.identifier )
         .then( ( accounts ) => {
             const accountList = {};
 
