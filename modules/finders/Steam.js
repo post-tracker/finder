@@ -140,7 +140,7 @@ class Steam {
             .then( ( users ) => {
                 const filteredUsers = this.filter( users );
 
-                console.log( chalk.green( `Found ${ filteredUsers.length } new developers on Steam for ${ this.game }` ) );
+                console.log( chalk.green( `Found ${ filteredUsers.length }/${ users.length } new developers on Steam for ${ this.game }` ) );
 
                 if ( filteredUsers.length > 0 ) {
                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );

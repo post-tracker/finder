@@ -221,9 +221,10 @@ class Reddit {
                 .then( ( topUsers ) => {
                     this.get( `${ subreddit }/new`, REDDIT_PAGES )
                         .then( ( newUsers ) => {
-                            const filteredUsers = this.filter( topUsers.concat( newUsers ), flair[ subreddit ] );
+                            const allUsers = topUsers.concat( newUsers );
+                            const filteredUsers = this.filter( allUsers, flair[ subreddit ] );
 
-                            console.log( chalk.green( `Found ${ filteredUsers.length } new developers on ${ subreddit } for ${ this.game }` ) );
+                            console.log( chalk.green( `Found ${ filteredUsers.length }/${ allUsers.length } new developers on /r/${ subreddit } for ${ this.game }` ) );
 
                             if ( filteredUsers.length > 0 ) {
                                 console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
