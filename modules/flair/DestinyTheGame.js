@@ -405,6 +405,7 @@ module.exports = {
         'voidwalker',
         'warlocklogo',
         'warlockvanguard',
+        'warlocksunsinger',
         'winterbornmark',
         'wolfsgrin',
         'woodhouse',

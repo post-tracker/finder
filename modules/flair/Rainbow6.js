@@ -63,6 +63,7 @@ module.exports = {
         'op-ela',
         'op-lesion',
         'op-vigil',
+        'op-ying',
         'op-zofia',
         'pl-bittersweet',
         'pl-brk',

@@ -5,6 +5,7 @@ module.exports = {
     list: [
         'beetlejess',
         'catstructor',
+        'catstructor1',
         'default',
         'dragonsarah',
         'energythief',
@@ -47,6 +48,7 @@ module.exports = {
         'machinist',
         'marinecorpse',
         'ninja1',
+        'ninja2',
         'outlander6png',
         'raider',
         'shurikenmasternew',
