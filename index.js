@@ -38,6 +38,8 @@ const findDevelopers = function findDevelopers ( gameData ) {
                 accountList[ accounts[ i ].service ].push( accounts[ i ].identifier );
             }
 
+            const serivcePromises = [];
+
             for ( const service in services ) {
                 if ( !finders[ service ] ) {
                     continue;
@@ -45,8 +47,10 @@ const findDevelopers = function findDevelopers ( gameData ) {
 
                 const indexer = new finders[ service ]( gameData.identifier, services[ service ], accountList[ service ] );
 
-                indexer.run();
+                serivcePromises.push( indexer.run() );
             }
+
+            return Promise.all( serivcePromises );
         } )
         .catch( ( getErrors ) => {
             console.error( getErrors );
@@ -54,10 +58,10 @@ const findDevelopers = function findDevelopers ( gameData ) {
 };
 
 getGames()
-    .then( ( games ) => {
-        games.forEach( ( game ) => {
-            findDevelopers( game );
-        } );
+    .then( async ( games ) => {
+        for ( let i = 0; i < games.length; i = i + 1 ) {
+            await findDevelopers( games[ i ] );
+        }
     } )
     .catch( ( getError ) => {
         console.error( getError );
