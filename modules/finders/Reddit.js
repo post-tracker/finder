@@ -8,12 +8,15 @@ const POSTS_PER_PAGE = 25;
 const JSON_INDENT = 4;
 const REDDIT_PAGES = 1;
 const NOTIFYY_DELAY = 1500;
+const NEW_FLAIR_PRINT_LIMIT = 3;
 
 class Reddit {
     constructor ( game, sections, accounts ) {
         this.sections = sections;
         this.accounts = accounts || [];
         this.game = game;
+
+        this.newFlairs = [];
     }
 
     getUsersInPost ( post ) {
@@ -153,6 +156,8 @@ class Reddit {
                 return false;
             }
 
+            this.newFlairs.push( user[ flairs.type ].toLowerCase() );
+
             accountCache.push( user.username );
 
             return true;
@@ -222,6 +227,11 @@ class Reddit {
 
                             if ( filteredUsers.length > 0 ) {
                                 console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
+                                const newFlairs = [ ...new Set( this.newFlairs ) ];
+
+                                if ( newFlairs.length >= NEW_FLAIR_PRINT_LIMIT ) {
+                                    console.log( newFlairs );
+                                }
 
                                 for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
                                     setTimeout( notifyy.bind( this, this.game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
