@@ -60,6 +60,7 @@ module.exports = {
         'mute',
         'mutenew',
         'op-dokkaebi',
+        'op-ela',
         'op-lesion',
         'op-vigil',
         'op-zofia',

@@ -5,6 +5,7 @@ module.exports = {
     list: [
         'bot img',
         'cmdr img aduval',
+        'cmdr img aegis',
         'cmdr img alduval',
         'cmdr img alliance',
         'cmdr img antal',
