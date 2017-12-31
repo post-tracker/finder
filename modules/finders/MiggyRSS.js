@@ -18,7 +18,8 @@ class MiggyRSS {
         const users = [];
 
         console.log( `Loading ${ this.sections[ 0 ] }` );
-        loadPage( this.sections[ 0 ] )
+        
+        return loadPage( this.sections[ 0 ] )
             .then( ( posts ) => {
                 const parser = new FeedMe();
 

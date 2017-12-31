@@ -207,46 +207,50 @@ class Reddit {
     }
 
     run () {
-        for ( let subredditIndex = 0; subredditIndex < this.sections.length; subredditIndex = subredditIndex + 1 ) {
-            const subreddit = this.sections[ subredditIndex ];
+        return new Promise( ( resolve ) => {
+            for ( let subredditIndex = 0; subredditIndex < this.sections.length; subredditIndex = subredditIndex + 1 ) {
+                const subreddit = this.sections[ subredditIndex ];
 
-            if ( !flair[ subreddit ] ) {
-                console.log( `Found no flairs for ${ subreddit }, won't check it for new devs` );
+                if ( !flair[ subreddit ] ) {
+                    console.log( `Found no flairs for ${ subreddit }, won't check it for new devs` );
 
-                continue;
+                    continue;
+                }
+
+                console.log( `Starting with r/${ subreddit }` );
+                this.get( subreddit, REDDIT_PAGES )
+                    .then( ( topUsers ) => {
+                        this.get( `${ subreddit }/new`, REDDIT_PAGES )
+                            .then( ( newUsers ) => {
+                                const allUsers = topUsers.concat( newUsers );
+                                const filteredUsers = this.filter( allUsers, flair[ subreddit ] );
+
+                                console.log( chalk.green( `Found ${ filteredUsers.length }/${ allUsers.length } new developers on /r/${ subreddit } for ${ this.game }` ) );
+
+                                resolve();
+
+                                if ( filteredUsers.length > 0 ) {
+                                    console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
+                                    const newFlairs = [ ...new Set( this.newFlairs ) ];
+
+                                    if ( newFlairs.length >= NEW_FLAIR_PRINT_LIMIT ) {
+                                        console.log( newFlairs );
+                                    }
+
+                                    for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
+                                        setTimeout( notifyy.bind( this, this.game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                                    }
+                                }
+                            } )
+                            .catch( ( error ) => {
+                                console.log( error );
+                            } );
+                    } )
+                    .catch( ( error ) => {
+                        console.log( error );
+                    } );
             }
-
-            console.log( `Starting with r/${ subreddit }` );
-            this.get( subreddit, REDDIT_PAGES )
-                .then( ( topUsers ) => {
-                    this.get( `${ subreddit }/new`, REDDIT_PAGES )
-                        .then( ( newUsers ) => {
-                            const allUsers = topUsers.concat( newUsers );
-                            const filteredUsers = this.filter( allUsers, flair[ subreddit ] );
-
-                            console.log( chalk.green( `Found ${ filteredUsers.length }/${ allUsers.length } new developers on /r/${ subreddit } for ${ this.game }` ) );
-
-                            if ( filteredUsers.length > 0 ) {
-                                console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
-                                const newFlairs = [ ...new Set( this.newFlairs ) ];
-
-                                if ( newFlairs.length >= NEW_FLAIR_PRINT_LIMIT ) {
-                                    console.log( newFlairs );
-                                }
-
-                                for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                                    setTimeout( notifyy.bind( this, this.game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
-                                }
-                            }
-                        } )
-                        .catch( ( error ) => {
-                            console.log( error );
-                        } );
-                } )
-                .catch( ( error ) => {
-                    console.log( error );
-                } );
-        }
+        } );
     }
 }
 
