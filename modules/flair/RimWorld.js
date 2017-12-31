@@ -3,6 +3,7 @@ module.exports = {
         return this.list;
     },
     list: [
+        'extralife',
         'fun',
         'gold',
         'granite',
