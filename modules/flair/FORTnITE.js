@@ -17,6 +17,7 @@ module.exports = {
         'hero-dim-mak',
         'hero-dragon',
         'hero-electro-pulse',
+        'hero-enforcer',
         'hero-hotfixer',
         'hero-kinetic-guardian',
         'hero-megabase',
