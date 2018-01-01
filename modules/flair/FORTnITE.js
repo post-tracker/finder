@@ -20,6 +20,7 @@ module.exports = {
         'hero-dragon',
         'hero-electro-pulse',
         'hero-enforcer',
+        'hero-fleetfoot',
         'hero-hotfixer',
         'hero-kinetic-guardian',
         'hero-megabase',
