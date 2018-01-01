@@ -293,6 +293,7 @@ module.exports = {
         'revolver',
         'riksis',
         'risinglight',
+        'rose',
         'runeoftheadept',
         'runeofthedisciple',
         'runeofthemachine',
