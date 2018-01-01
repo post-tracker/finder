@@ -37,6 +37,7 @@ module.exports = {
         'cmdr',
         'competent cmdr',
         'dangerous cmdr',
+        'elite1 cmdr',
         'empire cmdr img',
         'empire',
         'harmless cmdr',
