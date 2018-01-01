@@ -106,6 +106,7 @@ module.exports = {
         'bungieday31',
         'bungieday32',
         'caballogo',
+        'caluscheese',
         'carnagezone',
         'cassoid',
         'cassoidalt',

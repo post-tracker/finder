@@ -5,11 +5,12 @@ module.exports = {
     list: [
         'beetlejess',
         'catstructor',
-        'catstructor1',
+        'constructor1',
         'default',
         'dragonsarah',
         'energythief',
         'grenadier',
+        'gunblazer',
         'hazardkyle',
         'hero-assassin',
         'hero-base',
