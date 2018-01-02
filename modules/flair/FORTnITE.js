@@ -35,6 +35,7 @@ module.exports = {
         'hero-shock-specialist',
         'hero-shock-trooper',
         'hero-shuriken-master',
+        'hero-skirmisher',
         'hero-special-forces',
         'hero-stonefoot',
         'hero-striker',
