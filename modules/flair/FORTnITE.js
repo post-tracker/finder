@@ -40,6 +40,7 @@ module.exports = {
         'hero-striker',
         'hero-support-specialist',
         'hero-survivalist',
+        'hero-swordmaster',
         'hero-tank',
         'hero-trailblaster',
         'hero-trailblazer',
