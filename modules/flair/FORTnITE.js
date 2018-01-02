@@ -16,6 +16,7 @@ module.exports = {
         'hero-base',
         'hero-centurion',
         'hero-commando',
+        'hero-controller',
         'hero-dim-mak',
         'hero-dragon',
         'hero-electro-pulse',
