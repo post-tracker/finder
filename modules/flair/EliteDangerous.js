@@ -28,6 +28,7 @@ module.exports = {
         'cmdr img snoo',
         'cmdr img thargint',
         'cmdr img thargsen',
+        'cmdr img torval',
         'cmdr img trade',
         'cmdr img viper',
         'cmdr img winters',

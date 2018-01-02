@@ -310,6 +310,7 @@ module.exports = {
         'sevenseraphs',
         'seventhcolumn7',
         'seventhcolumnred',
+        'sgtwarchicken',
         'shaaull',
         'shelteredtruthalt',
         'shelteredtruthii',
