@@ -55,6 +55,7 @@ module.exports = {
         'marinecorpse',
         'ninja1',
         'ninja2',
+        'outlander4',
         'outlander6png',
         'raider',
         'shurikenmasternew',

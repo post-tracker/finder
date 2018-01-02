@@ -50,6 +50,7 @@ module.exports = {
         't20-n',
         'trophy',
         'u-l',
+        'u-n',
         'woof',
     ],
     type: 'author_flair_css_class',
