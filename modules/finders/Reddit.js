@@ -170,7 +170,7 @@ class Reddit {
         // eslint-disable-next-line consistent-this
         const that = this;
 
-        if ( page <= pages ) {
+        if ( page >= pages ) {
             return Promise.resolve( [] );
         }
 
