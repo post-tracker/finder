@@ -3,6 +3,7 @@ module.exports = {
         return this.list;
     },
     list: [
+        'flair-contentcreator',
         'flair-forummod',
         'flair-mod',
         'flair-twitch',
