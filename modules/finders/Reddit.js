@@ -170,6 +170,10 @@ class Reddit {
         // eslint-disable-next-line consistent-this
         const that = this;
 
+        if ( page <= pages ) {
+            return Promise.resolve( [] );
+        }
+
         const getUsers = function getUsers ( redditPage, next, currentPage ) {
             return new Promise( ( loadResolve ) => {
                 that.loadRedditPage( redditPage, next, currentPage )
