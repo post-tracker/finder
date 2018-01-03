@@ -38,36 +38,32 @@ class Steam {
                             const $topic = cheerio.load( topicBody );
                             const $op = $topic( '.forum_op' );
                             const $replies = $topic( '.commentthread_comment' );
-
                             const $posts = $op.add( $replies );
 
                             $posts.each( ( replyIndex, replyElement ) => {
                                 const $reply = $topic( replyElement );
-                                const badge = $reply
-                                    .find( '.commentthread_workshop_authorbadge' )
-                                    .text()
-                                    .trim();
 
-                                if ( badge ) {
-                                    let $author = $reply.find( '.commentthread_author_link' );
+                                let $author = $reply.find( '.commentthread_author_link' );
 
-                                    if ( $author.length <= 0 ) {
-                                        $author = $reply.find( '.forum_op_author' );
-                                    }
-
-                                    const user = {
-                                        account: $author
-                                            .attr( 'href' )
-                                            .trim()
-                                            .replace( 'https://steamcommunity.com/profiles/', '' )
-                                            .replace( 'https://steamcommunity.com/id/', '' ),
-                                        accountLink: $author.attr( 'href' ).trim(),
-                                        badge: badge,
-                                        name: $author.text().trim(),
-                                    };
-
-                                    users.push( user );
+                                if ( $author.length <= 0 ) {
+                                    $author = $reply.find( '.forum_op_author' );
                                 }
+
+                                const user = {
+                                    account: $author
+                                        .attr( 'href' )
+                                        .trim()
+                                        .replace( 'https://steamcommunity.com/profiles/', '' )
+                                        .replace( 'https://steamcommunity.com/id/', '' ),
+                                    accountLink: $author.attr( 'href' ).trim(),
+                                    badge: $reply
+                                        .find( '.commentthread_workshop_authorbadge' )
+                                        .text()
+                                        .trim(),
+                                    name: $author.text().trim(),
+                                };
+
+                                users.push( user );
                             } );
                         } )
                         .catch( ( error ) => {
@@ -126,6 +122,10 @@ class Steam {
             }
 
             if ( this.accounts.indexOf( user.account ) > -1 ) {
+                return false;
+            }
+
+            if ( !user.badge ) {
                 return false;
             }
 
