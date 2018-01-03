@@ -38,19 +38,17 @@ const findDevelopers = function findDevelopers ( gameData ) {
                 accountList[ accounts[ i ].service ].push( accounts[ i ].identifier );
             }
 
-            const serivcePromises = [];
-
-            for ( const service in services ) {
+            const servicePromises = Object.keys( accountList ).map( ( service ) => {
                 if ( !finders[ service ] ) {
-                    continue;
+                    return false;
                 }
 
                 const indexer = new finders[ service ]( gameData.identifier, services[ service ], accountList[ service ] );
 
-                serivcePromises.push( indexer.run() );
-            }
+                return indexer.run();
+            } );
 
-            return Promise.all( serivcePromises );
+            return Promise.all( servicePromises );
         } )
         .catch( ( getErrors ) => {
             console.error( getErrors );
