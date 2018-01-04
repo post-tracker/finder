@@ -52,6 +52,7 @@ module.exports = {
         'hero-vanguard',
         'hero-warlord',
         'lama1',
+        'lamahero-master-grenadier1',
         'llama',
         'llamamaster',
         'machinist',
