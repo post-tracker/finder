@@ -40,14 +40,20 @@ const findDevelopers = function findDevelopers ( gameData ) {
                 accountList[ accounts[ i ].service ].push( accounts[ i ].identifier );
             }
 
-            const servicePromises = Object.keys( accountList ).map( ( service ) => {
+            const checkServices = [ ...new Set( Object.keys( accountList ).concat( Object.keys( services ) ) ) ];
+
+            const servicePromises = [];
+
+            checkServices.forEach( ( service ) => {
                 if ( !finders[ service ] ) {
-                    return false;
+                    return true;
                 }
 
                 const indexer = new finders[ service ]( gameData.identifier, services[ service ], accountList[ service ] );
 
-                return indexer.run();
+                servicePromises.push( indexer.run() );
+
+                return true;
             } );
 
             return Promise.all( servicePromises );
