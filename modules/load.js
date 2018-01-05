@@ -4,8 +4,9 @@ const url = require( 'url' );
 const DEFAULT_SSL_PORT = 443;
 const ACCEPTABLE_RESPONSE_STATUSCODE = 200;
 
-module.exports = function loadPage ( pageUrl ) {
+module.exports = function loadPage ( pageUrl, requestBody = false ) {
     return new Promise( ( resolve, reject ) => {
+        let payload = false;
         const parsedUrl = url.parse( pageUrl );
         const options = {
             headers: {
@@ -17,7 +18,21 @@ module.exports = function loadPage ( pageUrl ) {
             protocol: parsedUrl.protocol,
         };
 
-        const request = https.get( options, ( response ) => {
+        if ( requestBody ) {
+            payload = JSON.stringify( requestBody );
+
+            options.headers = Object.assign(
+                {},
+                options.headers,
+                {
+                    'Content-Length': Buffer.byteLength( payload ),
+                    'Content-Type': 'application/json',
+                }
+            );
+            options.method = 'POST';
+        }
+
+        const request = https.request( options, ( response ) => {
             let body = '';
 
             if ( response.statusCode !== ACCEPTABLE_RESPONSE_STATUSCODE ) {
@@ -42,5 +57,11 @@ module.exports = function loadPage ( pageUrl ) {
         request.on( 'error', ( error ) => {
             reject( error );
         } );
+
+        if ( payload ) {
+            request.write( payload );
+        }
+
+        request.end();
     } );
 };
