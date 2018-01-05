@@ -5,6 +5,7 @@ module.exports = {
     list: [
         'bacon bits on the surface of my mind',
         'lpc',
+        'lxb',
         'pc1',
         'pc2',
         'pc3',
