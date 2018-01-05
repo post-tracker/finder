@@ -249,6 +249,7 @@ module.exports = {
         'honorofblades',
         'hu00e4kke',
         'hunger',
+        'hunterclapping',
         'hunterlogo',
         'huntervanguard',
         'illusionoflight',
