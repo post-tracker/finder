@@ -3,6 +3,7 @@ module.exports = {
         return this.list;
     },
     list: [
+        '300',
         '300i',
         'aegis',
         'anvil',
@@ -35,6 +36,7 @@ module.exports = {
         'onionknight',
         'onionknight2',
         'org1',
+        'org3',
         'org9',
         'origin',
         'outland',
