@@ -28,12 +28,21 @@ class RSI {
                 const devTrackerData = JSON.parse( devTrackerResponse );
                 const $ = cheerio.load( devTrackerData.data.html );
 
+                $( 'a.devpost' ).each( ( index, element ) => {
+                    const $post = $( element );
 
-                $( '.handle' ).each( ( index, element ) => {
-                    users.push( $( element ).text() );
+                    users.push( {
+                        identifier: $post.find( '.handle' ).text(),
+                        name: $post.find( '.nickname' ).text(),
+                        url: `https://robertsspaceindustries.com/citizens/${ $post.find( '.handle' ).text() }`,
+                    } );
                 } );
 
-                const allUsers = [ ...new Set( users ) ];
+                const allUsers = users.filter( ( obj, pos, arr ) => {
+                    return arr.map( ( mapObj ) => {
+                        return mapObj.identifier;
+                    } ).indexOf( obj.identifier ) === pos;
+                } );
                 const filteredUsers = this.filter( allUsers );
 
                 console.log( chalk.green( `Found ${ filteredUsers.length }/${ allUsers.length } new developers on RSI for ${ this.game }` ) );
@@ -55,11 +64,11 @@ class RSI {
         const accountCache = [];
 
         return newUsers.filter( ( user ) => {
-            if ( accountCache.indexOf( user ) > -1 ) {
+            if ( accountCache.indexOf( user.identifier ) > -1 ) {
                 return false;
             }
 
-            if ( this.accounts.indexOf( user ) > -1 ) {
+            if ( this.accounts.indexOf( user.identifier ) > -1 ) {
                 return false;
             }
 
