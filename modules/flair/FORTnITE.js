@@ -65,6 +65,7 @@ module.exports = {
         'shurikenmasternew',
         'skullshot',
         'soldier2',
+        'soldier3',
     ],
     type: 'author_flair_css_class',
 };
