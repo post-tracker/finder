@@ -37,6 +37,7 @@ module.exports = {
         'onionknight2',
         'org1',
         'org3',
+        'org6',
         'org9',
         'origin',
         'outland',
