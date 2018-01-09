@@ -348,6 +348,7 @@ module.exports = {
         'skynet',
         'sleeper',
         'smikis',
+        'snackdad',
         'snoo1',
         'soffish',
         'solar',
