@@ -4,10 +4,11 @@ module.exports = {
     },
     list: [
         'flair-contentcreator',
+        'flair-css',
         'flair-forummod',
         'flair-mod',
-        'flair-youtube',
         'flair-twitch',
+        'flair-youtube',
     ],
     type: 'author_flair_css_class',
 };
