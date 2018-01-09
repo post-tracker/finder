@@ -10,6 +10,7 @@ module.exports = {
         'aurora',
         'avacado',
         'avenger',
+        'ayy',
         'banu',
         'bbangry',
         'bbcreep',
