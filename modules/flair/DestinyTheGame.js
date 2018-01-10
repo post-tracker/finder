@@ -310,6 +310,7 @@ module.exports = {
         'sekrion',
         'septiks',
         'sevenseraphs',
+        'seventhcolumn',
         'seventhcolumn7',
         'seventhcolumnred',
         'sgtwarchicken',
