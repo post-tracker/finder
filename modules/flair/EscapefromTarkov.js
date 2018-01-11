@@ -6,6 +6,7 @@ module.exports = {
         'flair-contentcreator',
         'flair-css',
         'flair-forummod',
+        'flair-map',
         'flair-mod',
         'flair-twitch',
         'flair-youtube',
