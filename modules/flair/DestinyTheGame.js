@@ -287,6 +287,7 @@ module.exports = {
         'princesigil',
         'prohibitive',
         'psionflayers',
+        'purpleboom',
         'queen',
         'queensbro',
         'queensemissary',
