@@ -269,6 +269,7 @@ module.exports = {
         'nadir',
         'newmonarchy',
         'ninja',
+        'norsebdaywolf',
         'norseflair',
         'noteofconquest',
         'officercrest',
