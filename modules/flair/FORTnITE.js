@@ -6,6 +6,7 @@ module.exports = {
         'beetlejess',
         'catstructor',
         'constructor1',
+        'constructor2',
         'default',
         'dragonsarah',
         'energythief',
