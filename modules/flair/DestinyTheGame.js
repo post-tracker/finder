@@ -313,6 +313,7 @@ module.exports = {
         'runeofthemachine',
         'runeofthemachinealt',
         'runeoftheoracle',
+        'saint14ship',
         'salt',
         'sardok',
         'sardon',
