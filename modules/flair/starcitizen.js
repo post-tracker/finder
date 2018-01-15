@@ -22,6 +22,7 @@ module.exports = {
         'bmm',
         'carrack',
         'classicoutlaw',
+        'cutlass',
         'defender',
         'dragonfly',
         'drake',

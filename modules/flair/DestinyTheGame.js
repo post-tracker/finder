@@ -20,6 +20,7 @@ module.exports = {
         return flairList;
     },
     list: [
+        '3oclego',
         '77adinfinitum',
         '8bithunter',
         '8bittitan',
