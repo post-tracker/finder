@@ -4,7 +4,7 @@ module.exports = {
             return false;
         }
 
-        if ( this.list.includes( user[ this.type ] ) ) {
+        if ( this.list.includes( user[ this.type ].toLowerCase() ) ) {
             return false;
         }
 
