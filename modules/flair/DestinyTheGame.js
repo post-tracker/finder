@@ -15,7 +15,7 @@ module.exports = Object.assign( {}, base, {
         return false;
     },
     list: [
-        'Verified-Bungie-Employee',
+        'verified-bungie-employee',
     ],
     type: 'author_flair_css_class',
 } );
