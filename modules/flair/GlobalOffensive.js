@@ -1,7 +1,6 @@
-module.exports = {
-    getFlairs: function getFlairs () {
-        return this.list;
-    },
+const base = require( './base.js' );
+
+module.exports = Object.assign( {}, base, {
     list: [
         '/r/globaloffensive janitor',
         '/r/globaloffensive moderator',
@@ -133,4 +132,4 @@ module.exports = {
         'xapso fan',
     ],
     type: 'author_flair_text',
-};
+} );

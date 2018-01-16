@@ -132,11 +132,6 @@ class Reddit {
 
     filter ( users, flairs ) {
         const accountCache = [];
-        let flairList = flairs.getFlairs();
-
-        flairList = flairList.map( ( value ) => {
-            return value.toLowerCase();
-        } );
 
         return users.filter( ( user ) => {
             if ( accountCache.indexOf( user.username ) > -1 ) {
@@ -147,12 +142,7 @@ class Reddit {
                 return false;
             }
 
-            if ( !user[ flairs.type ] ) {
-                return false;
-            }
-
-            // Skip everything with a flair we've setup to skip
-            if ( flairList.indexOf( user[ flairs.type ].toLowerCase() ) > -1 ) {
+            if ( !flairs.isDev( user ) ) {
                 return false;
             }
 

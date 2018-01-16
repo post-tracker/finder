@@ -1,7 +1,6 @@
-module.exports = {
-    getFlairs: function getFlairs () {
-        return this.list;
-    },
+const base = require( './base.js' );
+
+module.exports = Object.assign( {}, base, {
     list: [
         'beetlejess',
         'catstructor',
@@ -69,4 +68,4 @@ module.exports = {
         'soldier3',
     ],
     type: 'author_flair_css_class',
-};
+} );

@@ -1,7 +1,6 @@
-module.exports = {
-    getFlairs: function getFlairs () {
-        return this.list;
-    },
+const base = require( './base.js' );
+
+module.exports = Object.assign( {}, base, {
     list: [
         'bot img',
         'cmdr img aduval',
@@ -49,4 +48,4 @@ module.exports = {
         'star',
     ],
     type: 'author_flair_css_class',
-};
+} );

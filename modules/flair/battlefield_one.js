@@ -1,7 +1,6 @@
-module.exports = {
-    getFlairs: function getFlairs () {
-        return this.list;
-    },
+const base = require( './base.js' );
+
+module.exports = Object.assign( {}, base, {
     list: [
         'ctemod',
         'origin',
@@ -12,4 +11,4 @@ module.exports = {
         'xboxone',
     ],
     type: 'author_flair_css_class',
-};
+} );

@@ -1,7 +1,6 @@
-module.exports = {
-    getFlairs: function getFlairs () {
-        return this.list;
-    },
+const base = require( './base.js' );
+
+module.exports = Object.assign( {}, base, {
     list: [
         'bacon bits on the surface of my mind',
         'lpc',
@@ -21,4 +20,4 @@ module.exports = {
         'xb4',
     ],
     type: 'author_flair_css_class',
-};
+} );
