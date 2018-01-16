@@ -25,6 +25,8 @@ const findDevelopers = function findDevelopers ( gameData ) {
             services[ service ] = gameData.config.sources[ service ].findSections;
         } else if ( gameData.config.sources[ service ].allowedSections ) {
             services[ service ] = gameData.config.sources[ service ].allowedSections;
+        } else if ( gameData.config.sources[ service ].endpoint ) {
+            services[ service ] = gameData.config.sources[ service ].endpoint;
         }
     }
 

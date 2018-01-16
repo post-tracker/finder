@@ -8,8 +8,8 @@ const JSON_INDENT = 4;
 const NOTIFYY_DELAY = 1500;
 
 class MiggyRSS {
-    constructor ( game, sections, accounts ) {
-        this.sections = sections;
+    constructor ( game, endpoint, accounts ) {
+        this.endpoint = endpoint;
         this.accounts = accounts || [];
         this.game = game;
     }
@@ -17,9 +17,9 @@ class MiggyRSS {
     run () {
         const users = [];
 
-        console.log( `Loading ${ this.sections[ 0 ] }` );
-        
-        return loadPage( this.sections[ 0 ] )
+        console.log( `Loading ${ this.endpoint }` );
+
+        return loadPage( this.endpoint )
             .then( ( posts ) => {
                 const parser = new FeedMe();
 
@@ -33,7 +33,7 @@ class MiggyRSS {
 
                 const filteredUsers = this.filter( [ ...new Set( users ) ] );
 
-                console.log( chalk.green( `Found ${ filteredUsers.length } new developers in the MiggyRSS for ${ this.game }` ) );
+                console.log( chalk.green( `Found ${ filteredUsers.length }/${ users.length } new developers in the MiggyRSS for ${ this.game }` ) );
 
                 if ( filteredUsers.length > 0 ) {
                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
