@@ -3,8 +3,10 @@ module.exports = {
         return this.list;
     },
     list: [
+        'class-mod',
         'flair-contentcreator',
         'flair-css',
+        'flair-emissary',
         'flair-forummod',
         'flair-map',
         'flair-mod',
