@@ -45,6 +45,8 @@ module.exports = Object.assign( {}, base, {
         'npup',
         'painkiller',
         'pans',
+        'ssoq-l',
+        'ssoq-n',
         't20-l',
         't20-n',
         'trophy',
