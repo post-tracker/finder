@@ -21,6 +21,7 @@ module.exports = Object.assign( {}, base, {
         'hero-controller',
         'hero-dim-mak',
         'hero-dragon',
+        'hero-dragonsarah',
         'hero-electro-pulse',
         'hero-enforcer',
         'hero-fleetfoot',
