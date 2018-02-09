@@ -37,6 +37,7 @@ module.exports = Object.assign( {}, base, {
         'hero-plasma-shielder',
         'hero-poisoner',
         'hero-power-base',
+        'hero-raider',
         'hero-ranger',
         'hero-recon-scout',
         'hero-rescue-trooper',
