@@ -16,6 +16,8 @@ module.exports = Object.assign( {}, base, {
         'energy-drink',
         'est-l',
         'est-n',
+        'db-l',
+        'db-n',
         'fb-l',
         'fb-n',
         'first-aid',
