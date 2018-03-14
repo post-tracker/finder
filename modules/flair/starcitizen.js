@@ -55,6 +55,7 @@ module.exports = Object.assign( {}, base, {
         'razor',
         'reliant',
         'rsi',
+        'runtillyoupuke',
         'sabre',
         'sabre2',
         'scout',
