@@ -3,8 +3,10 @@ const base = require( './base.js' );
 module.exports = Object.assign( {}, base, {
     list: [
         'alpine-ace-can',
+        'alpine-ace-fra',
         'alpine-ace-gbr',
         'alpine-ace-ger',
+        'alpine-ace-usa',
         'arctic-assassin',
         'beetlejess',
         'black-knight',
@@ -99,6 +101,7 @@ module.exports = Object.assign( {}, base, {
         'rex',
         'rogue-agent',
         'rust-lord',
+        'sash-sergeant',
         'shadow-ops',
         'shurikenmasternew',
         'skull-trooper',
