@@ -102,6 +102,7 @@ module.exports = Object.assign( {}, base, {
         'mogul-master-ger',
         'mogul-master-kor',
         'mogul-master-usa',
+        'munitions-expert',
         'ninja1',
         'ninja2',
         'outlander4',
@@ -127,6 +128,7 @@ module.exports = Object.assign( {}, base, {
         'sparkle-specialist',
         'the-reaper',
         'trooper',
+        'wukong',
     ],
     type: 'author_flair_css_class',
 } );
