@@ -145,6 +145,7 @@ module.exports = Object.assign( {}, base, {
         'soldier2',
         'soldier3',
         'sparkle-specialist',
+        'special-forces',
         'sub-commander',
         'survival-specialist',
         'tactics-officer',
