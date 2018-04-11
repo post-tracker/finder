@@ -126,6 +126,7 @@ module.exports = Object.assign( {}, base, {
         'raider',
         'ranger',
         'raptor',
+        'recon-expert',
         'recon-scout',
         'recon-specialist',
         'red-knight',
