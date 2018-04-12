@@ -125,6 +125,7 @@ module.exports = Object.assign( {}, base, {
         'outlander4',
         'outlander6png',
         'pathfinder',
+        'radiant-striker',
         'raider',
         'ranger',
         'raptor',
