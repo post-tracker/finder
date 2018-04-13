@@ -117,6 +117,7 @@ module.exports = Object.assign( {}, base, {
         'mogul-master-ger',
         'mogul-master-kor',
         'mogul-master-usa',
+        'mogul-master',
         'moon-walker',
         'munitions-expert',
         'ninja1',
