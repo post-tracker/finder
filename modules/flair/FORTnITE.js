@@ -3,6 +3,7 @@ const base = require( './base.js' );
 module.exports = Object.assign( {}, base, {
     list: [
         'absolute-zero',
+        'aerial-assault-trooper',
         'alpine-ace-can',
         'alpine-ace-chn',
         'alpine-ace-fra',
@@ -99,6 +100,7 @@ module.exports = Object.assign( {}, base, {
         'hero-warlord',
         'highrise-assault-trooper',
         'hyperion',
+        'infiltrator',
         'jungle-scout',
         'lama1',
         'lamahero-master-grenadier1',
