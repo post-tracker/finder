@@ -141,6 +141,7 @@ module.exports = Object.assign( {}, base, {
         'renegade',
         'rex',
         'rogue-agent',
+        'royale-knight',
         'rust-lord',
         'sash-sergeant',
         'scarlet-defender',
