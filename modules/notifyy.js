@@ -37,10 +37,15 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
             };
             break;
         default:
-            normalisedUser = {
-                identifier: foundUser,
-                name: foundUser,
-            };
+            if ( foundUser instanceof Object ) {
+                normalisedUser = foundUser;
+            } else {
+                normalisedUser = {
+                    identifier: foundUser,
+                    name: foundUser,
+                };
+            }
+
             break;
     }
 
