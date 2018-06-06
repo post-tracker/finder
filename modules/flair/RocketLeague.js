@@ -22,11 +22,13 @@ module.exports = Object.assign( {}, base, {
         'eng',
         'fanc9',
         'fanchief', // Fan Chiefs
+        'fancow',
         'fanflip',
         'fang2',
         'fanibp',
         'fankou',
         'fanmeth',
+        'fannor',
         'fannv',
         'fanpock',
         'fanpsg',
@@ -34,6 +36,7 @@ module.exports = Object.assign( {}, base, {
         'fantsec', // Fan Team Secret
         'flyquest',
         'france',
+        'gale',
         'gc',
         'gccca', // College Carball Association
         'gccow',
