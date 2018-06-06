@@ -225,10 +225,10 @@ class Reddit {
 
                                 if ( filteredUsers.length > 0 ) {
                                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
-                                    const newFlairs = [ ...new Set( this.newFlairs ) ];
+                                    const newFlairs = [ ...new Set( this.newFlairs ) ].sort();
 
                                     if ( newFlairs.length >= NEW_FLAIR_PRINT_LIMIT ) {
-                                        console.log( newFlairs );
+                                        console.log( JSON.stringify( newFlairs, null, 4 ) );
                                     }
 
                                     for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
