@@ -21,6 +21,7 @@ module.exports = Object.assign( {}, base, {
         'dutch',
         'eng',
         'fanc9',
+        'fanchief', // Fan Chiefs
         'fanflip',
         'fang2',
         'fanibp',
@@ -30,6 +31,8 @@ module.exports = Object.assign( {}, base, {
         'fanpock',
         'fanpsg',
         'fanrog',
+        'fantsec', // Fan Team Secret
+        'flyquest',
         'france',
         'gc',
         'gccca', // College Carball Association
@@ -37,15 +40,20 @@ module.exports = Object.assign( {}, base, {
         'gold1',
         'gold2',
         'gold3',
+        'grandegg',
         'mod2',
         'plat1',
         'plat2',
         'plat3',
         'prosp',
+        'prosp2',
         'prosp4',
-        'rlcs', // Rocket LEague Championship Series
+        'psn',
+        'rlcs', // Rocket League Championship Series
+        'rlesports', // /r/RocketLeagueEsports Moderator
         'rlrs', // Maybe re-add in the future. Not a proper dev tho
         'scot',
+        'silentecho',
         'silver1',
         'silver2',
         'silver3',
