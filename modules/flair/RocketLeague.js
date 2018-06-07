@@ -21,6 +21,7 @@ module.exports = Object.assign( {}, base, {
         'diamond3',
         'dutch',
         'eng',
+        'fanalsyd', // Alpha Sydney
         'fanc9',
         'fanchief', // Fan Chiefs
         'fancow',

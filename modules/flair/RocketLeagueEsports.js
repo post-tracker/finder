@@ -31,13 +31,14 @@ module.exports = Object.assign( {}, base, {
         'nrg',
         'octane',
         'player', // Could re-add if we want to check for players
+        'powerrankings', // Rocket League Power Rankings
         'psg',
         'rivalesports',
         'rivalseries', // Rocket League Rival Series
-        'rlrs', // Rocket Leguer Rival Series
         'rlc',
         'rlcs',  // Rocket League Championship Series
         'rlcsstaff', // Rocket League Championship Series
+        'rlrs', // Rocket Leguer Rival Series
         'rogue',
         'silentecho',
         'spl', // Shift pro league
