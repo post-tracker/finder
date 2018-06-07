@@ -10,6 +10,7 @@ module.exports = Object.assign( {}, base, {
         'dignitas',
         'eg',
         'envyus',
+        'eventvods', // Eventvods.com | Developer
         'flipside',
         'flyquest',
         'fnatic',
@@ -25,6 +26,7 @@ module.exports = Object.assign( {}, base, {
         'mockit',
         'mod',
         'nexusgaming',
+        'none', // Special people, casters, reporters and stuff like that
         'northerngaming',
         'nrg',
         'octane',
@@ -32,6 +34,7 @@ module.exports = Object.assign( {}, base, {
         'psg',
         'rivalesports',
         'rivalseries', // Rocket League Rival Series
+        'rlrs', // Rocket Leguer Rival Series
         'rlc',
         'rlcs',  // Rocket League Championship Series
         'rlcsstaff', // Rocket League Championship Series

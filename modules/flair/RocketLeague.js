@@ -2,6 +2,7 @@ const base = require( './base.js' );
 
 module.exports = Object.assign( {}, base, {
     list: [
+        'alphac', // AlphaConsole
         'aus',
         'bronze1',
         'bronze2',
@@ -28,6 +29,7 @@ module.exports = Object.assign( {}, base, {
         'fanibp',
         'fankou',
         'fanmeth',
+        'fanmock', // Fan Mock-It
         'fannor',
         'fannv',
         'fanpock',
@@ -44,6 +46,7 @@ module.exports = Object.assign( {}, base, {
         'gold2',
         'gold3',
         'grandegg',
+        'mld',
         'mod2',
         'plat1',
         'plat2',
