@@ -45,6 +45,7 @@ module.exports = Object.assign( {}, base, {
         'spl', // Shift pro league
         'splyce',
         'teamsecret',
+        'tripletrouble',
         'twitchstaff',
         'verified', // Loads of random people
         'veritas',

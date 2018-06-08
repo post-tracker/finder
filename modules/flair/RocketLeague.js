@@ -50,6 +50,7 @@ module.exports = Object.assign( {}, base, {
         'grandegg',
         'mld',
         'mod2',
+        'nex',
         'plat1',
         'plat2',
         'plat3',
