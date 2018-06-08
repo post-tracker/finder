@@ -51,6 +51,7 @@ module.exports = Object.assign( {}, base, {
         'mld',
         'mod2',
         'nex',
+        'nor',
         'plat1',
         'plat2',
         'plat3',
