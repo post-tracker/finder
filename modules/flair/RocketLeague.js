@@ -36,6 +36,7 @@ module.exports = Object.assign( {}, base, {
         'fanpock',
         'fanpsg',
         'fanrog',
+        'fansec', // Fan Team Secrecy
         'fantsec', // Fan Team Secret
         'flyquest',
         'france',
@@ -56,6 +57,7 @@ module.exports = Object.assign( {}, base, {
         'prosp2',
         'prosp4',
         'psn',
+        'rlcd', // RLCD.gg
         'rlcs', // Rocket League Championship Series
         'rlesports', // /r/RocketLeagueEsports Moderator
         'rlrs', // Maybe re-add in the future. Not a proper dev tho
