@@ -41,6 +41,7 @@ module.exports = Object.assign( {}, base, {
         'rlrs', // Rocket Leguer Rival Series
         'rogue',
         'silentecho',
+        'smashgg', // Smash.gg
         'spl', // Shift pro league
         'splyce',
         'teamsecret',
