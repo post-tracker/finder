@@ -3,6 +3,7 @@ const chalk = require( 'chalk' );
 
 const loadPage = require( '../load.js' );
 const notifyy = require( '../notifyy.js' );
+const SteamFeed = require( './SteamFeed.js' );
 
 const PAGE_LOAD_DELAY = 10000;
 const STEAM_PAGES = 1;
@@ -136,19 +137,27 @@ class Steam {
     }
 
     run () {
-        return this.get( this.sections[ 0 ], STEAM_PAGES )
-            .then( ( users ) => {
-                const filteredUsers = this.filter( users );
+        const steamFeed = new SteamFeed( this.game, this.sections[ 0 ], this.accounts );
 
-                console.log( chalk.green( `Found ${ filteredUsers.length }/${ users.length } new developers on Steam for ${ this.game }` ) );
+        return steamFeed.run()
+            .then( () => {
+                return this.get( this.sections[ 0 ], STEAM_PAGES )
+                    .then( ( users ) => {
+                        const filteredUsers = this.filter( users );
 
-                if ( filteredUsers.length > 0 ) {
-                    console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
+                        console.log( chalk.green( `Found ${ filteredUsers.length }/${ users.length } new developers on Steam for ${ this.game }` ) );
 
-                    for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                        setTimeout( notifyy.bind( this, this.game, 'steam', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
-                    }
-                }
+                        if ( filteredUsers.length > 0 ) {
+                            console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
+
+                            for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
+                                setTimeout( notifyy.bind( this, this.game, 'steam', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                            }
+                        }
+                    } )
+                    .catch( ( error ) => {
+                        console.log( error );
+                    } );
             } )
             .catch( ( error ) => {
                 console.log( error );
