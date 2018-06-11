@@ -11,6 +11,7 @@ const getGames = function getGames () {
 
 const findDevelopers = function findDevelopers ( gameData ) {
     const services = {};
+    const serviceTypes = {};
 
     if ( !gameData.config ) {
         return false;
@@ -27,6 +28,12 @@ const findDevelopers = function findDevelopers ( gameData ) {
             services[ service ] = gameData.config.sources[ service ].allowedSections;
         } else if ( gameData.config.sources[ service ].endpoint ) {
             services[ service ] = gameData.config.sources[ service ].endpoint;
+        }
+
+        if ( gameData.config.sources[ service ].type ) {
+            serviceTypes[ service ] = gameData.config.sources[ service ].type;
+        } else {
+            serviceTypes[ service ] = service;
         }
     }
 
@@ -47,11 +54,11 @@ const findDevelopers = function findDevelopers ( gameData ) {
             const servicePromises = [];
 
             checkServices.forEach( ( service ) => {
-                if ( !finders[ service ] ) {
+                if ( !finders[ serviceTypes[ service ] ] ) {
                     return true;
                 }
 
-                const indexer = new finders[ service ]( gameData.identifier, services[ service ], accountList[ service ] );
+                const indexer = new finders[ serviceTypes[ service ] ]( gameData.identifier, services[ service ], accountList[ service ] );
 
                 servicePromises.push( indexer.run() );
 
