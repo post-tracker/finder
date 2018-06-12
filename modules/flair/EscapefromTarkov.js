@@ -9,6 +9,7 @@ module.exports = Object.assign( {}, base, {
         'flair-contentcreator',
         'flair-css',
         'flair-emissary',
+        'flair-discord',
         'flair-forummod',
         'flair-map',
         'flair-mod',
