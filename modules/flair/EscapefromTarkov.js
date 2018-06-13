@@ -22,9 +22,11 @@ module.exports = Object.assign( {}, base, {
         'm4',
         'mak',
         'mp5',
+        'mpx',
         'rsass',
         'sks',
         'sv98',
+        'toz',
     ],
     type: 'author_flair_css_class',
 } );
