@@ -21,6 +21,7 @@ module.exports = Object.assign( {}, base, {
         'glock',
         'kedr',
         'm4',
+        'm870',
         'mak',
         'mp153',
         'mp5',
