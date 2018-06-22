@@ -36,6 +36,8 @@ module.exports = Object.assign( {}, base, {
         'toz',
         'tt',
         'val',
+        'vepr',
+        'vss',
     ],
     type: 'author_flair_css_class',
 } );
