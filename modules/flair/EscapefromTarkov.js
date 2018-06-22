@@ -20,6 +20,7 @@ module.exports = Object.assign( {}, base, {
         'flair-youtube',
         'glock',
         'kedr',
+        'm1a',
         'm4',
         'm870',
         'mak',
@@ -33,6 +34,8 @@ module.exports = Object.assign( {}, base, {
         'sks',
         'sv98',
         'toz',
+        'tt',
+        'val',
     ],
     type: 'author_flair_css_class',
 } );
