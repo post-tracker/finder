@@ -24,6 +24,7 @@ module.exports = Object.assign( {}, base, {
         'xb3',
         'xb4',
         'xbcol',
+        'xbstr',
     ],
     type: 'author_flair_css_class',
 } );
