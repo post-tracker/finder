@@ -2,7 +2,9 @@ const base = require( './base.js' );
 
 module.exports = Object.assign( {}, base, {
     list: [
+        '74m',
         'ak',
+        'akms',
         'aksu',
         'class-mod',
         'dvl',
