@@ -22,6 +22,7 @@ module.exports = Object.assign( {}, base, {
         'pscol',
         'psint',
         'psrngr',
+        'psstr',
         'xb1',
         'xb2',
         'xb3',
