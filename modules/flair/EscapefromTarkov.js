@@ -3,6 +3,7 @@ const base = require( './base.js' );
 module.exports = Object.assign( {}, base, {
     list: [
         '74m',
+        '74n',
         'ak',
         'akms',
         'aksu',
