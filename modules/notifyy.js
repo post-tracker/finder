@@ -67,7 +67,7 @@ const notifyUsers = function notifyUsers ( game, service, foundUser ) {
     }
 
     if ( normalisedUser.url ) {
-        options.path = `${ options.path }&url=${ encodeURIComponent( normalisedUser.url ) }`;
+        options.path = `${ options.path }&url=${ encodeURIComponent( normalisedUser.url.replace( /_/g, '\\_' ) ) }`;
     }
 
     if ( typeof foundUser === 'object' ) {
