@@ -9,6 +9,7 @@ module.exports = Object.assign( {}, base, {
         'aksu',
         'class-mod',
         'dvl',
+        'flair-ballisticsexpert',
         'flair-contentcreator',
         'flair-css',
         'flair-discord',
