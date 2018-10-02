@@ -2,6 +2,7 @@ const base = require( './base.js' );
 
 module.exports = Object.assign( {}, base, {
     list: [
+        'community',
         'extralife',
         'fun',
         'gold',
