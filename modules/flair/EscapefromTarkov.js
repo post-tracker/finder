@@ -7,6 +7,7 @@ module.exports = Object.assign( {}, base, {
         'ak',
         'akms',
         'aksu',
+        'apb',
         'class-mod',
         'dvl',
         'flair-ballisticsexpert',
