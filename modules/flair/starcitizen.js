@@ -20,6 +20,7 @@ module.exports = Object.assign( {}, base, {
         'bbsuprised',
         'bbyelling',
         'bishop',
+        'blueguy'.
         'bmm',
         'carrack',
         'classicoutlaw',
