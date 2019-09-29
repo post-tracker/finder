@@ -74,6 +74,7 @@ module.exports = Object.assign( {}, base, {
         'thug',
         'tumbril',
         'twitch',
+        'vanduul',
         'worm',
         'youtube',
     ],
