@@ -34,6 +34,7 @@ module.exports = Object.assign( {}, base, {
         'freelancer',
         'genericgoofy',
         'hamill',
+        'hawk1',
         'herald',
         'herald2',
         'hornet',
