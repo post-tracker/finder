@@ -62,6 +62,7 @@ module.exports = Object.assign( {}, base, {
         'mp5',
         'mp7',
         'mp7a1',
+        'mp7a2',
         'mp7mod',
         'mpx',
         'mr133',
