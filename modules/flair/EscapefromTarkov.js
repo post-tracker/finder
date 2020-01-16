@@ -64,6 +64,7 @@ module.exports = Object.assign( {}, base, {
         'mak',
         'makarov',
         'mosin',
+        'mp133',
         'mp153',
         'mp5',
         'mp5kn',
