@@ -30,6 +30,7 @@ module.exports = Object.assign( {}, base, {
         'hbrc-g',
         'hbrc-s',
         'igncustom',
+        'influencer',
         'jerrycan',
         'lpup',
         'lvl1-backpack',
