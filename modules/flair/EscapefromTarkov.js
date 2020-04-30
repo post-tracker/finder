@@ -57,6 +57,7 @@ module.exports = Object.assign( {}, base, {
         'iotvgen4',
         'kedr',
         'kedrb',
+        'krissvector',
         'm1a',
         'm4',
         'm4a1',
