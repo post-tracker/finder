@@ -97,6 +97,7 @@ module.exports = Object.assign( {}, base, {
         'tsks',
         'tt',
         'tx15',
+        'ump',
         'val',
         'vepr',
         'veprhunter',
