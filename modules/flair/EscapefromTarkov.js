@@ -66,6 +66,7 @@ module.exports = Object.assign( {}, base, {
         'm9a3',
         'mak',
         'makarov',
+        'mod-css',
         'mosin',
         'mp133',
         'mp153',
