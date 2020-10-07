@@ -92,6 +92,7 @@ module.exports = Object.assign( {}, base, {
         'saiga9',
         'sks',
         'sr1mp',
+        'sr25',
         'sv98',
         'svds',
         'toz',
