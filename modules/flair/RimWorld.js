@@ -25,6 +25,7 @@ module.exports = Object.assign( {}, base, {
         'suede',
         'uranium',
         'war',
+        'west',
         'wood',
     ],
     type: 'author_flair_css_class',
