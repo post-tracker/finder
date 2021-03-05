@@ -40,6 +40,7 @@ module.exports = Object.assign( {}, base, {
         'herald2',
         'hornet',
         'm50',
+        'mealsonwheels',
         'misc',
         'mitra',
         'mrhasgaha',
