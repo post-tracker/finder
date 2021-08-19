@@ -43,6 +43,7 @@ module.exports = Object.assign( {}, base, {
         'flair-mod',
         'flair-pixel',
         'flair-rainbow',
+        'flair-sherpa',
         'flair-tlead',
         'flair-twitch',
         'flair-youtube',
