@@ -7,6 +7,7 @@ module.exports = Object.assign( {}, base, {
         'aegis',
         'anderson',
         'anvil',
+        'argocargo',
         'arrow',
         'aurora',
         'avacado',
