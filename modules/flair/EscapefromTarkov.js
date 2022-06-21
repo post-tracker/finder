@@ -34,6 +34,7 @@ module.exports = Object.assign( {}, base, {
         'dvl',
         'dvl10',
         'flair-ballisticsexpert',
+        'flair-cartographer',
         'flair-contentcreator',
         'flair-css',
         'flair-discord',
