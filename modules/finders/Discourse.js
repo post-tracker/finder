@@ -16,7 +16,7 @@ class Discourse {
 
     run () {
         let users = [];
-        const membersUrl = `${ this.endpoint }/members.json?limit=50`;
+        const membersUrl = `${ this.endpoint }/members.json?limit=50`;
         const urlParts = url.parse( membersUrl );
 
         console.log( `Loading ${ membersUrl }` );
@@ -30,7 +30,7 @@ class Discourse {
                         identifier: member.username,
                         name: member.username,
                         title: member.title,
-                        url: `${ urlParts.protocol }//${ urlParts.hostname }/u/${ member.username }`,
+                        url: `${ urlParts.protocol }//${ urlParts.hostname }/u/${ member.username }`,
                     } );
                 }
 
