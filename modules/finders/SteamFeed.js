@@ -8,6 +8,9 @@ const notifyy = require( '../notifyy.js' );
 const JSON_INDENT = 4;
 const NOTIFYY_DELAY = 1500;
 
+// Maybe add something like this?
+// https://store.steampowered.com/feeds/news/app/359320/
+
 class SteamFeed {
     constructor ( game, endpoint, accounts ) {
         this.endpoint = `https://steamcommunity.com/games/${ endpoint }/rss/`;
@@ -28,17 +31,23 @@ class SteamFeed {
 
                 parser.on( 'item', async ( item ) => {
                     if ( !pageLookups[ item.author ] ) {
-                        pageLookups[ item.author ] = item.link;
+                        pageLookups[ item.author ] = item.link;
                     }
                 } );
 
                 parser.write( posts );
 
                 for ( const user in pageLookups ) {
-                    const page = await loadPage( pageLookups[ user ] );
+                    const page = await loadPage( pageLookups[ user ] );
+
+                    console.log(pageLookups[ user ]);
+
                     const $ = cheerio.load( page );
                     const href = $( '.announcement_byline .whiteLink' ).attr( 'href' );
-                    const [ , , identifier] = $( '.announcement_byline .whiteLink' ).attr( 'href' ).match( /(id|profiles)\/(.+?)\/?$/ );
+                    if(!href){
+                        continue;
+                    }
+                    const [ , , identifier] = href.match( /(id|profiles)\/(.+?)\/?$/ );
 
                     userData[ identifier ] = {
                         identifier: identifier,
@@ -57,12 +66,12 @@ class SteamFeed {
                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
                     for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                        setTimeout( notifyy.bind( this, this.game, 'SteamFeed', userData[ filteredUsers[ i ] ] ), i * NOTIFYY_DELAY );
+                        setTimeout( notifyy.bind( this, this.game, 'SteamFeed', userData[ filteredUsers[ i ] ] ), i * NOTIFYY_DELAY );
                     }
                 }
             } )
             .catch( ( error ) => {
-                console.log( error.message );
+                console.error(error);
             } );
     }
 
