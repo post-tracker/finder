@@ -1,6 +1,6 @@
 const https = require( 'https' );
 
-const API_HOST = 'api.kokarn.com';
+const API_HOST = 'api2.developertracker.com';
 const API_PORT = 443;
 
 const SUCESS_STATUS_CODE = 200;
