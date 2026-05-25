@@ -6,7 +6,7 @@ const API_PORT = 443;
 const SUCESS_STATUS_CODE = 200;
 
 // eslint-disable-next-line no-process-env
-const API_TOKEN = process.env.apiToken;
+const API_TOKEN = process.env.API_TOKEN;
 
 if ( !API_TOKEN ) {
     throw new Error( 'Unable to load API token' );
