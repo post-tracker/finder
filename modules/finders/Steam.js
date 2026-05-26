@@ -9,6 +9,27 @@ const PAGE_LOAD_DELAY = 10000;
 const STEAM_PAGES = 1;
 const JSON_INDENT = 4;
 const NOTIFYY_DELAY = 1500;
+const TOPIC_CONCURRENCY = 3;
+const TOPIC_BATCH_DELAY = 250;
+const TOPIC_RETRY_DELAY = 2000;
+
+const sleep = ( ms ) => new Promise( ( resolve ) => setTimeout( resolve, ms ) );
+
+const is403 = ( error ) => Boolean( error && error.message && error.message.includes( 'status code 403' ) );
+
+const loadTopicWithRetry = async ( topicUrl ) => {
+    try {
+        return await loadPage( topicUrl );
+    } catch ( error ) {
+        if ( !is403( error ) ) {
+            throw error;
+        }
+
+        await sleep( TOPIC_RETRY_DELAY );
+
+        return loadPage( topicUrl );
+    }
+};
 
 class Steam {
     constructor ( game, sections, accounts ) {
@@ -17,75 +38,95 @@ class Steam {
         this.game = game;
     }
 
-    loadSteamPage ( id, page ) {
-        return new Promise( ( resolve ) => {
-            const url = `https://steamcommunity.com/app/${ id }/discussions/?fp=${ page }`;
-            const users = [];
+    async loadSteamPage ( id, page ) {
+        const url = `https://steamcommunity.com/app/${ id }/discussions/?fp=${ page }`;
+        const users = [];
 
-            console.log( `Getting steam page ${ page + 1 } for ${ id }` );
-            loadPage( url )
-                .then( ( pageBody ) => {
-                    const $ = cheerio.load( pageBody );
-                    const xhrList = [];
+        console.log( `Getting steam page ${ page + 1 } for ${ id }` );
 
-                    $( '.forum_topic' ).each( ( index, element ) => {
-                        const topicUrl = $( element )
-                            .find( '.forum_topic_overlay' )
-                            .attr( 'href' );
+        let pageBody;
 
-                        const topicXhr = loadPage( topicUrl );
+        try {
+            pageBody = await loadPage( url );
+        } catch ( error ) {
+            console.log( error.message );
 
-                        topicXhr.then( ( topicBody ) => {
-                            const $topic = cheerio.load( topicBody );
-                            const $op = $topic( '.forum_op' );
-                            const $replies = $topic( '.commentthread_comment' );
-                            const $posts = $op.add( $replies );
+            return users;
+        }
 
-                            $posts.each( ( replyIndex, replyElement ) => {
-                                const $reply = $topic( replyElement );
+        const $ = cheerio.load( pageBody );
+        const topicUrls = [];
 
-                                let $author = $reply.find( '.commentthread_author_link' );
+        $( '.forum_topic' ).each( ( index, element ) => {
+            const topicUrl = $( element )
+                .find( '.forum_topic_overlay' )
+                .attr( 'href' );
 
-                                if ( $author.length <= 0 ) {
-                                    $author = $reply.find( '.forum_op_author' );
-                                }
-
-                                const user = {
-                                    account: $author
-                                        .attr( 'href' )
-                                        .trim()
-                                        .replace( 'https://steamcommunity.com/profiles/', '' )
-                                        .replace( 'https://steamcommunity.com/id/', '' ),
-                                    accountLink: $author.attr( 'href' ).trim(),
-                                    badge: $reply
-                                        .find( '.commentthread_workshop_authorbadge' )
-                                        .text()
-                                        .trim(),
-                                    name: $author.text().trim(),
-                                };
-
-                                users.push( user );
-                            } );
-                        } )
-                        .catch( ( error ) => {
-                            console.log( error );
-                        } );
-
-                        xhrList.push( topicXhr );
-                    } );
-
-                    Promise.all( xhrList )
-                        .then( () => {
-                            resolve( users );
-                        } )
-                        .catch( ( error ) => {
-                            console.log( error.message );
-                        } );
-                } )
-                .catch( ( error ) => {
-                    console.log( error.message );
-                } );
+            if ( topicUrl ) {
+                topicUrls.push( topicUrl );
+            }
         } );
+
+        const handleTopic = async ( topicUrl ) => {
+            let topicBody;
+
+            try {
+                topicBody = await loadTopicWithRetry( topicUrl );
+            } catch ( error ) {
+                if ( is403( error ) ) {
+                    console.log( `Skipping ${ topicUrl } (403 from Akamai)` );
+                } else {
+                    console.log( error.message );
+                }
+
+                return;
+            }
+
+            const $topic = cheerio.load( topicBody );
+            const $op = $topic( '.forum_op' );
+            const $replies = $topic( '.commentthread_comment' );
+            const $posts = $op.add( $replies );
+
+            $posts.each( ( replyIndex, replyElement ) => {
+                const $reply = $topic( replyElement );
+
+                let $author = $reply.find( '.commentthread_author_link' );
+
+                if ( $author.length <= 0 ) {
+                    $author = $reply.find( '.forum_op_author' );
+                }
+
+                const user = {
+                    account: $author
+                        .attr( 'href' )
+                        .trim()
+                        .replace( 'https://steamcommunity.com/profiles/', '' )
+                        .replace( 'https://steamcommunity.com/id/', '' ),
+                    accountLink: $author.attr( 'href' ).trim(),
+                    badge: $reply
+                        .find( '.commentthread_workshop_authorbadge' )
+                        .text()
+                        .trim(),
+                    name: $author.text().trim(),
+                };
+
+                users.push( user );
+            } );
+        };
+
+        for ( let i = 0; i < topicUrls.length; i = i + TOPIC_CONCURRENCY ) {
+            const batch = topicUrls.slice( i, i + TOPIC_CONCURRENCY );
+
+            // eslint-disable-next-line no-await-in-loop
+            await Promise.all( batch.map( handleTopic ) );
+
+            if ( i + TOPIC_CONCURRENCY < topicUrls.length ) {
+                // eslint-disable-next-line no-await-in-loop
+                await sleep( TOPIC_BATCH_DELAY );
+            }
+        }
+
+        return users;
     }
 
     get ( id, pages ) {
@@ -107,7 +148,13 @@ class Steam {
                             }
                         } )
                         .catch( ( error ) => {
-                            throw error;
+                            console.log( error.message );
+
+                            resolvedCount = resolvedCount + 1;
+
+                            if ( resolvedCount === pages ) {
+                                resolve( allUsers );
+                            }
                         } );
                 }, i * PAGE_LOAD_DELAY );
             }
