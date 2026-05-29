@@ -3,10 +3,10 @@ const cheerio = require( 'cheerio' );
 const chalk = require( 'chalk' );
 
 const loadPage = require( '../load.js' );
-const notifyy = require( '../notifyy.js' );
+const ntfy = require( '../ntfy.js' );
 
 const JSON_INDENT = 4;
-const NOTIFYY_DELAY = 1500;
+const NTFY_DELAY = 1500;
 
 // Maybe add something like this?
 // https://store.steampowered.com/feeds/news/app/359320/
@@ -68,7 +68,7 @@ class SteamFeed {
                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
                     for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                        setTimeout( notifyy.bind( this, this.game, 'SteamFeed', userData[ filteredUsers[ i ] ] ), i * NOTIFYY_DELAY );
+                        setTimeout( ntfy.bind( this, this.game, 'SteamFeed', userData[ filteredUsers[ i ] ] ), i * NTFY_DELAY );
                     }
                 }
             } )

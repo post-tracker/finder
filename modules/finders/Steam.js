@@ -2,13 +2,13 @@ const cheerio = require( 'cheerio' );
 const chalk = require( 'chalk' );
 
 const loadPage = require( '../load.js' );
-const notifyy = require( '../notifyy.js' );
+const ntfy = require( '../ntfy.js' );
 const SteamFeed = require( './SteamFeed.js' );
 
 const PAGE_LOAD_DELAY = 10000;
 const STEAM_PAGES = 1;
 const JSON_INDENT = 4;
-const NOTIFYY_DELAY = 1500;
+const NTFY_DELAY = 1500;
 const TOPIC_CONCURRENCY = 3;
 const TOPIC_BATCH_DELAY = 250;
 const TOPIC_RETRY_DELAY = 2000;
@@ -198,7 +198,7 @@ class Steam {
                             console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
                             for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                                setTimeout( notifyy.bind( this, this.game, 'steam', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                                setTimeout( ntfy.bind( this, this.game, 'steam', filteredUsers[ i ] ), i * NTFY_DELAY );
                             }
                         }
                     } )

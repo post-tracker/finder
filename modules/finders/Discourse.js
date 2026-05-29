@@ -2,10 +2,10 @@ const chalk = require( 'chalk' );
 const url = require( 'url' );
 
 const loadPage = require( '../load.js' );
-const notifyy = require( '../notifyy.js' );
+const ntfy = require( '../ntfy.js' );
 
 const JSON_INDENT = 4;
-const NOTIFYY_DELAY = 1500;
+const NTFY_DELAY = 1500;
 
 class Discourse {
     constructor ( game, endpoint, accounts ) {
@@ -47,7 +47,7 @@ class Discourse {
                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
                     for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                        setTimeout( notifyy.bind( this, this.game, 'Discourse', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                        setTimeout( ntfy.bind( this, this.game, 'Discourse', filteredUsers[ i ] ), i * NTFY_DELAY );
                     }
                 }
             } )

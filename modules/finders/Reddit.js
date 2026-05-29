@@ -2,12 +2,12 @@ const chalk = require( 'chalk' );
 
 const loadPage = require( '../load.js' );
 const flair = require( '../flair/' );
-const notifyy = require( '../notifyy.js' );
+const ntfy = require( '../ntfy.js' );
 
 const POSTS_PER_PAGE = 25;
 const JSON_INDENT = 4;
 const REDDIT_PAGES = 1;
-const NOTIFYY_DELAY = 1500;
+const NTFY_DELAY = 1500;
 const NEW_FLAIR_PRINT_LIMIT = 3;
 
 class Reddit {
@@ -254,7 +254,7 @@ class Reddit {
                         }
 
                         for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                            setTimeout( notifyy.bind( this, this.game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                            setTimeout( ntfy.bind( this, this.game, 'reddit', filteredUsers[ i ] ), i * NTFY_DELAY );
                         }
                     }
                 } )

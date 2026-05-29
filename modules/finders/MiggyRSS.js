@@ -2,10 +2,10 @@ const FeedMe = require( 'feedme' );
 const chalk = require( 'chalk' );
 
 const loadPage = require( '../load.js' );
-const notifyy = require( '../notifyy.js' );
+const ntfy = require( '../ntfy.js' );
 
 const JSON_INDENT = 4;
-const NOTIFYY_DELAY = 1500;
+const NTFY_DELAY = 1500;
 
 class MiggyRSS {
     constructor ( game, endpoint, accounts ) {
@@ -39,7 +39,7 @@ class MiggyRSS {
                     console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
 
                     for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                        setTimeout( notifyy.bind( this, this.game, 'MiggyRSS', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                        setTimeout( ntfy.bind( this, this.game, 'MiggyRSS', filteredUsers[ i ] ), i * NTFY_DELAY );
                     }
                 }
             } )
