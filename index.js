@@ -1,5 +1,9 @@
+const cron = require( 'node-cron' );
+
 const finders = require( './modules/finders/' );
 const api = require( './modules/api.js' );
+
+const SCHEDULE = process.env.RUN_SCHEDULE || '0 * * * *';
 
 const getAccounts = function getAccounts ( game ) {
     return api.load( `/${ game }/accounts` );
@@ -72,12 +76,41 @@ const findDevelopers = function findDevelopers ( gameData ) {
         } );
 };
 
-getGames()
-    .then( async ( games ) => {
+let running = false;
+
+const tick = async function tick () {
+    if ( running ) {
+        console.log( 'Previous finder run still in progress, skipping tick' );
+
+        return;
+    }
+
+    running = true;
+
+    console.log( `[${ new Date().toISOString() }] Finder run starting` );
+
+    try {
+        const games = await getGames();
+
         for ( let i = 0; i < games.length; i = i + 1 ) {
             await findDevelopers( games[ i ] );
         }
-    } )
-    .catch( ( getError ) => {
-        console.error( getError );
-    } );
+
+        console.log( `[${ new Date().toISOString() }] Finder run complete` );
+    } catch ( runError ) {
+        console.error( runError );
+    } finally {
+        running = false;
+    }
+};
+
+const shutdown = function shutdown () {
+    process.exit( 0 );
+};
+
+process.on( 'SIGTERM', shutdown );
+process.on( 'SIGINT', shutdown );
+
+cron.schedule( SCHEDULE, tick );
+
+tick();
