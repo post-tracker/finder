@@ -3,7 +3,7 @@ const cron = require( 'node-cron' );
 const finders = require( './modules/finders/' );
 const api = require( './modules/api.js' );
 
-const SCHEDULE = process.env.RUN_SCHEDULE || '0 * * * *';
+const SCHEDULE = process.env.RUN_SCHEDULE || '0 */6 * * *';
 
 const getAccounts = function getAccounts ( game ) {
     return api.load( `/${ game }/accounts` );
