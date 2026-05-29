@@ -72,7 +72,20 @@ class Reddit {
             console.log( `Getting reddit page ${ page + 1 } for r/${ id }` );
             loadPage( url )
                 .then( ( topicBody ) => {
-                    const posts = JSON.parse( topicBody );
+                    let posts;
+
+                    try {
+                        posts = JSON.parse( topicBody );
+                    } catch ( parseError ) {
+                        console.log( `[Reddit] ${ id } JSON parse failed: ${ parseError.message }` );
+                        resolve( {
+                            after: null,
+                            users: [],
+                        } );
+
+                        return;
+                    }
+
                     const xhrList = [];
 
                     for ( let i = 0; i < posts.data.children.length; i = i + 1 ) {
@@ -122,10 +135,18 @@ class Reddit {
                         } )
                         .catch( ( error ) => {
                             console.log( error.message );
+                            resolve( {
+                                after: null,
+                                users: users,
+                            } );
                         } );
                 } )
                 .catch( ( error ) => {
                     console.log( error.message );
+                    resolve( {
+                        after: null,
+                        users: [],
+                    } );
                 } );
         } );
     }
@@ -201,50 +222,50 @@ class Reddit {
     }
 
     run () {
-        return new Promise( ( resolve ) => {
-            for ( let subredditIndex = 0; subredditIndex < this.sections.length; subredditIndex = subredditIndex + 1 ) {
-                const subreddit = this.sections[ subredditIndex ];
+        const subredditPromises = [];
 
-                if ( !flair[ subreddit ] ) {
-                    console.log( `Found no flairs for ${ subreddit }, won't check it for new devs` );
+        for ( let subredditIndex = 0; subredditIndex < this.sections.length; subredditIndex = subredditIndex + 1 ) {
+            const subreddit = this.sections[ subredditIndex ];
 
-                    continue;
-                }
+            if ( !flair[ subreddit ] ) {
+                console.log( `Found no flairs for ${ subreddit }, won't check it for new devs` );
 
-                console.log( `Starting with r/${ subreddit }` );
-                this.get( subreddit, REDDIT_PAGES )
-                    .then( ( topUsers ) => {
-                        this.get( `${ subreddit }/new`, REDDIT_PAGES )
-                            .then( ( newUsers ) => {
-                                const allUsers = topUsers.concat( newUsers );
-                                const filteredUsers = this.filter( allUsers, flair[ subreddit ] );
-
-                                console.log( chalk.green( `Found ${ filteredUsers.length }/${ allUsers.length } new developers on /r/${ subreddit } for ${ this.game }` ) );
-
-                                resolve();
-
-                                if ( filteredUsers.length > 0 ) {
-                                    console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
-                                    const newFlairs = [ ...new Set( this.newFlairs ) ].sort();
-
-                                    if ( newFlairs.length >= NEW_FLAIR_PRINT_LIMIT ) {
-                                        console.log( JSON.stringify( newFlairs, null, 4 ) );
-                                    }
-
-                                    for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
-                                        setTimeout( notifyy.bind( this, this.game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
-                                    }
-                                }
-                            } )
-                            .catch( ( error ) => {
-                                console.log( error );
-                            } );
-                    } )
-                    .catch( ( error ) => {
-                        console.log( error );
-                    } );
+                continue;
             }
-        } );
+
+            console.log( `Starting with r/${ subreddit }` );
+
+            const subredditPromise = Promise.all( [
+                this.get( subreddit, REDDIT_PAGES ),
+                this.get( `${ subreddit }/new`, REDDIT_PAGES ),
+            ] )
+                .then( ( [ topUsers, newUsers ] ) => {
+                    const allUsers = topUsers.concat( newUsers );
+                    const filteredUsers = this.filter( allUsers, flair[ subreddit ] );
+
+                    console.log( chalk.green( `Found ${ filteredUsers.length }/${ allUsers.length } new developers on /r/${ subreddit } for ${ this.game }` ) );
+
+                    if ( filteredUsers.length > 0 ) {
+                        console.log( chalk.green( JSON.stringify( filteredUsers, null, JSON_INDENT ) ) );
+                        const newFlairs = [ ...new Set( this.newFlairs ) ].sort();
+
+                        if ( newFlairs.length >= NEW_FLAIR_PRINT_LIMIT ) {
+                            console.log( JSON.stringify( newFlairs, null, 4 ) );
+                        }
+
+                        for ( let i = 0; i < filteredUsers.length; i = i + 1 ) {
+                            setTimeout( notifyy.bind( this, this.game, 'reddit', filteredUsers[ i ] ), i * NOTIFYY_DELAY );
+                        }
+                    }
+                } )
+                .catch( ( error ) => {
+                    console.log( error );
+                } );
+
+            subredditPromises.push( subredditPromise );
+        }
+
+        return Promise.all( subredditPromises );
     }
 }
 

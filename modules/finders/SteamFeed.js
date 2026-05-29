@@ -11,6 +11,9 @@ const NOTIFYY_DELAY = 1500;
 // Maybe add something like this?
 // https://store.steampowered.com/feeds/news/app/359320/
 
+// The API seems like the best place
+// https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=359320&count=10&maxlength=300&format=json
+
 class SteamFeed {
     constructor ( game, endpoint, accounts ) {
         this.endpoint = `https://steamcommunity.com/games/${ endpoint }/rss/`;
@@ -39,15 +42,14 @@ class SteamFeed {
 
                 for ( const user in pageLookups ) {
                     const page = await loadPage( pageLookups[ user ] );
-
-                    console.log(pageLookups[ user ]);
-
                     const $ = cheerio.load( page );
                     const href = $( '.announcement_byline .whiteLink' ).attr( 'href' );
-                    if(!href){
+
+                    if ( !href ) {
                         continue;
                     }
-                    const [ , , identifier] = href.match( /(id|profiles)\/(.+?)\/?$/ );
+
+                    const [ , , identifier ] = href.match( /(id|profiles)\/(.+?)\/?$/ );
 
                     userData[ identifier ] = {
                         identifier: identifier,
