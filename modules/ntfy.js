@@ -10,7 +10,7 @@ const FINDER_TO_DB_SERVICE = {
     'Bungie.net': 'Bungie.net',
     Discourse: 'Discourse',
     MiggyRSS: 'MiggyRSS',
-    RSI: 'RSI',
+    RSI: 'rsi',
     SteamFeed: 'Steam',
     reddit: 'Reddit',
     steam: 'Steam',
