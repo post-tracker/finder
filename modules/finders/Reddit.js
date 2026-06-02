@@ -1,6 +1,6 @@
 const chalk = require( 'chalk' );
 
-const loadPage = require( '../load.js' );
+const redditFetch = require( '../reddit-fetch.js' );
 const flair = require( '../flair/' );
 const ntfy = require( '../ntfy.js' );
 
@@ -62,7 +62,7 @@ class Reddit {
 
     loadRedditPage ( id, after, page ) {
         return new Promise( ( resolve ) => {
-            let url = `https://www.reddit.com/r/${ id }.json`;
+            let url = `/r/${ id }`;
             let users = [];
 
             if ( after ) {
@@ -70,7 +70,7 @@ class Reddit {
             }
 
             console.log( `Getting reddit page ${ page + 1 } for r/${ id }` );
-            loadPage( url )
+            redditFetch( url )
                 .then( ( topicBody ) => {
                     let posts;
 
@@ -106,7 +106,7 @@ class Reddit {
 
                         users.push( user );
 
-                        const xhr = loadPage( `https://www.reddit.com${ posts.data.children[ i ].data.permalink }.json` )
+                        const xhr = redditFetch( posts.data.children[ i ].data.permalink )
                             // eslint-disable-next-line no-loop-func
                             .then( ( commentsBody ) => {
                                 const replies = JSON.parse( commentsBody );
