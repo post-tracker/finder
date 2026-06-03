@@ -15,6 +15,7 @@ module.exports = Object.assign( {}, base, {
         'marble',
         'mod',
         'mod2',
+        'museum',
         'plasteel',
         'pmfaf',
         'sandstone',
