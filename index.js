@@ -25,6 +25,11 @@ const findDevelopers = function findDevelopers ( gameData ) {
         return false;
     }
 
+    // Disabled game (config.live falsy) — don't discover/index its devs.
+    if ( gameData.config.live === 0 || gameData.config.live === false ) {
+        return false;
+    }
+
     for ( const service in gameData.config.sources ) {
         if ( gameData.config.sources[ service ].findSections ) {
             services[ service ] = gameData.config.sources[ service ].findSections;
