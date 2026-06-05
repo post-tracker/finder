@@ -116,14 +116,21 @@ class BungieNet {
                     const users = [];
 
                     $( 'li.employee' ).each( ( index, element ) => {
-                        threadPromises.push( new Promise( async ( threadResolve ) => {
-                            const threadId = $( element ).attr( 'data-postid' );
-                            const employee = await this.findEmployeeInTopic( threadId );
+                        const threadId = $( element ).attr( 'data-postid' );
 
-                            users.push( employee );
+                        // Chain the promise directly rather than wrapping it in an
+                        // `async` Promise executor: a rejection from an async executor
+                        // becomes an unhandled rejection (it can't reach reject()),
+                        // which crashes the whole process instead of surfacing through
+                        // Promise.all -> run()'s .catch.
+                        threadPromises.push(
+                            this.findEmployeeInTopic( threadId )
+                                .then( ( employee ) => {
+                                    users.push( employee );
+                                } )
+                        );
 
-                            threadResolve();
-                        } ) );
+                        return true;
                     } );
 
                     Promise.all( threadPromises )
@@ -163,6 +170,15 @@ class BungieNet {
     }
 
     run () {
+        // The Bungie API rejects requests without an X-API-Key; without the key
+        // every request throws synchronously (ERR_HTTP_INVALID_HEADER_VALUE).
+        // Skip rather than let one unconfigured service crash the whole finder.
+        if ( !API_KEY ) {
+            console.warn( chalk.yellow( `[Bungie.net] bungieKey not set — skipping ${ this.game }` ) );
+
+            return Promise.resolve();
+        }
+
         return this.loadEndpoint()
             .then( ( users ) => {
                 const filteredUsers = this.filter( users );
