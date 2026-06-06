@@ -1,5 +1,4 @@
 const FeedMe = require( 'feedme' );
-const cheerio = require( 'cheerio' );
 const chalk = require( 'chalk' );
 
 const loadPage = require( '../load.js' );
@@ -32,33 +31,30 @@ class SteamFeed {
             .then( async ( posts ) => {
                 const parser = new FeedMe();
 
-                parser.on( 'item', async ( item ) => {
-                    if ( !pageLookups[ item.author ] ) {
+                parser.on( 'item', ( item ) => {
+                    if ( item.author && !pageLookups[ item.author ] ) {
                         pageLookups[ item.author ] = item.link;
                     }
                 } );
 
                 parser.write( posts );
 
-                for ( const user in pageLookups ) {
-                    const page = await loadPage( pageLookups[ user ] );
-                    const $ = cheerio.load( page );
-                    const href = $( '.announcement_byline .whiteLink' ).attr( 'href' );
-
-                    if ( !href ) {
-                        continue;
-                    }
-
-                    const [ , , identifier ] = href.match( /(id|profiles)\/(.+?)\/?$/ );
-
-                    userData[ identifier ] = {
-                        identifier: identifier,
-                        name: user,
-                        url: href,
+                // Game announcement feeds only expose the poster's display
+                // name (e.g. "Mal"), and the linked announcement page is
+                // JS-rendered with no profile link to scrape. Use the display
+                // name itself as the Steam identifier — the indexer's SteamFeed
+                // matches feed authors against the account identifier directly,
+                // so a bare persona is exactly what we want. This keeps the
+                // notification one-click-addable like every other finder.
+                Object.keys( pageLookups ).forEach( ( author ) => {
+                    userData[ author ] = {
+                        identifier: author,
+                        name: author,
+                        url: pageLookups[ author ],
                     };
 
-                    users.push( identifier );
-                }
+                    users.push( author );
+                } );
 
                 const filteredUsers = this.filter( [ ...new Set( users ) ] );
 
@@ -73,7 +69,7 @@ class SteamFeed {
                 }
             } )
             .catch( ( error ) => {
-                console.error(error);
+                console.error( error );
             } );
     }
 
