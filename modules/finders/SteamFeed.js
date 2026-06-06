@@ -76,16 +76,25 @@ class SteamFeed {
     filter ( newUsers ) {
         const accountCache = [];
 
+        // The indexer's SteamFeed matches feed authors against account
+        // identifiers case-insensitively, so an account already tracked as
+        // "mal" is fed by an announcement author of "Mal". Match the same way
+        // here, otherwise a case difference makes the finder re-notify an
+        // already-known developer on every run.
+        const knownAccounts = this.accounts.map( ( account ) => account.toLowerCase() );
+
         return newUsers.filter( ( user ) => {
-            if ( accountCache.indexOf( user ) > -1 ) {
+            const normalized = user.toLowerCase();
+
+            if ( accountCache.indexOf( normalized ) > -1 ) {
                 return false;
             }
 
-            if ( this.accounts.indexOf( user ) > -1 ) {
+            if ( knownAccounts.indexOf( normalized ) > -1 ) {
                 return false;
             }
 
-            accountCache.push( user );
+            accountCache.push( normalized );
 
             return true;
         } );
