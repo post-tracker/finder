@@ -12,6 +12,7 @@ const FINDER_TO_DB_SERVICE = {
     MiggyRSS: 'MiggyRSS',
     RSI: 'rsi',
     SteamFeed: 'Steam',
+    XenForo: 'XenForo',
     reddit: 'Reddit',
     steam: 'Steam',
 };

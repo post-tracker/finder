@@ -6,5 +6,6 @@ module.exports = {
     Reddit: require( './Reddit.js' ),
     rsi: require( './rsi.js' ),
     Steam: require( './Steam.js' ),
+    XenForo: require( './XenForo.js' ),
     // Discourse: require( './Discourse.js' ),
 };
