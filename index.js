@@ -5,6 +5,36 @@ const api = require( './modules/api.js' );
 
 const SCHEDULE = process.env.RUN_SCHEDULE || '0 */6 * * *';
 
+// Normalise a service/type/source name to a single canonical key, the same way
+// queue-users/grunt route services. The finder used to match the DB
+// `account.service`, the config source key and the finder registry name by
+// exact spelling; any casing drift silently emptied the known-accounts list and
+// re-notified every tracked developer on each run (see the RSI/Steam fixes).
+const normalizeService = function normalizeService ( service ) {
+    const lower = String( service ).toLowerCase();
+
+    return lower.replace( /[\s.]/g, '-' );
+};
+
+// Finder registry keyed by normalised name, resolved once from the (mixed-case)
+// module names so the lookup is case-insensitive too.
+const findersByKey = {};
+
+Object.keys( finders ).forEach( ( finderName ) => {
+    findersByKey[ normalizeService( finderName ) ] = finders[ finderName ];
+} );
+
+// Finders whose second constructor argument is the source `endpoint` (a URL):
+// RSS-style readers and forum scrapers. Every other finder takes the list of
+// sections to search (findSections / allowedSections). A source can carry both
+// an endpoint (for the indexer) and allowedSections, so the argument has to be
+// chosen by finder type, not by whichever field happens to be present.
+const ENDPOINT_FINDERS = new Set( [
+    'discourse',
+    'miggyrss',
+    'xenforo',
+] );
+
 const getAccounts = function getAccounts ( game ) {
     return api.load( `/${ game }/accounts` );
 };
@@ -14,7 +44,8 @@ const getGames = function getGames () {
 };
 
 const findDevelopers = function findDevelopers ( gameData ) {
-    const services = {};
+    const sourceSections = {};
+    const sourceEndpoints = {};
     const serviceTypes = {};
 
     if ( !gameData.config ) {
@@ -31,19 +62,24 @@ const findDevelopers = function findDevelopers ( gameData ) {
     }
 
     for ( const service in gameData.config.sources ) {
-        if ( gameData.config.sources[ service ].findSections ) {
-            services[ service ] = gameData.config.sources[ service ].findSections;
-        } else if ( gameData.config.sources[ service ].allowedSections ) {
-            services[ service ] = gameData.config.sources[ service ].allowedSections;
-        } else if ( gameData.config.sources[ service ].endpoint ) {
-            services[ service ] = gameData.config.sources[ service ].endpoint;
+        if ( !Reflect.apply( {}.hasOwnProperty, gameData.config.sources, [ service ] ) ) {
+            continue;
         }
 
-        if ( gameData.config.sources[ service ].type ) {
-            serviceTypes[ service ] = gameData.config.sources[ service ].type;
-        } else {
-            serviceTypes[ service ] = service;
+        const source = gameData.config.sources[ service ];
+        const key = normalizeService( service );
+
+        if ( source.findSections ) {
+            sourceSections[ key ] = source.findSections;
+        } else if ( source.allowedSections ) {
+            sourceSections[ key ] = source.allowedSections;
         }
+
+        if ( source.endpoint ) {
+            sourceEndpoints[ key ] = source.endpoint;
+        }
+
+        serviceTypes[ key ] = normalizeService( source.type || service );
     }
 
     return getAccounts( gameData.identifier )
@@ -51,23 +87,33 @@ const findDevelopers = function findDevelopers ( gameData ) {
             const accountList = {};
 
             for ( let i = 0; i < accounts.length; i = i + 1 ) {
-                if ( typeof accountList[ accounts[ i ].service ] === 'undefined' ) {
-                    accountList[ accounts[ i ].service ] = [];
+                const key = normalizeService( accounts[ i ].service );
+
+                if ( typeof accountList[ key ] === 'undefined' ) {
+                    accountList[ key ] = [];
                 }
 
-                accountList[ accounts[ i ].service ].push( accounts[ i ].identifier );
+                accountList[ key ].push( accounts[ i ].identifier );
             }
 
-            const checkServices = [ ...new Set( Object.keys( accountList ).concat( Object.keys( services ) ) ) ];
+            const checkServices = [ ...new Set(
+                Object.keys( accountList ).concat( Object.keys( sourceSections ), Object.keys( sourceEndpoints ) )
+            ) ];
 
             const servicePromises = [];
 
             checkServices.forEach( ( service ) => {
-                if ( !finders[ serviceTypes[ service ] ] ) {
+                const Finder = findersByKey[ serviceTypes[ service ] ];
+
+                if ( !Finder ) {
                     return true;
                 }
 
-                const indexer = new finders[ serviceTypes[ service ] ]( gameData.identifier, services[ service ], accountList[ service ] );
+                const finderArg = ENDPOINT_FINDERS.has( serviceTypes[ service ] )
+                    ? sourceEndpoints[ service ]
+                    : sourceSections[ service ];
+
+                const indexer = new Finder( gameData.identifier, finderArg, accountList[ service ] );
 
                 servicePromises.push( indexer.run() );
 
