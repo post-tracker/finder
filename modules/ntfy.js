@@ -84,9 +84,16 @@ const buildBody = function buildBody ( foundUser ) {
 module.exports = function ntfy ( game, service, foundUser ) {
     const user = normaliseUser( service, foundUser );
     const adminUrl = buildAdminUrl( game, service, user );
+
+    // Fall back to the identifier when a source yields no usable name, so the
+    // title never reads "undefined" or trails off after the comma. If neither
+    // is present, drop the name fragment entirely.
+    const displayName = user.name || user.identifier;
     const payload = {
         message: buildBody( foundUser ),
-        title: `Found a new developer for ${ game }, ${ user.name }`,
+        title: displayName
+            ? `Found a new developer for ${ game }, ${ displayName }`
+            : `Found a new developer for ${ game }`,
         topic: NTFY_TOPIC,
     };
 
