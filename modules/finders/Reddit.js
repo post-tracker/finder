@@ -2,6 +2,7 @@ const chalk = require( 'chalk' );
 
 const redditFetch = require( '../reddit-fetch.js' );
 const flair = require( '../flair/' );
+const flairBase = require( '../flair/base.js' );
 const ntfy = require( '../ntfy.js' );
 
 const POSTS_PER_PAGE = 25;
@@ -11,12 +12,34 @@ const NTFY_DELAY = 1500;
 const NEW_FLAIR_PRINT_LIMIT = 3;
 
 class Reddit {
-    constructor ( game, sections, accounts ) {
+    // Shared finder signature (game, sections, accounts) plus optional flair config.
+    // eslint-disable-next-line max-params
+    constructor ( game, sections, accounts, flairConfig ) {
         this.sections = sections;
         this.accounts = accounts || [];
         this.game = game;
 
+        // Per-subreddit flair config from the DB (game.config.sources.Reddit.flair),
+        // keyed by subreddit name. Falls back to the legacy flair/*.js modules when
+        // a subreddit has no DB config yet (see resolveFlair).
+        this.flairConfig = flairConfig || {};
+
         this.newFlairs = [];
+    }
+
+    // Resolve the flair checker for a subreddit: prefer DB config, fall back to the
+    // legacy hardcoded module. Both expose isDev()/type/list via flairBase.
+    resolveFlair ( subreddit ) {
+        const cfg = this.flairConfig[ subreddit ];
+
+        if ( cfg && cfg.type ) {
+            return Object.assign( {}, flairBase, {
+                list: cfg.blocklist || [],
+                type: cfg.type,
+            } );
+        }
+
+        return flair[ subreddit ] || null;
     }
 
     getUsersInPost ( post ) {
@@ -226,8 +249,9 @@ class Reddit {
 
         for ( let subredditIndex = 0; subredditIndex < this.sections.length; subredditIndex = subredditIndex + 1 ) {
             const subreddit = this.sections[ subredditIndex ];
+            const flairChecker = this.resolveFlair( subreddit );
 
-            if ( !flair[ subreddit ] ) {
+            if ( !flairChecker ) {
                 console.log( `Found no flairs for ${ subreddit }, won't check it for new devs` );
 
                 continue;
@@ -241,7 +265,7 @@ class Reddit {
             ] )
                 .then( ( [ topUsers, newUsers ] ) => {
                     const allUsers = topUsers.concat( newUsers );
-                    const filteredUsers = this.filter( allUsers, flair[ subreddit ] );
+                    const filteredUsers = this.filter( allUsers, flairChecker );
 
                     console.log( chalk.green( `Found ${ filteredUsers.length }/${ allUsers.length } new developers on /r/${ subreddit } for ${ this.game }` ) );
 

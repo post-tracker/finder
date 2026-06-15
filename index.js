@@ -46,6 +46,7 @@ const getGames = function getGames () {
 const findDevelopers = function findDevelopers ( gameData ) {
     const sourceSections = {};
     const sourceEndpoints = {};
+    const sourceFlairs = {};
     const serviceTypes = {};
 
     if ( !gameData.config ) {
@@ -77,6 +78,13 @@ const findDevelopers = function findDevelopers ( gameData ) {
 
         if ( source.endpoint ) {
             sourceEndpoints[ key ] = source.endpoint;
+        }
+
+        // Per-subreddit flair config now lives in the DB (managed from admin)
+        // rather than finder/modules/flair/*.js. Reddit is the only finder that
+        // uses it; other finders ignore the extra constructor argument.
+        if ( source.flair ) {
+            sourceFlairs[ key ] = source.flair;
         }
 
         serviceTypes[ key ] = normalizeService( source.type || service );
@@ -113,7 +121,7 @@ const findDevelopers = function findDevelopers ( gameData ) {
                     ? sourceEndpoints[ service ]
                     : sourceSections[ service ];
 
-                const indexer = new Finder( gameData.identifier, finderArg, accountList[ service ] );
+                const indexer = new Finder( gameData.identifier, finderArg, accountList[ service ], sourceFlairs[ service ] );
 
                 servicePromises.push( indexer.run() );
 
