@@ -24,7 +24,7 @@
     "extends": "kokarn/nodejs"
   },
   "devDependencies": {
-    "eslint": "^3.13.0",
-    "eslint-config-kokarn": "^2.0.0"
+    "eslint": "^10.5.0",
+    "eslint-config-kokarn": "^6.0.2"
   }
 }
