@@ -166,7 +166,17 @@ const tick = async function tick () {
     console.log( `[${ new Date().toISOString() }] Finder run starting` );
 
     try {
-        const games = shuffle( await getGames() );
+        let games = shuffle( await getGames() );
+
+        // GAME_LIMIT caps how many games a run processes — a local testing aid
+        // (like the indexer's LIMIT_SERVICE) so a run can be exercised quickly
+        // without walking the whole catalogue. Unset/0 means no limit.
+        const gameLimit = Number( process.env.GAME_LIMIT ) || 0;
+
+        if ( gameLimit > 0 ) {
+            console.log( `GAME_LIMIT set, processing only ${ gameLimit } game(s) this run` );
+            games = games.slice( 0, gameLimit );
+        }
 
         for ( let i = 0; i < games.length; i = i + 1 ) {
             await findDevelopers( games[ i ] );
