@@ -32,6 +32,7 @@ Object.keys( finders ).forEach( ( finderName ) => {
 const ENDPOINT_FINDERS = new Set( [
     'discourse',
     'miggyrss',
+    'rss',
     'xenforo',
 ] );
 
@@ -64,6 +65,7 @@ const findDevelopers = function findDevelopers ( gameData ) {
     const sourceSections = {};
     const sourceEndpoints = {};
     const sourceFlairs = {};
+    const sourceServiceLabels = {};
     const serviceTypes = {};
 
     if ( !gameData.config ) {
@@ -104,6 +106,15 @@ const findDevelopers = function findDevelopers ( gameData ) {
             sourceFlairs[ key ] = source.flair;
         }
 
+        // The DB `service` a discovered account should carry: the source's
+        // `label` (its human name, e.g. an 'RSS'-keyed source labelled
+        // 'Thursdoid') or, unlabelled, the config key. queue-users resolves an
+        // account back to its source by label-then-key, so either works; the
+        // label matches what the admin add-account picker offers. Passed to the
+        // finder for the one-click add-dev notification (only the RSS finder
+        // uses it today; other finders ignore the extra constructor argument).
+        sourceServiceLabels[ key ] = source.label || service;
+
         serviceTypes[ key ] = normalizeService( source.type || service );
     }
 
@@ -138,7 +149,7 @@ const findDevelopers = function findDevelopers ( gameData ) {
                     ? sourceEndpoints[ service ]
                     : sourceSections[ service ];
 
-                const indexer = new Finder( gameData.identifier, finderArg, accountList[ service ], sourceFlairs[ service ] );
+                const indexer = new Finder( gameData.identifier, finderArg, accountList[ service ], sourceFlairs[ service ], sourceServiceLabels[ service ] );
 
                 servicePromises.push( indexer.run() );
 

@@ -5,6 +5,7 @@ module.exports = {
     MiggyRSS: require( './MiggyRSS.js' ),
     Reddit: require( './Reddit.js' ),
     rsi: require( './rsi.js' ),
+    RSS: require( './RSS.js' ),
     Steam: require( './Steam.js' ),
     XenForo: require( './XenForo.js' ),
     // Discourse: require( './Discourse.js' ),

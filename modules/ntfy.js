@@ -66,7 +66,12 @@ const normaliseUser = function normaliseUser ( service, foundUser ) {
 };
 
 const buildAdminUrl = function buildAdminUrl ( game, service, user ) {
-    const dbService = FINDER_TO_DB_SERVICE[ service ];
+    // Most finders pass a fixed label that maps to a fixed DB service (Reddit,
+    // Steam, …). The RSS finder instead passes the source's own label/key as the
+    // service — it's per-game and dynamic — so fall back to using it directly
+    // when there's no static mapping. Existing finders' labels are all in the
+    // map, so this fallback never changes their behaviour.
+    const dbService = FINDER_TO_DB_SERVICE[ service ] || service;
 
     if ( !dbService || !user.identifier ) {
         return false;
