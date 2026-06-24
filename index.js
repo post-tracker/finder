@@ -43,6 +43,23 @@ const getGames = function getGames () {
     return api.load( '/games' );
 };
 
+// The API returns games in a stable order, and a finder run walks them
+// sequentially. If an upstream platform (e.g. Reddit) rate-limits us partway
+// through, the games at the tail of the list are always the ones that get
+// skipped — so the same games can go run after run without ever being indexed.
+// Shuffle each run (Fisher-Yates) so the rate-limit casualties rotate instead.
+const shuffle = function shuffle ( list ) {
+    const shuffled = list.slice();
+
+    for ( let i = shuffled.length - 1; i > 0; i = i - 1 ) {
+        const j = Math.floor( Math.random() * ( i + 1 ) );
+
+        [ shuffled[ i ], shuffled[ j ] ] = [ shuffled[ j ], shuffled[ i ] ];
+    }
+
+    return shuffled;
+};
+
 const findDevelopers = function findDevelopers ( gameData ) {
     const sourceSections = {};
     const sourceEndpoints = {};
@@ -149,7 +166,7 @@ const tick = async function tick () {
     console.log( `[${ new Date().toISOString() }] Finder run starting` );
 
     try {
-        const games = await getGames();
+        const games = shuffle( await getGames() );
 
         for ( let i = 0; i < games.length; i = i + 1 ) {
             await findDevelopers( games[ i ] );
