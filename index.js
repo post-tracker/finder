@@ -3,7 +3,7 @@ const cron = require( 'node-cron' );
 const finders = require( './modules/finders/' );
 const api = require( './modules/api.js' );
 
-const SCHEDULE = process.env.RUN_SCHEDULE || '0 */6 * * *';
+const SCHEDULE = process.env.RUN_SCHEDULE || '0 */3 * * *';
 
 // Normalise a service/type/source name to a single canonical key, the same way
 // queue-users/grunt route services. The finder used to match the DB
