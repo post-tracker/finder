@@ -177,7 +177,19 @@ const tick = async function tick () {
     console.log( `[${ new Date().toISOString() }] Finder run starting` );
 
     try {
-        let games = shuffle( await getGames() );
+        const gameList = await getGames();
+
+        // getGames() resolves `false` on a non-200 response (see modules/api.js)
+        // and can yield a non-array on other upstream failures. Guard before
+        // shuffling so a transient API outage (e.g. a 522 from the origin)
+        // skips the run cleanly instead of throwing `list.slice is not a function`.
+        if ( !Array.isArray( gameList ) ) {
+            console.error( `[${ new Date().toISOString() }] Finder run aborted: getGames() returned ${ gameList } (API unreachable or returned non-200)` );
+
+            return;
+        }
+
+        let games = shuffle( gameList );
 
         // GAME_LIMIT caps how many games a run processes — a local testing aid
         // (like the indexer's LIMIT_SERVICE) so a run can be exercised quickly
