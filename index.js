@@ -40,6 +40,16 @@ const getAccounts = function getAccounts ( game ) {
     return api.load( `/${ game }/accounts` );
 };
 
+// Every account registered across ALL games, as { identifier, service }. The
+// accounts table is globally unique by (identifier, service): an account already
+// tracked for one game can't be added to another — POST /:game/accounts returns
+// 409. So a dev found for game B who's already tracked for game A must be
+// skipped, or the add-dev click just 409s. This is the cross-game skip list;
+// getAccounts() alone only covers the game currently being scanned.
+const getAllAccounts = function getAllAccounts () {
+    return api.load( '/accounts' );
+};
+
 const getGames = function getGames () {
     return api.load( '/games' );
 };
@@ -61,7 +71,7 @@ const shuffle = function shuffle ( list ) {
     return shuffled;
 };
 
-const findDevelopers = function findDevelopers ( gameData ) {
+const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
     const sourceSections = {};
     const sourceEndpoints = {};
     const sourceFlairs = {};
@@ -132,6 +142,24 @@ const findDevelopers = function findDevelopers ( gameData ) {
                 accountList[ key ].push( accounts[ i ].identifier );
             }
 
+            // Seed each service's exclusion list with accounts registered for
+            // that service in ANY game. The accounts table is globally unique by
+            // (identifier, service), so a dev already tracked elsewhere would
+            // 409 on add — surfacing them here is pure noise. The finders skip
+            // anything already in accountList[ service ], so folding the global
+            // accounts in gives the cross-game exclusion for free.
+            for ( let i = 0; i < globalAccounts.length; i = i + 1 ) {
+                const key = normalizeService( globalAccounts[ i ].service );
+
+                if ( typeof accountList[ key ] === 'undefined' ) {
+                    accountList[ key ] = [];
+                }
+
+                if ( accountList[ key ].indexOf( globalAccounts[ i ].identifier ) === -1 ) {
+                    accountList[ key ].push( globalAccounts[ i ].identifier );
+                }
+            }
+
             const checkServices = [ ...new Set(
                 Object.keys( accountList ).concat( Object.keys( sourceSections ), Object.keys( sourceEndpoints ) )
             ) ];
@@ -191,6 +219,13 @@ const tick = async function tick () {
 
         let games = shuffle( gameList );
 
+        // Fetch the cross-game account list once per run so every game's scan
+        // can exclude devs already registered for the same service anywhere
+        // (they'd 409 on add). A failed/non-array fetch degrades gracefully to
+        // the per-game exclusion that findDevelopers already applies.
+        const globalAccounts = await getAllAccounts();
+        const allAccounts = Array.isArray( globalAccounts ) ? globalAccounts : [];
+
         // GAME_LIMIT caps how many games a run processes — a local testing aid
         // (like the indexer's LIMIT_SERVICE) so a run can be exercised quickly
         // without walking the whole catalogue. Unset/0 means no limit.
@@ -202,7 +237,7 @@ const tick = async function tick () {
         }
 
         for ( let i = 0; i < games.length; i = i + 1 ) {
-            await findDevelopers( games[ i ] );
+            await findDevelopers( games[ i ], allAccounts );
         }
 
         console.log( `[${ new Date().toISOString() }] Finder run complete` );
