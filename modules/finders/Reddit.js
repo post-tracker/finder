@@ -48,12 +48,22 @@ class Reddit {
                 } );
 
                 return {
+                    // Substring match: a user is a dev if their flair CONTAINS any
+                    // allowlist entry. Mirrors the legacy game modules (Destiny,
+                    // RocketLeague) which use includes() — essential for flairs
+                    // that carry a rotating prefix, e.g. Destiny's css class
+                    // 'SS6 5-7 Verified-Bungie-Employee' where the season part
+                    // (SS6 5-7) changes but 'verified-bungie-employee' persists.
                     isDev: function isDev ( user ) {
                         if ( !user[ this.type ] ) {
                             return false;
                         }
 
-                        return this.list.includes( user[ this.type ].toLowerCase() );
+                        const flairValue = user[ this.type ].toLowerCase();
+
+                        return this.list.some( ( entry ) => {
+                            return flairValue.includes( entry );
+                        } );
                     },
                     list: allowlist,
                     type: cfg.type,
