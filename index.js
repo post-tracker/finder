@@ -78,6 +78,17 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
     const sourceServiceLabels = {};
     const serviceTypes = {};
 
+    // Maps a normalised account `service` back to the config source KEY it
+    // belongs to. An account names its source by the source's `label` (e.g. an
+    // 'RSS'-keyed source labelled 'Thursdoid' → accounts stored service
+    // 'Thursdoid'), but everything else in this function (sections, endpoints,
+    // finders) is bucketed by the normalised config KEY ('rss'). Without this
+    // resolution the known-accounts list lands in a bucket ('thursdoid') the
+    // finder never reads, so its exclusion list is empty and every feed author
+    // is re-notified every run. Mirrors queue-users' resolveSourceKey. Maps both
+    // the key and the label to the key so bare-key accounts still resolve.
+    const sourceKeyByService = {};
+
     if ( !gameData.config ) {
         return false;
     }
@@ -126,6 +137,16 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
         sourceServiceLabels[ key ] = source.label || service;
 
         serviceTypes[ key ] = normalizeService( source.type || service );
+
+        // Resolve an account's `service` back to this source's KEY. Accounts
+        // carry the label (or bare key when unlabelled), so map both spellings
+        // to the key. This is how the known-accounts exclusion list gets
+        // bucketed under the same key the finder/endpoint/section lookups use.
+        sourceKeyByService[ key ] = key;
+
+        if ( source.label ) {
+            sourceKeyByService[ normalizeService( source.label ) ] = key;
+        }
     }
 
     return getAccounts( gameData.identifier )
@@ -133,7 +154,8 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
             const accountList = {};
 
             for ( let i = 0; i < accounts.length; i = i + 1 ) {
-                const key = normalizeService( accounts[ i ].service );
+                const rawKey = normalizeService( accounts[ i ].service );
+                const key = sourceKeyByService[ rawKey ] || rawKey;
 
                 if ( typeof accountList[ key ] === 'undefined' ) {
                     accountList[ key ] = [];
@@ -149,7 +171,8 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
             // anything already in accountList[ service ], so folding the global
             // accounts in gives the cross-game exclusion for free.
             for ( let i = 0; i < globalAccounts.length; i = i + 1 ) {
-                const key = normalizeService( globalAccounts[ i ].service );
+                const rawKey = normalizeService( globalAccounts[ i ].service );
+                const key = sourceKeyByService[ rawKey ] || rawKey;
 
                 if ( typeof accountList[ key ] === 'undefined' ) {
                     accountList[ key ] = [];
