@@ -29,10 +29,37 @@ class Reddit {
 
     // Resolve the flair checker for a subreddit: prefer DB config, fall back to the
     // legacy hardcoded module. Both expose isDev()/type/list via flairBase.
+    //
+    // Two modes (config.mode, default 'block' for back-compat):
+    //   block — a user is a dev unless their flair is in `blocklist` (the classic
+    //           rule; empty list = every flaired user is a dev).
+    //   allow — a user is a dev ONLY if their flair is in `allowlist`. For subs
+    //           where everyone wears a flair (rank badges etc.) this is the sane
+    //           choice: whitelist the staff/dev flair instead of blocklisting an
+    //           ever-growing pile of community flairs.
+    // Both match case-insensitively against the exact flair value, like base.js.
     resolveFlair ( subreddit ) {
         const cfg = this.flairConfig[ subreddit ];
 
         if ( cfg && cfg.type ) {
+            if ( cfg.mode === 'allow' ) {
+                const allowlist = ( cfg.allowlist || [] ).map( ( value ) => {
+                    return String( value ).trim().toLowerCase();
+                } );
+
+                return {
+                    isDev: function isDev ( user ) {
+                        if ( !user[ this.type ] ) {
+                            return false;
+                        }
+
+                        return this.list.includes( user[ this.type ].toLowerCase() );
+                    },
+                    list: allowlist,
+                    type: cfg.type,
+                };
+            }
+
             return Object.assign( {}, flairBase, {
                 list: cfg.blocklist || [],
                 type: cfg.type,
