@@ -76,6 +76,7 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
     const sourceEndpoints = {};
     const sourceFlairs = {};
     const sourceServiceLabels = {};
+    const sourceAppIds = {};
     const serviceTypes = {};
 
     // Maps a normalised account `service` back to the config source KEY it
@@ -120,6 +121,14 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
             sourceEndpoints[ key ] = source.endpoint;
         }
 
+        // Steam discussions live at /app/<numeric-appId>/; a vanity community
+        // slug in allowedSections[0] redirects away, so the Steam finder needs
+        // the explicit numeric appId when the source carries one (custom
+        // community-URL games). Falls back to allowedSections[0] in the finder.
+        if ( source.appId ) {
+            sourceAppIds[ key ] = source.appId;
+        }
+
         // Per-subreddit flair config now lives in the DB (managed from admin)
         // rather than finder/modules/flair/*.js. Reddit is the only finder that
         // uses it; other finders ignore the extra constructor argument.
@@ -153,6 +162,13 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
         .then( ( accounts ) => {
             const accountList = {};
 
+            // The current game's accounts ONLY, bucketed by source key. The Steam
+            // finder resolves these to personas/SteamID64s (profile-XML lookups)
+            // to match feed authors and forum posters, and that resolution is
+            // rate-limited from a datacenter IP — so it must stay bounded to the
+            // handful a single game tracks, never the full cross-game list below.
+            const perGameAccountList = {};
+
             for ( let i = 0; i < accounts.length; i = i + 1 ) {
                 const rawKey = normalizeService( accounts[ i ].service );
                 const key = sourceKeyByService[ rawKey ] || rawKey;
@@ -161,7 +177,12 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
                     accountList[ key ] = [];
                 }
 
+                if ( typeof perGameAccountList[ key ] === 'undefined' ) {
+                    perGameAccountList[ key ] = [];
+                }
+
                 accountList[ key ].push( accounts[ i ].identifier );
+                perGameAccountList[ key ].push( accounts[ i ].identifier );
             }
 
             // Seed each service's exclusion list with accounts registered for
@@ -200,7 +221,17 @@ const findDevelopers = function findDevelopers ( gameData, globalAccounts ) {
                     ? sourceEndpoints[ service ]
                     : sourceSections[ service ];
 
-                const indexer = new Finder( gameData.identifier, finderArg, accountList[ service ], sourceFlairs[ service ], sourceServiceLabels[ service ] );
+                const indexer = new Finder(
+                    gameData.identifier,
+                    finderArg,
+                    accountList[ service ],
+                    sourceFlairs[ service ],
+                    sourceServiceLabels[ service ],
+                    {
+                        appId: sourceAppIds[ service ],
+                        perGameAccounts: perGameAccountList[ service ] || [],
+                    }
+                );
 
                 servicePromises.push( indexer.run() );
 
